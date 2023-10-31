@@ -60,6 +60,7 @@ We use [Trunk](https://trunkrs.dev/) to build for web target.
 
 ### Web Deploy
 1. Just run `trunk build --release`.
+* No, do instead `trunk clean ; trunk build --release --public-url sunangle`.
 2. It will generate a `dist` directory as a "static html" website
 3. Upload the `dist` directory to any of the numerous free hosting websites including [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
 4. we already provide a workflow that auto-deploys our app to GitHub pages if you enable it.
