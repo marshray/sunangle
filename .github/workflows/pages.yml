@@ -1,15 +1,15 @@
 name: Github Pages
 
-# By default, runs if you push to master. keeps your deployed app in sync with master branch.
-on:
-  push:
-    branches:
-      - master
-# to only run when you do a new github release, comment out above part and uncomment the below trigger.
+# By default, runs if you push to main. keeps your deployed app in sync with main branch.
 # on:
-#   release:
-#     types:
-#       - published
+#   push:
+#     branches:
+#       - main
+# to only run when you do a new github release, comment out above part and uncomment the below trigger.
+on:
+  release:
+    types:
+      - published
 
 permissions:
   contents: write # for committing to gh-pages branch.
@@ -33,7 +33,7 @@ jobs:
         # "${GITHUB_REPOSITORY#*/}" evaluates into the name of the repository
         # using --public-url something will allow trunk to modify all the href paths like from favicon.ico to repo_name/favicon.ico .
         # this is necessary for github pages where the site is deployed to username.github.io/repo_name and all files must be requested
-        # relatively as eframe_template/favicon.ico. if we skip public-url option, the href paths will instead request username.github.io/favicon.ico which
+        # relatively as repo_name/favicon.ico. if we skip public-url option, the href paths will instead request username.github.io/favicon.ico which
         # will obviously return error 404 not found.
         run: ./trunk build --release --public-url "${GITHUB_REPOSITORY#*/}"
       - name: Deploy

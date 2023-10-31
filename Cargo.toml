@@ -1,15 +1,17 @@
 [package]
-name = "eframe_template"
+name = "sunangle"
 version = "0.1.0"
-authors = ["Emil Ernerfeldt <emil.ernerfeldt@gmail.com>"]
+authors = [
+    "Marsh Ray <marshray@live.com>"
+    # With thanks to Emil Ernerfeldt for eframe_template!
+]
 edition = "2021"
 rust-version = "1.71"
-
 
 [dependencies]
 egui = "0.23.0"
 eframe = { version = "0.23.0", default-features = false, features = [
-    "accesskit",     # Make egui comptaible with screen readers. NOTE: adds a lot of dependencies.
+    #"accesskit",     # Make egui comptaible with screen readers. NOTE: adds a lot of dependencies.
     "default_fonts", # Embed the default egui fonts.
     "glow",          # Use the glow rendering backend. Alternative: "wgpu".
     "persistence",   # Enable restoring app state when restarting the app.
@@ -27,7 +29,6 @@ env_logger = "0.10"
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen-futures = "0.4"
 
-
 [profile.release]
 opt-level = 2 # fast and small wasm
 
@@ -35,8 +36,7 @@ opt-level = 2 # fast and small wasm
 [profile.dev.package."*"]
 opt-level = 2
 
-
-[patch.crates-io]
+#[patch.crates-io]
 
 # If you want to use the bleeding edge version of egui and eframe:
 # egui = { git = "https://github.com/emilk/egui", branch = "master" }
