@@ -5,12 +5,6 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-#![allow(dead_code)] //? TODO for development
-#![allow(unused_mut)] //? TODO for development
-#![allow(unused_variables)] //? TODO for development
-#![allow(unused_imports)] //? TODO for development
-#![allow(non_snake_case)] //? TODO for development
-
 use std::ops::RangeInclusive;
 
 use num_traits::cast::NumCast;
@@ -18,9 +12,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::time::astro_year::AstroYear;
 use crate::time::year_ops::YearOps;
-use crate::time::Error;
-
-pub type Result<T, E = Error> = std::result::Result<T, E>;
+use crate::time::{Error, Result};
 
 /// A valid and supported Gregorian (proleptic) year.
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
@@ -104,6 +96,12 @@ impl From<AstroYear> for GregorianYear {
         };
         debug_assert!(Self::RI.contains(&y), "violated invariant of AstroYear");
         GregorianYear(y)
+    }
+}
+
+impl From<GregorianYear> for i32 {
+    fn from(gy: GregorianYear) -> i32 {
+        gy.0
     }
 }
 

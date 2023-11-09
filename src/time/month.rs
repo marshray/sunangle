@@ -5,22 +5,13 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-#![allow(dead_code)] //? TODO for development
-#![allow(unused_mut)] //? TODO for development
-#![allow(unused_variables)] //? TODO for development
-#![allow(unused_imports)] //? TODO for development
-#![allow(non_snake_case)] //? TODO for development
-
 use std::ops::RangeInclusive;
 
 use num_traits::cast::NumCast;
 use serde::{Deserialize, Serialize};
 
 use crate::time::month_ops::MonthOps;
-use crate::time::year_ops::YearOps;
-use crate::time::Error;
-
-pub type Result<T, E = Error> = std::result::Result<T, E>;
+use crate::time::{Error, Result};
 
 /// A valid month.
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
@@ -63,6 +54,18 @@ impl MonthOps for Month {
     }
 }
 
+impl From<Month> for u8 {
+    fn from(mo: Month) -> u8 {
+        mo.0
+    }
+}
+
+impl From<Month> for i8 {
+    fn from(mo: Month) -> i8 {
+        mo.0 as i8
+    }
+}
+
 #[cfg(test)]
 mod t {
     use super::*;
@@ -92,5 +95,15 @@ mod t {
         insta::assert_ron_snapshot!(Month::try_new(11)?.days_in_month(&AstroYear::try_new(2020)?), @"30");
         insta::assert_ron_snapshot!(Month::try_new(12)?.days_in_month(&AstroYear::try_new(2020)?), @"31");
         Ok(())
+    }
+
+    #[test]
+    fn month_ops() {
+        let mo = Month(7);
+        assert_eq!(mo.month_as_one_based_u8(), 7);
+        assert_eq!(mo.month_as_one_based_u8(), mo.into());
+        assert_eq!(mo.month_as_one_based_u8() as i8, mo.into());
+        let month_from_trait = mo.month();
+        assert_eq!(month_from_trait.0, 7);
     }
 }

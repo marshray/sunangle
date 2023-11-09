@@ -5,22 +5,13 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-#![allow(dead_code)] //? TODO for development
-
-// #![allow(unused_mut)] //? TODO for development
-// #![allow(unused_variables)] //? TODO for development
-// #![allow(unused_imports)] //? TODO for development
-// #![allow(non_snake_case)] //? TODO for development
-
 use std::ops::RangeInclusive;
 
 use num_traits::cast::NumCast;
 use serde::{Deserialize, Serialize};
 
 use crate::time::day_ops::DayOps;
-use crate::time::Error;
-
-pub type Result<T, E = Error> = std::result::Result<T, E>;
+use crate::time::{Error, Result};
 
 /// A possibly valid day number, 1 through 31.
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
@@ -42,7 +33,7 @@ impl Day {
     /// `1 ..= 31`
     pub const RI: RangeInclusive<u8> = Self::MIN..=Self::MAX;
 
-    /// Returns a `Day` iff `d` is a valid 1-based day number.
+    /// Returns a [`Day`] iff `d` is a valid 1-based day number.
     pub fn try_new<T: NumCast + Copy>(d: T) -> Result<Self> {
         let Some(d_u8) = NumCast::from(d) else {
             return Err(Error::InvalidDay(NumCast::from(d).unwrap_or(isize::MIN)));
@@ -62,6 +53,18 @@ impl DayOps for Day {
     }
 }
 
+impl From<Day> for u8 {
+    fn from(d: Day) -> u8 {
+        d.0
+    }
+}
+
+impl From<Day> for i8 {
+    fn from(d: Day) -> i8 {
+        d.0 as i8
+    }
+}
+        
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -78,6 +81,8 @@ mod tests {
     fn test_day_ops() {
         let day = Day(15);
         assert_eq!(day.day_as_one_based_u8(), 15);
+        assert_eq!(day.day_as_one_based_u8(), day.into());
+        assert_eq!(day.day_as_one_based_u8() as i8, day.into());
         let day_from_trait = day.day();
         assert_eq!(day_from_trait.0, 15);
     }

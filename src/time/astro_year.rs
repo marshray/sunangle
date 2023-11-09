@@ -5,11 +5,6 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-#![allow(dead_code)] //? TODO for development
-#![allow(unused_mut)] //? TODO for development
-#![allow(unused_variables)] //? TODO for development
-#![allow(unused_imports)] //? TODO for development
-#![allow(non_snake_case)] //? TODO for development
 
 //? use use std::fmt::Display;
 use std::ops::RangeInclusive;
@@ -19,9 +14,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::time::gregorian::GregorianYear;
 use crate::time::year_ops::YearOps;
-use crate::time::Error;
-
-pub type Result<T, E = Error> = std::result::Result<T, E>;
+use crate::time::{Error, Result};
 
 /// A valid and supported Astro year.
 ///

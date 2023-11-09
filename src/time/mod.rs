@@ -36,3 +36,5 @@ pub enum Error {
     #[error("out of supported range for Mdn")]
     OutOfMdnRange(isize),
 }
+
+pub type Result<T, E = Error> = std::result::Result<T, E>;

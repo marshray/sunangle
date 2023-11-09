@@ -5,12 +5,6 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-// #![allow(dead_code)] //? TODO for development
-// #![allow(unused_mut)] //? TODO for development
-// #![allow(unused_variables)] //? TODO for development
-// #![allow(unused_imports)] //? TODO for development
-// #![allow(non_snake_case)] //? TODO for development
-
 use crate::time::astro_year::AstroYear;
 use crate::time::gregorian::GregorianYear;
 

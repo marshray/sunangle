@@ -5,12 +5,6 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-#![allow(dead_code)] //? TODO for development
-#![allow(unused_mut)] //? TODO for development
-#![allow(unused_variables)] //? TODO for development
-#![allow(unused_imports)] //? TODO for development
-#![allow(non_snake_case)] //? TODO for development
-
 //? use use std::fmt::Display;
 use std::ops::RangeInclusive;
 
@@ -20,13 +14,11 @@ use serde::{Deserialize, Serialize};
 use crate::time::astro_year::AstroYear;
 use crate::time::day::Day;
 use crate::time::day_ops::DayOps;
-use crate::time::gregorian::{self, GregorianYear};
+use crate::time::gregorian::GregorianYear;
 use crate::time::month::Month;
 use crate::time::month_ops::MonthOps;
 use crate::time::year_ops::YearOps;
-use crate::time::Error;
-
-pub type Result<T, E = Error> = std::result::Result<T, E>;
+use crate::time::{Error, Result};
 
 /// Millennium day number
 ///
@@ -72,7 +64,7 @@ impl Mdn {
         m: M,
         d: D,
     ) -> Result<Mdn> {
-        let mut gy = gy.gregorian_year_i32();
+        let gy = gy.gregorian_year_i32();
         let m: i32 = m.month_as_one_based_u8().into();
         let d: i32 = d.day_as_one_based_u8().into();
         Self::try_from_gymd_nums(gy, m, d)
@@ -88,7 +80,7 @@ impl Mdn {
         m: M,
         d: D,
     ) -> Result<Mdn> {
-        let mut gy = gy.to_i32().ok_or(Error::InvalidGregorianYear(
+        let gy = gy.to_i32().ok_or(Error::InvalidGregorianYear(
             gy.to_isize().unwrap_or(isize::MIN),
         ))?;
         let m = m
@@ -132,7 +124,7 @@ impl Mdn {
     }
 
     /// Creates an `Mdn` if the supplied value is within range.
-    fn try_new<T: ToPrimitive + Copy>(i: T) -> Result<Self> {
+    pub fn try_new<T: ToPrimitive + Copy>(i: T) -> Result<Self> {
         let i = i
             .to_i32()
             .ok_or(Error::OutOfMdnRange(i.to_isize().unwrap_or(isize::MIN)))?;
@@ -168,7 +160,7 @@ impl Mdn {
         debug_assert!((0..(Self::CNT_DAYS_IN_MOST_100_YEARS + 1)).contains(&d1));
 
         // Find the block of 4 years. The 100 year cycle is short a day, so we don't have to worry about overrun.
-        let mut b4: i32 = d1 / Self::CNT_DAYS_IN_MOST_4_YEARS;
+        let b4: i32 = d1 / Self::CNT_DAYS_IN_MOST_4_YEARS;
         d1 -= b4 * Self::CNT_DAYS_IN_MOST_4_YEARS;
 
         debug_assert!((0..Self::CNT_DAYS_IN_MOST_4_YEARS).contains(&d1));
@@ -242,179 +234,121 @@ impl From<i16> for Mdn {
     }
 }
 
+impl From<Mdn> for i32 {
+    fn from(mdn: Mdn) -> Self {
+        mdn.0
+    }
+}
+
 #[cfg(test)]
 mod t {
     use super::*;
+    use crate::time::gregorian::GregorianYear;
+    use insta::assert_ron_snapshot;
 
     #[test]
     fn t0() {
-        insta::assert_ron_snapshot!(Mdn::from(i16::MIN), @"Mdn(-32768)");
-        insta::assert_ron_snapshot!(Mdn::from(-1_i16), @"Mdn(-1)");
-        insta::assert_ron_snapshot!(Mdn::from(0_i16), @"Mdn(0)");
-        insta::assert_ron_snapshot!(Mdn::from(1_i16), @"Mdn(1)");
-        insta::assert_ron_snapshot!(Mdn::from(i16::MAX), @"Mdn(32767)");
+        assert_ron_snapshot!(Mdn::from(i16::MIN), @"Mdn(-32768)");
+        assert_ron_snapshot!(Mdn::from(-1_i16), @"Mdn(-1)");
+        assert_ron_snapshot!(Mdn::from(0_i16), @"Mdn(0)");
+        assert_ron_snapshot!(Mdn::from(1_i16), @"Mdn(1)");
+        assert_ron_snapshot!(Mdn::from(i16::MAX), @"Mdn(32767)");
     }
 
     #[test]
     fn t1() {
-        insta::assert_ron_snapshot!(Mdn::try_new(Mdn::MIN - 1), @"Err(OutOfMdnRange(-3722247))");
-        insta::assert_ron_snapshot!(Mdn::try_new(Mdn::MIN), @"Ok(Mdn(-3722246))");
-        insta::assert_ron_snapshot!(Mdn::try_new(-1), @"Ok(Mdn(-1))");
-        insta::assert_ron_snapshot!(Mdn::try_new(0), @"Ok(Mdn(0))");
-        insta::assert_ron_snapshot!(Mdn::try_new(1), @"Ok(Mdn(1))");
-        insta::assert_ron_snapshot!(Mdn::try_new(Mdn::MAX), @"Ok(Mdn(2261521))");
-        insta::assert_ron_snapshot!(Mdn::try_new(Mdn::MAX + 1), @"Err(OutOfMdnRange(2261522))");
+        assert_ron_snapshot!(Mdn::try_new(Mdn::MIN - 1), @"Err(OutOfMdnRange(-3722247))");
+        assert_ron_snapshot!(Mdn::try_new(Mdn::MIN), @"Ok(Mdn(-3722246))");
+        assert_ron_snapshot!(Mdn::try_new(-1), @"Ok(Mdn(-1))");
+        assert_ron_snapshot!(Mdn::try_new(0), @"Ok(Mdn(0))");
+        assert_ron_snapshot!(Mdn::try_new(1), @"Ok(Mdn(1))");
+        assert_ron_snapshot!(Mdn::try_new(Mdn::MAX), @"Ok(Mdn(2261521))");
+        assert_ron_snapshot!(Mdn::try_new(Mdn::MAX + 1), @"Err(OutOfMdnRange(2261522))");
     }
 
     #[test]
     fn t2() -> anyhow::Result<()> {
-        insta::assert_ron_snapshot!(Mdn::try_from_gymd_nums(GregorianYear::MIN, 1, 1), @"Ok(Mdn(-3722246))");
-        insta::assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 2, 29), @"Ok(Mdn(-1))");
-        insta::assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 3, 1), @"Ok(Mdn(0))");
-        insta::assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 3, 2), @"Ok(Mdn(1))");
-        insta::assert_ron_snapshot!(Mdn::try_from_gymd_nums(GregorianYear::MAX, 12, 31), @"Ok(Mdn(2261521))");
+        assert_ron_snapshot!(Mdn::try_from_gymd_nums(GregorianYear::MIN, 1, 1), @"Ok(Mdn(-3722246))");
+        assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 2, 29), @"Ok(Mdn(-1))");
+        assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 3, 1), @"Ok(Mdn(0))");
+        assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 3, 2), @"Ok(Mdn(1))");
+        assert_ron_snapshot!(Mdn::try_from_gymd_nums(GregorianYear::MAX, 12, 31), @"Ok(Mdn(2261521))");
         Ok(())
     }
 
     #[test]
     fn t3() -> anyhow::Result<()> {
-        insta::assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 2, 29)?.to_gymd(), @"(GregorianYear(2000), Month(2), Day(29))");
-        insta::assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 3, 1)?.to_gymd(), @"(GregorianYear(2000), Month(3), Day(1))");
-        insta::assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 3, 2)?.to_gymd(), @"(GregorianYear(2000), Month(3), Day(2))");
+        assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 2, 29)?.to_gymd(), @"(GregorianYear(2000), Month(2), Day(29))");
+        assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 3, 1)?.to_gymd(), @"(GregorianYear(2000), Month(3), Day(1))");
+        assert_ron_snapshot!(Mdn::try_from_gymd_nums(2000, 3, 2)?.to_gymd(), @"(GregorianYear(2000), Month(3), Day(2))");
         Ok(())
     }
-}
 
-/*
-    QAKtest(mdn_ymd_to_mdn_2, "ymd_to_mdn() 2")
-    {
-        // gregorian::is_leap_year() and mdn() use different calculations, so we can cross-check them with each other.
+    #[test]
+    fn t4() {
+        // The Mdn of March 1 minus that of February 28 should be 2 for leap years and 1 otherwise.
 
-        auto verify_year = [](int y) -> void
-        {
-            // The Mdn of March 1 minus that of February 28 should be 2 for leap years and 1 otherwise.
+        let mut cnt_tested = 0;
+        for y in GregorianYear::RI {
+            if y == 0 { continue; }
 
-            int feb28_mdn = ymd_to_mdn(y, 2, 28);
-            QAK_verify(is_valid_mdn(feb28_mdn));
+            let gy = GregorianYear::try_new(y).unwrap();
 
-            int march1_mdn = ymd_to_mdn(y, 3, 1);
-            QAK_verify(is_valid_mdn(march1_mdn));
+            let feb28_mdn = Mdn::try_from_gymd_nums(i32::from(gy), 2, 28).unwrap();
+            let march1_mdn = Mdn::try_from_gymd_nums(i32::from(gy), 3, 1).unwrap();
 
-            int d_days_expected = 1 + gregorian::is_leap_year(y);
-            int d_days_actual = march1_mdn - feb28_mdn;
+            let expected_days = if gy.is_leap_year() { 2 } else { 1 };
 
-            QAK_verify_equal(d_days_actual, d_days_expected);
-        };
+            let days = i32::from(march1_mdn) - i32::from(feb28_mdn);
 
-        // Start from year +- 1 and work out in both directions so we can debug the nearest errors first.
-        int min_year_verified = 0;
-        int max_year_verified = 0;
-        for (unsigned ui = 0; ui < gregorian::year_max - gregorian::year_min; ++ui)
-        {
-            bool bc = !(ui & 1); // do bc first
-            int y = (ui >> 1) + 1;
-            if (bc)
-                y = -y;
-
-            verify_year(y);
-
-            if (y < min_year_verified) min_year_verified = y;
-            if (max_year_verified < y) max_year_verified = y;
+            assert_eq!(days, expected_days);
+            cnt_tested += 1;
         }
-        QAK_verify_equal(min_year_verified, gregorian::year_min);
-        QAK_verify_equal(max_year_verified, gregorian::year_max);
+
+        assert_ron_snapshot!(cnt_tested, @"16383");
     }
+    
+    #[test]
+    fn t5() {
+        // For every valid year, check round-tripping `Y-M-D` through `Mdn` for the
+        // first and last few days of every month
+        let mut cnt_tested = 0;
+        for y in GregorianYear::RI {
+            if y == 0 { continue; }
 
-    QAKtest(mdn_to_ymd_1, "mdn_to_ymd 1")
-    {
-        // Check mdn_to_ymd on March 1 for every valid year
-        int const y_start = 2000;
-        int min_year_verified = 0;
-        int max_year_verified = 0;
-        unsigned strikeouts = 0;
-        for (int ix = 1; true; ++ix)
-        {
-            int const x = ix >> 1;
-            int const y = y_start + ((ix & 1) ? -x : x);
+            let gy = GregorianYear::try_new(y).unwrap();
 
-            if (gregorian::is_valid_year(y))
-            {
-                // For every month in that year.
-                for (unsigned m = 1; m <= 12; ++m)
-                {
-                    // For every day in the month.
-                    for (unsigned d = 1; d <= gregorian::cnt_days_in_month(y, m); ++d)
-                    {
-                        // Test the round trip conversion of (y, m, d).
+            // For every month in that year.
+            for m in Month::RI {
+                let mo = Month::try_new(m).unwrap();
+                let dim = mo.days_in_month(&gy);
 
-                        int const mdn = ymd_to_mdn(y, m, d);
+                // For every day in the month.
+                let mut d = 1;
+                while d <= dim {
+                    let dy = Day::try_new(d).unwrap();
 
-                        QAK_verify(is_valid_mdn(mdn));
+                    // Test the round trip conversion of (y, m, d).
 
-                        auto const ymd = mdn_to_ymd(mdn);
+                    let mdn = Mdn::try_from_gymd_nums(i32::from(gy), m, d).unwrap();
+                    assert!(Mdn::RI.contains(&mdn.0));
 
-                        QAK_verify_equal(std::get<0>(ymd), y);
-                        QAK_verify_equal(std::get<1>(ymd), m);
-                        QAK_verify_equal(std::get<2>(ymd), d);
+                    let (gy2, mo2, dy2) = mdn.to_gymd();
 
-                        if (2 == d) // Speedup: Skip uninteresting days 3-26 of each month
-                            d += 25;
-                    }
+                    assert_eq!(gy2, gy);
+                    assert_eq!(mo2, mo);
+                    assert_eq!(dy2, dy);
+                    cnt_tested += 1;
+
+                    d = if 2 == d {
+                        // Speedup: Skip uninteresting days 3-26 of each month
+                        27
+                    } else {
+                        d + 1
+                    };
                 }
-
-                strikeouts = 0;
-                if (y < min_year_verified) min_year_verified = y;
-                if (max_year_verified < y) max_year_verified = y;
-            }
-            else
-            {
-                ++strikeouts;
-                if (2 <= strikeouts)
-                    break;
             }
         }
-        QAK_verify_equal(min_year_verified, gregorian::year_min);
-        QAK_verify_equal(max_year_verified, gregorian::year_max);
+        assert_ron_snapshot!(cnt_tested, @"1265464");
     }
-
-    QAKtest(mdn_to_ymd_2, "mdn_to_ymd 2")
-    {
-        // For every valid mdn.
-        for (int mdn = mdn_min; mdn <= mdn_max; ++mdn)
-        {
-            // Test the round trip conversion of mdn.
-
-            auto const ymd = mdn_to_ymd(mdn);
-
-            int y = std::get<0>(ymd);
-            unsigned m = std::get<1>(ymd);
-            unsigned d = std::get<2>(ymd);
-
-            int const mdn2 = ymd_to_mdn(y, m, d);
-
-            QAK_verify_equal(mdn, mdn2);
-
-            if (2 == d) // Speedup: Skip uninteresting days 3-26 of each month
-                mdn += 25;
-        }
-    }
-
-    QAKtest(time_value_ops_mdn_to_tv, "mdn_to_tv()")
-    {
-        time_value tv = mdn_to_tv(-1);
-        QAK_verify_equal( tv.year(),  2000 );
-        QAK_verify_equal( tv.month(),    2 );
-        QAK_verify_equal( tv.day(),     29 );
-
-        tv = mdn_to_tv(0);
-        QAK_verify_equal( tv.year(),  2000 );
-        QAK_verify_equal( tv.month(),    3 );
-        QAK_verify_equal( tv.day(),      1 );
-
-        tv = mdn_to_tv(1);
-        QAK_verify_equal( tv.year(),  2000 );
-        QAK_verify_equal( tv.month(),    3 );
-        QAK_verify_equal( tv.day(),      2 );
-    }
-
-*/
+}
