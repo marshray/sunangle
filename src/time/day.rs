@@ -5,6 +5,11 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
+//? use use std::fmt::Display;
+
+//? use anyhow::{anyhow, bail, ensure, Context, Result};
+//? use log::{debug, error, info, trace, warn};
+
 use std::ops::RangeInclusive;
 
 use num_traits::cast::NumCast;
@@ -64,7 +69,7 @@ impl From<Day> for i8 {
         d.0 as i8
     }
 }
-        
+
 #[cfg(test)]
 mod tests {
     use super::*;

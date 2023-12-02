@@ -1,21 +1,49 @@
+// Copyright 2023 Marsh J. Ray
+//
+// Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or
+// http://apache.org/licenses/LICENSE-2.0> or the MIT license <LICENSE-MIT or
+// http://opensource.org/licenses/MIT>, at your option. This file may not be
+// copied, modified, or distributed except according to those terms.
+
+#![allow(dead_code)] //? TODO for development
+#![allow(unused_mut)] //? TODO for development
+#![allow(unused_variables)] //? TODO for development
+#![allow(unused_imports)] //? TODO for development
+#![allow(non_snake_case)] //? TODO for development
 #![warn(clippy::all, rust_2018_idioms)]
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
+#![allow(clippy::new_without_default)] //? TODO for development
+#![allow(clippy::too_many_arguments)]
+
+//? use use std::fmt::Display;
+//? use std::ops::RangeInclusive;
+
+//? use anyhow::{anyhow, bail, Context, Result};
+//? use serde::{Deserialize, Serialize};
+
+//#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
 // When compiling natively:
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(not(any(target_arch = "wasm32")))]
 fn main() -> eframe::Result<()> {
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
+
+    log::info!("logging initialized.");
 
     let native_options = eframe::NativeOptions {
         initial_window_size: Some([400.0, 300.0].into()),
         min_window_size: Some([300.0, 220.0].into()),
         ..Default::default()
     };
+
     eframe::run_native(
         "sunangle",
         native_options,
         Box::new(|cc| Box::new(sunangle::SunangleApp::new(cc))),
-    )
+    )?;
+
+    log::info!("Uneventful exit.");
+
+    Ok(())
 }
 
 // When compiling to web using trunk:

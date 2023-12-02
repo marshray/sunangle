@@ -290,7 +290,9 @@ mod t {
 
         let mut cnt_tested = 0;
         for y in GregorianYear::RI {
-            if y == 0 { continue; }
+            if y == 0 {
+                continue;
+            }
 
             let gy = GregorianYear::try_new(y).unwrap();
 
@@ -307,14 +309,16 @@ mod t {
 
         assert_ron_snapshot!(cnt_tested, @"16383");
     }
-    
+
     #[test]
     fn t5() {
         // For every valid year, check round-tripping `Y-M-D` through `Mdn` for the
         // first and last few days of every month
         let mut cnt_tested = 0;
         for y in GregorianYear::RI {
-            if y == 0 { continue; }
+            if y == 0 {
+                continue;
+            }
 
             let gy = GregorianYear::try_new(y).unwrap();
 

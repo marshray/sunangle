@@ -10,8 +10,8 @@
 #![allow(unused_variables)] //? TODO for development
 #![allow(unused_imports)] //? TODO for development
 #![allow(non_snake_case)] //? TODO for development
-#![allow(clippy::new_without_default)]
-//? TODO for development
+#![allow(clippy::new_without_default)] //? TODO for development
+#![allow(clippy::too_many_arguments)]
 
 //? use use std::fmt::Display;
 //? use std::ops::RangeInclusive;
@@ -19,12 +19,7 @@
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
 //? use log::{debug, error, info, trace, warn};
 //? use serde::{Deserialize, Serialize};
-#![warn(clippy::all, rust_2018_idioms)]
 
-mod app;
-pub use app::SunangleApp;
+pub struct ViewState {}
 
-mod tai;
-mod time;
-mod view_state;
-mod world_state;
+impl ViewState {}
