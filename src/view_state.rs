@@ -22,4 +22,8 @@
 
 pub struct ViewState {}
 
-impl ViewState {}
+impl ViewState {
+    pub fn new() -> ViewState {
+        Self {}
+    }
+}

@@ -3,79 +3,140 @@ name = "sunangle"
 version = "0.1.0"
 authors = [
     "Marsh Ray <marshray@live.com>"
-    # With thanks to Emil Ernerfeldt for eframe_template!
+    # With thanks to Emil Ernerfeldt for eframe and eframe_template!
 ]
 edition = "2021"
-rust-version = "1.71"
+rust-version = "1.72"
+
+#========================================== patches ================================================
+
+#------------------------------------------- glow
+
+# Glow introduced a breaking change, glow::Context became !Sync.
+#
+# https://github.com/grovesNL/glow/commit/edfd08e2a941f4c3db6a3ba6cf84865f7c5365ff revert
+# https://github.com/grovesNL/glow/commit/c4a5f7151b9b4bbb380faa06ec27415235d1bf7e use this one
+#
+# Glow has reverted the change on main, but hasn't tagged a post-0.13.0 release yet
+#
+[patch.crates-io.glow]
+version = "0.13"
+git = "https://github.com/grovesNL/glow.git"
+rev = "c4a5f7151b9b4bbb380faa06ec27415235d1bf7e"
+
+#------------------------------------------- egui, egui_glow, eframe, egui-winit
+
+# https://github.com/emilk/egui/pull/3598 This merge tracked a breaking change in glow
+# https://github.com/emilk/egui/issues/3645 Revert "Change Arc<glow::Context> to Rc<glow::Context>
+# https://github.com/emilk/egui/pull/3646 Make glow Send + Sync again, thanks @surban !
+#
+# @emilk says this will have to wait until egui 0.25
+# https://github.com/emilk/egui/pull/3646#issuecomment-1828388082
+#
+# We could use 40eeed922d, which is based off of 0.24.0, before the rebase to egui master.
+# https://github.com/surban/egui/tree/40eeed922d0b3fe4ba943dff1866ee600e21b676
+# But 45022a6e945486a2a4f46d42524284128319c803 has most of the fixes that went into 0.24.1
+#
+# @marshray branched from @surban on GitHub and rebased @surban's changes on 0.24.1.
+# https://github.com/marshray/surban.egui/commit/baf6e8ba316b8e5edff9fbeab2a9a5134856a21c
+
+[patch.crates-io.egui]
+version = "=0.24.1"
+git = "https://github.com/marshray/surban.egui.git"
+rev = "baf6e8ba316b8e5edff9fbeab2a9a5134856a21c"
+
+[patch.crates-io.egui_glow]
+version = "=0.24.1"
+git = "https://github.com/marshray/surban.egui.git"
+rev = "baf6e8ba316b8e5edff9fbeab2a9a5134856a21c"
+ 
+[patch.crates-io.eframe]
+version = "=0.24.1"
+git = "https://github.com/marshray/surban.egui.git"
+rev = "baf6e8ba316b8e5edff9fbeab2a9a5134856a21c"
+ 
+[patch.crates-io.egui-winit]
+version = "=0.24.1"
+git = "https://github.com/marshray/surban.egui.git"
+rev = "baf6e8ba316b8e5edff9fbeab2a9a5134856a21c"
+
+#------------------------------------------- three-d
+
+# Local repo tweaks "three-d =0.16.3" to use:
+#    glow:       0.12 -> 0.13
+#    egui:       0.22 -> =0.24.1
+#    egui_glow:  0.22 -> =0.24.1
+
+[patch.crates-io.three-d]
+version = "=0.16.3"
+git = "https://github.com/marshray/three-d.git"
+rev = "0cd8b4cc2d5fc52a5e5ae3dfe1458c4b1056d653"
+
+#==================================== dependencies (all targets) ===================================
 
 [dependencies]
-chrono = { version = "0.4", features = ["serde"] }
-#3 chrono = { version = "0.4", optional = true, default-features = true, features = [
-#3     "clock",
-#3     "js-sys",
-#3     "serde",
-#3     "std",
-#3     "wasmbind",
-#3 ] }
-egui = "0.23.0"
-egui_extras = { version = "*", features = [
-    "chrono",
-    "datepicker",
-] }
-#3 egui_extras = { version = "*", features = [
-#3 #    "all_loaders",
-#3     "chrono",
-#3     "datepicker",
-#3 ] }
-#image = { version = "0.24", features = ["jpeg", "png"] }
-eframe = { version = "0.23.0", default-features = false, features = [
-    #"accesskit",     # Make egui comptaible with screen readers. NOTE: adds a lot of dependencies.
-    "default_fonts", # Embed the default egui fonts.
-    "glow",          # Use the glow rendering backend. Alternative: "wgpu".
-    "persistence",   # Enable restoring app state when restarting the app.
-] }
 
-# Crates general purpose
+#------------------------------------------ General purpose
+
+anyhow = "1.0.75"
 log = "0.4"
 num-traits = "0.2.17"
 #scopeguard = "1.2.0"
 serde = { version = "1", features = ["derive"] }
 thiserror = "1.0.50"
 
-# Crates for time stuff
-anyhow = "1.0.75"
+#------------------------------------------ Time
+
+chrono = { version = "0.4", features = ["serde"] }
 chrono-tz = "0.8.4"
 # tzfile = "0.1.3"
 # humantime = "2.1.0" # A parser and formatter for std::time::{Duration, SystemTime}
 
-# native or web
+#------------------------------------------ Graphics and UI
 
-## native: General purpose
-[target.'cfg(not(any(target_arch = "wasm32")))'.dependencies]
+glow = { version = "0.13", default-features = false }
+
+egui = { version = "=0.24.1", default-features = false }
+
+egui_glow = { version = "=0.24.1", default-features = false }
+
+eframe = { version = "=0.24.1", default-features = false, features = [
+    "accesskit",     # Make egui comptaible with screen readers
+    "default_fonts", # Embed the default egui fonts
+    "glow",          # Use the 'glow' rendering backend rather than 'wgpu'
+    "persistence",   # Persist app state (window positions, etc)
+] }
+
+# egui_extras = { version = "*", features = ["chrono", "datepicker"] }
+
+three-d-asset = { version = "0.6", default-features = false, features = [] } # "obj", "png", "http"
+
+three-d = { version = "=0.16.3", default-features = false }
+#three-d = { version = "=0.16.3", default-features = false, features = ["egui-gui"] }
+
+#image = { version = "0.24", features = ["jpeg", "png"] }
+
+#================================ dependencies (native app) ========================================
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+
 env_logger = "0.10"
-#3 chrono = { version = "0.4", optional = true, default-features = true, features = [
-#3     "clock",
-#3     "js-sys",
-#3     "serde",
-#3     "std",
-#3     "wasmbind",
-#3 ] }
-#glow [target.'cfg(not(any(target_arch = "wasm32")))'.dependencies]
-#glow glutin = { version = "0.28", optional = true }
-#glow sdl2 = { version = "0.35", optional = true }
+egui-winit = { version = "=0.24.1", default-features = false }
 
-# web:
+#============================== dependencies (wasm32 web app) ======================================
+
 [target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "=0.2.89"
 wasm-bindgen-futures = "0.4"
-#glow wasm-bindgen = { version = "0.2" }
-#glow web-sys = { version = "0.3", features=["HtmlCanvasElement", "WebGl2RenderingContext", "Window"] }
-#3 chrono = { version = "0.4", optional = true, default-features = true, features = [
-#3     "clock",
-#3     "js-sys",
-#3     "serde",
-#3     "std",
-#3     "wasmbind",
-#3 ] }
+web-sys = "0.3"
+# features = [ "HtmlCanvasElement", "WebGl2RenderingContext", "Window"]
+
+#================================== dev-dependencies ===============================================
+
+[dev-dependencies]
+insta = { version = "1.34.0", features = ["ron"] }
+
+#=================================  profile settings ===============================================
 
 [profile.release]
 opt-level = 2 # fast and small wasm
@@ -84,15 +145,3 @@ opt-level = 2 # fast and small wasm
 [profile.dev.package."*"]
 opt-level = 2
 
-[dev-dependencies]
-insta = { version = "1.34.0", features = ["ron"] }
-
-#[patch.crates-io]
-
-# If you want to use the bleeding edge version of egui and eframe:
-# egui = { git = "https://github.com/emilk/egui", branch = "master" }
-# eframe = { git = "https://github.com/emilk/egui", branch = "master" }
-
-# If you fork https://github.com/emilk/egui you can test with:
-# egui = { path = "../egui/crates/egui" }
-# eframe = { path = "../egui/crates/eframe" }

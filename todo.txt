@@ -22,6 +22,7 @@ cs transform - (t) e_equatorial to e_fixed(geocentric nonrotating)
 cs transform - e_fixed to surface (takes long-lat)
 cs transform - surface to view azimuth altitude
 
+Earth - in WorldState
 Earth - equator
 Earth - poles
 Earth - spherical wireframe
@@ -31,6 +32,7 @@ Earth - triangle surface
 Earth - texture map
 Earth - height map
 
+Sun - in WorldState
 Sun - equator
 Sun - poles
 Sun - spherical wireframe
@@ -39,9 +41,10 @@ Sun - triangle surface
 Sun - texture map
 Sun - height map
 
-cs transform - (t) ss_ecliptic? to l_equatorial
-cs transform - (t) l_equatorial to l_fixed
-cs transform - l_fixed to l_surface (takes long-lat)
+Moon - in WorldState
+Moon - cs transform - (t) ss_ecliptic? to l_equatorial
+Moon - cs transform - (t) l_equatorial to l_fixed
+Moon - cs transform - l_fixed to l_surface (takes long-lat)
 Moon - equator
 Moon - poles
 Moon - spherical wireframe
@@ -53,3 +56,4 @@ Earth - satellites
 Stars
 
 
+UI - native - Alt+F to open 'File' menu

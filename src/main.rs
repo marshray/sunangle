@@ -20,6 +20,8 @@
 //? use anyhow::{anyhow, bail, Context, Result};
 //? use serde::{Deserialize, Serialize};
 
+use sunangle::SunangleApp;
+
 //#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
 // When compiling natively:
@@ -30,15 +32,15 @@ fn main() -> eframe::Result<()> {
     log::info!("logging initialized.");
 
     let native_options = eframe::NativeOptions {
-        initial_window_size: Some([400.0, 300.0].into()),
-        min_window_size: Some([300.0, 220.0].into()),
+        //initial_window_size: Some([400.0, 300.0].into()),
+        //min_window_size: Some([300.0, 220.0].into()),
         ..Default::default()
     };
 
     eframe::run_native(
         "sunangle",
         native_options,
-        Box::new(|cc| Box::new(sunangle::SunangleApp::new(cc))),
+        Box::new(|cc| Box::new(SunangleApp::new(cc))),
     )?;
 
     log::info!("Uneventful exit.");
@@ -59,7 +61,7 @@ fn main() {
             .start(
                 "the_canvas_id", // hardcode it
                 web_options,
-                Box::new(|cc| Box::new(sunangle::SunangleApp::new(cc))),
+                Box::new(|cc| Box::new(SunangleApp::new(cc))),
             )
             .await
             .expect("failed to start eframe");

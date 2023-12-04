@@ -13,13 +13,15 @@
 #![allow(clippy::new_without_default)] //? TODO for development
 #![allow(clippy::too_many_arguments)]
 
-use anyhow::{anyhow, bail, Context, Result};
+use anyhow::{anyhow, bail, ensure, Context, Result};
 use log::{debug, error, info, trace, warn};
 
 use chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime, SecondsFormat, TimeZone, Utc};
 //use egui_extras::DatePickerButton;
 
+use crate::gl_draw::paint_root_viewport_gl;
 use crate::tai::DateTimeTai;
+use crate::view_state::ViewState;
 use crate::world_state::WorldState;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
@@ -48,6 +50,10 @@ impl Default for SunangleApp {
 }
 
 impl SunangleApp {
+    pub fn tai(&self) -> DateTimeTai {
+        self.tai
+    }
+
     /// Called once before the first frame.
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         // This is also where you can customize the look and feel of egui using
@@ -88,11 +94,8 @@ impl eframe::App for SunangleApp {
 }
 
 impl SunangleApp {
-    fn update_impl(
-        &mut self,
-        ctx: &egui::Context,
-        eframe_frame: &mut eframe::Frame, //, frame_number: u64
-    ) -> Result<()> {
+    fn update_impl(&mut self, ctx: &egui::Context, eframe_frame: &mut eframe::Frame) -> Result<()> {
+        // Update the time
         if self.utc_to_tai_clicked {
             self.utc_to_tai_clicked = false;
             //debug!("utc_to_tai_clicked");
@@ -107,14 +110,19 @@ impl SunangleApp {
             info!("{} -> {}", &self.tai, self.utc_text_edit);
         }
 
+        //let world_state = WorldState::world_at_tai(self.tai);
+        //let view_state = ViewState::new();
+
         // Paint the gl stuff behind the UI, log any errors.
-        if let Err(e) = self.paint_root_viewport_gl(ctx, eframe_frame) {
-            error!("paint_root_viewport_gl(): error {e}");
+        if let Err(e) = paint_root_viewport_gl(
+            self,
+            ctx,
+            eframe_frame, //world_state, &view_state
+        ) {
+            error!("gl_draw::paint_root_viewport_gl(): error {e}");
         }
 
-        // Now do all the UI stuff.
-        // Put your widgets into a `SidePanel`, `TopPanel`, `CentralPanel`, `Window` or `Area`.
-        // For inspiration and more examples, go to https://emilk.github.io/egui
+        // Now do all the egui UI stuff.
 
         egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
             egui::menu::bar(ui, |ui| {
@@ -122,7 +130,8 @@ impl SunangleApp {
                 {
                     ui.menu_button("File", |ui| {
                         if ui.button("Quit").clicked() {
-                            eframe_frame.close();
+                            //eframe_frame.close();
+                            error!("I don't know how to quit (eframe::Frame removed the close method)");
                         }
                     });
                     ui.add_space(16.0);
@@ -184,19 +193,6 @@ impl SunangleApp {
             //ui.separator();
             //ui.label(format!("UTC: {utc}"));
         });
-
-        Ok(())
-    }
-
-    fn paint_root_viewport_gl(
-        &mut self,
-        ctx: &egui::Context,
-        eframe_frame: &mut eframe::Frame,
-    ) -> Result<()> {
-        let gl = eframe_frame
-            .gl()
-            .ok_or_else(|| anyhow!("Couldn't get glow gl context"))?;
-        //let painter = egui::Painter::new(ctx: Context, layer_id: LayerId, clip_rect: Rect);
 
         Ok(())
     }

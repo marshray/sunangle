@@ -13,17 +13,9 @@ a simple and straightforward way to get started writing a GUI app in Rust.
 You can build it natively and run it on your local system,
 or build it for the web and share it using Github Pages.
 
-### Learning about egui
-
-`src/app.rs` contains the man App struct.
-
-The official egui docs are at <https://docs.rs/egui>. If you prefer watching a video introduction, check out <https://www.youtube.com/watch?v=NtUkr_z7l84>. For inspiration, check out the [the egui web demo](https://emilk.github.io/egui/index.html) and follow the links in it to its source code.
-
-### Testing locally
+### Build and run locally as a native app
 
 Make sure you are using the latest version of stable rust by running `rustup update`.
-
-`cargo run --release`
 
 On Linux you need to first run:
 
@@ -33,35 +25,81 @@ On Fedora Rawhide you need to run:
 
 `dnf install clang clang-devel clang-tools-extra libxkbcommon-devel pkg-config openssl-devel libxcb-devel gtk3-devel atk fontconfig-devel`
 
-### Web Locally
+Then to run the app
 
-You can compile your app to [WASM](https://en.wikipedia.org/wiki/WebAssembly) and publish it as a web page.
+`cargo run --release`
 
-We use [Trunk](https://trunkrs.dev/) to build for web target.
-1. Install the required target with `rustup target add wasm32-unknown-unknown`.
-2. Install Trunk with `cargo install --locked trunk`.
-3. Run `trunk serve` to build and serve on `http://127.0.0.1:8080`. Trunk will rebuild automatically if you edit the project.
-4. Open `http://127.0.0.1:8080/index.html#dev` in a browser. See the warning below.
+### Build, test locally, and deploy as a [WASM](https://en.wikipedia.org/wiki/WebAssembly) web app
 
-> `assets/sw.js` script will try to cache our app, and loads the cached version when it cannot connect to server allowing your app to work offline (like PWA).
-> appending `#dev` to `index.html` will skip this caching, allowing us to load the latest builds during development.
+#### Set up
+[Trunk](https://trunkrs.dev/) is used to build for the web.
+1. Install the `wasm32` compiler target
+   > `rustup target add wasm32-unknown-unknown`
+1. Install Trunk
+   > `cargo install --locked trunk`
 
-### Web Deploy
-1. Just run `trunk build --release`.
-* No, do instead `trunk clean ; trunk build --release --public-url sunangle`.
-2. It will generate a `dist` directory as a "static html" website
-3. Upload the `dist` directory to any of the numerous free hosting websites including [GitHub Pages](https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site).
-4. we already provide a workflow that auto-deploys our app to GitHub pages if you enable it.
-> To enable Github Pages, you need to go to Repository -> Settings -> Pages -> Source -> set to `gh-pages` branch and `/` (root).
->
-> If `gh-pages` is not available in `Source`, just create and push a branch called `gh-pages` and it should be available.
+#### Build
+From the top of your checkout (the directory containing `src`):
+1. Clean
+   > `trunk clean`
+1. Some of the build steps are extremely verbose at `debug` or `trace` level,
+so reflect upon any value you may have set for the `RUST_LOG` environment variable.
+   > `echo $RUST_LOG`
+1. Build
+   > `trunk build --release --public-url sunangle`
 
-You can test the template app at <https://marshray.github.io/sunangle/>.
+#### Test locally
+1. **Build**, as described above.
+1. Serve the build results over `http` on `127.0.0.1:8080` at the path `/sunangle`:
+   > `trunk serve --release --public-url sunangle`
+   * Note: Trunk will watch for changes to project files and rebuild automatically.
+1. Navigate to [`http://127.0.0.1:8080/sunangle/index.html#dev`](
+    http://127.0.0.1:8080/sunangle/index.html#dev) in a web browser.
+   * Note: The `assets/sw.js` script will try to cache our app, and will load the cached version
+   when it cannot connect to server, allowing your app to work offline (like PWA).
+   Appending `#dev` to `index.html` will skip this caching, allowing us to load the latest builds
+   during development.
+
+#### Deploy to web
+1. **Build**, as described above.
+1. Upload the resulting `dist` directory to your website such that it is served at `/sunangle/` path.
+* [GitHub Pages](
+https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pagesconfiguring-a-publishing-source-for-your-github-pages-site
+) is a free option used by many projects already using GitHub.
+    1. Ensure you have a `gh-pages` branch with the top-level `index.html` in either
+    `/` (root) or `docs`.
+    1. Go to Repository -> Settings -> Pages -> Source -> set to `gh-pages` branch and `/` (root) or `docs`.
+    * There is a workflow that you can enable to auto-deploy the app to GitHub pages.
 
 # Development
 
+## Source organization
+
+- `sunangle/`
+  - `Cargo.toml`
+  - `src/`
+    - `lib.rs` Defines module structure, re-exports `SunangleApp`.
+    - `main.rs` Program startup, `fn main()`
+    - `app.rs` The main application struct, `SunangleApp`.
+      - Implements the  [`eframe::App`](
+        https://docs.rs/eframe/latest/eframe/trait.App.html) trait.
+        - Local save state logic
+        - "Updates" the UI on every redraw
+    - `tai.rs` Type representing International Atomic Time, TAI
+    - `world_state.rs` A representation of the world, computed from a point in time
+    - `view_state.rs` A representation of the view, camera position, etc.
+  - `assets/` used in building the web app
+
+## Learning about egui
+
+Official egui docs: <https://docs.rs/egui>
+
+A video introduction: [Getting started with Rust 🦀 2021: 7a. Building a GUI app in Rust [Part A]](https://www.youtube.com/watch?v=NtUkr_z7l84)
+
+For inspiration, check out the [the egui web demo](https://emilk.github.io/egui/index.html) and follow the links to its source code.
+
 ## Updating egui
 
-As of 2023, egui is in active development with frequent releases with breaking changes. [eframe_template](https://github.com/emilk/eframe_template/) will be updated in lock-step to always use the latest version of egui.
-
-When updating `egui` and `eframe` it is recommended you do so one version at the time, and read about the changes in [the egui changelog](https://github.com/emilk/egui/blob/master/CHANGELOG.md) and [eframe changelog](https://github.com/emilk/egui/blob/master/crates/eframe/CHANGELOG.md).
+As of 2023, egui is in active development with frequent releases with breaking changes.
+* [eframe_template](https://github.com/emilk/eframe_template/) will be updated in lock-step to always use the latest version of egui.
+* When updating `egui` and `eframe` it is recommended you do so one version at the time, and read about the changes in [the egui changelog](https://github.com/emilk/egui/blob/master/CHANGELOG.md) and [eframe changelog](https://github.com/emilk/egui/blob/master/crates/eframe/CHANGELOG.md).
