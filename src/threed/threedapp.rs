@@ -16,81 +16,29 @@
 //? use use std::fmt::Display;
 use std::any::Any;
 use std::cell::RefCell;
-use std::sync::Arc;
 use std::rc::Rc;
+use std::sync::Arc;
 
 use anyhow::{anyhow, bail, ensure, Result};
 use log::{debug, error, info, trace, warn};
 //? use serde::{Deserialize, Serialize};
-use eframe::egui_glow;
-use eframe::glow;
+
+use eframe::{egui_glow, glow};
 use egui::epaint;
+
+use three_d::material::ColorMaterial;
+use three_d::renderer::{Camera, Gm, Mesh};
+use three_d::{
+    degrees, radians, vec3, ClearState, Context, CpuMesh, Deg, Mat4, Positions, RenderTarget,
+    ScissorBox, Srgba, Viewport,
+};
 
 use crate::eframe_app::SunangleApp;
 use crate::tai::DateTimeTai;
 use crate::view_state::ViewState;
 use crate::world_state::WorldState;
 
-pub fn paint_root_viewport_gl(
-    app: &mut SunangleApp,
-    ctx: &egui::Context,
-    eframe_frame: &mut eframe::Frame,
-    //world_state: WorldState,
-    //view_state: &ViewState,
-) -> Result<()> {
-    //y We're not doing it this way, because we want eframe to drive the loop
-    /* // Obtain an Arc on the `glow::Context`
-    let arc_glow_context = eframe_frame
-        .gl()
-        .ok_or_else(|| anyhow!("Couldn't get glow gl context"))?.clone();
-    //let painter = egui::Painter::new(ctx: Context, layer_id: LayerId, clip_rect: Rect);
-
-    // Construct a `three_d::GUI` from the `glow::Context`
-    let gui = three_d::GUI::new(&arc_glow_context);
-    // */
-
-    // Set up a weird callback system for painting the background layer.
-
-    //let backgroud_layer_id = egui::LayerId::background();
-    //let layer_painter = ctx.layer_painter(backgroud_layer_id);
-    let layer_painter = ctx.debug_painter(); //?
-
-    //let rect = egui::Rect::EVERYTHING;
-    let clip_rect = layer_painter.clip_rect();
-
-    //? let mut world_state = world_state;
-
-    let tai = app.tai();
-
-    let egui_glow_callbackfn = egui_glow::CallbackFn::new(
-        move |paint_callback_info: epaint::PaintCallbackInfo,
-              egui_glow_painter: &egui_glow::Painter| {
-            let glow_context = egui_glow_painter.gl();
-
-            with_three_d_app(glow_context, |threedapp| {
-                let input_translator = InputTranslator::new(
-                    &paint_callback_info,
-                    egui_glow_painter,
-                    &threedapp.core_context,
-                );
-
-                threedapp.paint_callback(input_translator, tai);
-            });
-        },
-    );
-
-    let background_layer_paint_callback = egui::PaintCallback {
-        rect: clip_rect,
-        callback: Arc::new(egui_glow_callbackfn),
-    };
-
-    let shape = egui::Shape::Callback(background_layer_paint_callback);
-    layer_painter.add(shape);
-
-    Ok(())
-}
-
-fn with_three_d_app<R>(
+pub fn with_three_d_app<R>(
     arc_glow_context: &Arc<glow::Context>,
     f: impl Fn(&mut ThreeDApp) -> R,
 ) -> R {
@@ -108,13 +56,6 @@ fn with_three_d_app<R>(
     })
 }
 
-use three_d::material::ColorMaterial;
-use three_d::renderer::{Camera, Gm, Mesh};
-use three_d::{
-    degrees, radians, vec3, ClearState, CpuMesh, Deg, Mat4, Positions, RenderTarget, ScissorBox, Srgba,
-    Viewport,
-};
-
 pub struct ThreeDApp {
     core_context: three_d::core::Context,
     camera: Camera,
@@ -123,9 +64,11 @@ pub struct ThreeDApp {
 }
 
 impl ThreeDApp {
-    
     pub fn new(arc_glow_context: Arc<glow::Context>) -> Self {
         debug!("ThreeDApp::new(...)");
+
+        // Construct a `three_d::GUI` from the `glow::Context`
+        //let gui = three_d::GUI::new(&arc_glow_context);
 
         let core_context = three_d::core::Context::from_gl_context(arc_glow_context).unwrap();
 
@@ -139,6 +82,18 @@ impl ThreeDApp {
             10.0,
         );
 
+        let model = Self::new_model(&core_context);
+
+        Self {
+            core_context,
+            camera,
+            model,
+            triangle_rotate: degrees(123.0),
+        }
+    }
+
+    // Construct a model, with a default color material, thereby transferring the mesh data to the GPU
+    fn new_model(context: &Context) -> Gm<Mesh, ColorMaterial> {
         // Create a CPU-side mesh consisting of a single colored triangle //x ????
         let positions = vec![
             vec3(0.5, -0.5, 0.0),  // bottom right //x ????
@@ -158,90 +113,7 @@ impl ThreeDApp {
             ..Default::default()                  //x ????
         };
 
-        // Construct a model, with a default color material, thereby transferring the mesh data to the GPU
-        let model = Gm::new(
-            Mesh::new(&core_context, &cpu_mesh),
-            ColorMaterial::default(),
-        );
-
-        Self {
-            core_context,
-            camera,
-            model,
-            triangle_rotate: degrees(123.0),
-        }
-    }
-
-    pub fn paint_callback(
-        &mut self,
-        input_translator: InputTranslator<'_>,
-        tai: DateTimeTai,
-    ) -> Option<glow::Framebuffer> {
-        let tri_rot_y = self.triangle_rotate;
-        debug!("threedapp.paint_cb: triangle_rotate: {tri_rot_y:?}");
-
-        self.triangle_rotate += degrees(1.0);
-
-        // Figure the world state from tai.
-        //let world_state = WorldState::world_at_tai(tai);
-        //debug!("t: {tai},   triangle_rotate: {:?} deg", Deg::<f32>::from(triangle_rotate));
-
-        self.camera.set_viewport(input_translator.viewport);
-
-        // Set the current transformation of the triangle //x ????
-        //let triangle_rotate = radians(0.0_f32
-        //    + tai.to_utc().timestamp_subsec_millis() as f32/1000.0 //?
-        //);
-
-        self.model
-            .set_transformation(Mat4::from_angle_y(tri_rot_y));
-
-        // Get the screen render target to be able to render something on the screen //x ????
-        input_translator
-            .render_target
-            // Clear the color and depth of the screen render target //x ????
-            .clear_partially(
-                input_translator.scissor_box,
-                ClearState::depth(1.0))
-            // Render the triangle with the color material which uses the per vertex colors defined at construction //x ????
-            .render_partially(
-                input_translator.scissor_box,
-                &self.camera,
-                [&self.model],
-                &[],
-            );
-
-            // Take back the screen fbo, we will continue to use it.
-        input_translator.render_target.into_framebuffer()
-    }
-}
-
-// Translate from the egui input system to the three_d input system.
-pub struct InputTranslator<'a> {
-    render_target: RenderTarget<'a>,
-    viewport: Viewport,
-    scissor_box: ScissorBox,
-}
-
-impl InputTranslator<'_> {
-    pub fn new(
-        paint_info: &epaint::PaintCallbackInfo,
-        egui_glow_painter: &egui_glow::Painter,
-        context: &three_d::core::Context,
-    ) -> Self {
-        //? TODO why?
-        // Disable sRGB textures for three-d
-        #[cfg(not(target_arch = "wasm32"))]
-        unsafe {
-            use glow::HasContext as _;
-            context.disable(glow::FRAMEBUFFER_SRGB);
-        }
-
-        Self {
-            render_target: Self::rendertarget_from_paint_info(paint_info, egui_glow_painter, context),
-            viewport: Self::viewport_from_paint_info(paint_info),
-            scissor_box: Self::scissor_box_from_paint_info(paint_info),
-        }
+        Gm::new(Mesh::new(context, &cpu_mesh), ColorMaterial::default())
     }
 
     fn viewport_from_paint_info(paint_info: &epaint::PaintCallbackInfo) -> three_d::Viewport {
@@ -266,17 +138,65 @@ impl InputTranslator<'_> {
         }
     }
 
-    fn rendertarget_from_paint_info<'a>(
-        paint_info: &epaint::PaintCallbackInfo,
+    pub fn rendertarget_from_paint_info<'a>(
+        &self,
+        paint_callback_info: &epaint::PaintCallbackInfo,
         egui_glow_painter: &egui_glow::Painter,
-        context: &three_d::core::Context,
     ) -> three_d::RenderTarget<'a> {
-        let w: u32 = paint_info.viewport.width().round() as _;
-        let h: u32 = paint_info.viewport.height().round() as _;
+        let w: u32 = paint_callback_info.viewport.width().round() as _;
+        let h: u32 = paint_callback_info.viewport.height().round() as _;
+
         if let Some(fbo) = egui_glow_painter.intermediate_fbo() {
-            RenderTarget::from_framebuffer(context, w, h, fbo)
+            RenderTarget::from_framebuffer(&self.core_context, w, h, fbo)
         } else {
-            RenderTarget::screen(context, w, h)
+            RenderTarget::screen(&self.core_context, w, h)
         }
+    }
+
+    pub fn paint_callback(
+        &mut self,
+        paint_callback_info: &epaint::PaintCallbackInfo,
+        egui_glow_painter: &egui_glow::Painter,
+    ) -> Option<glow::Framebuffer> {
+        //? TODO why?
+        // Disable sRGB textures for three-d
+        #[cfg(not(target_arch = "wasm32"))]
+        unsafe {
+            use glow::HasContext as _;
+            self.core_context.disable(glow::FRAMEBUFFER_SRGB);
+        }
+
+        let tri_rot_y = self.triangle_rotate;
+        trace!("threedapp.paint_cb: triangle_rotate: {tri_rot_y:?}");
+
+        self.triangle_rotate += degrees(1.0);
+
+        // Figure the world state from tai.
+        //let world_state = WorldState::world_at_tai(tai);
+        //debug!("t: {tai},   triangle_rotate: {:?} deg", Deg::<f32>::from(triangle_rotate));
+
+        let viewport = Self::viewport_from_paint_info(paint_callback_info);
+
+        self.camera.set_viewport(viewport);
+
+        //let triangle_rotate = radians(0.0_f32
+        //    + tai.to_utc().timestamp_subsec_millis() as f32/1000.0
+        //);
+
+        self.model.set_transformation(Mat4::from_angle_y(tri_rot_y));
+
+        let render_target =
+            self.rendertarget_from_paint_info(paint_callback_info, egui_glow_painter);
+
+        let scissor_box = Self::scissor_box_from_paint_info(paint_callback_info);
+
+        render_target
+            // Clear the color and depth of the screen render target //x ????
+            .clear_partially(scissor_box, ClearState::depth(1.0))
+            // Render the triangle with the color material which uses the per vertex colors defined at construction //x ????
+            .render_partially(scissor_box, &self.camera, [&self.model], &[]);
+
+        // Take back the screen fbo, we will continue to use it.
+        render_target.into_framebuffer()
     }
 }

@@ -46,7 +46,9 @@ impl AstroYear {
     /// Unsupported years are those outside `[MIN, MAX]`.
     pub fn try_new<T: NumCast + Copy>(y: T) -> Result<Self> {
         let Some(y_i32) = NumCast::from(y) else {
-            return Err(Error::UnsupportedYear(NumCast::from(y).unwrap_or(isize::MIN)));
+            return Err(Error::UnsupportedYear(
+                NumCast::from(y).unwrap_or(isize::MIN),
+            ));
         };
 
         if !Self::RI.contains(&y_i32) {

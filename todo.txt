@@ -1,3 +1,8 @@
+
+ref: https://github.com/emilk/egui/pull/3646
+ref: https://github.com/asny/three-d/issues/421
+ref: https://github.com/grovesNL/glow/issues/268
+
 frame counter
 ctrl+c on command line
 viewport

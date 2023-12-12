@@ -27,13 +27,25 @@ use sunangle::SunangleApp;
 // When compiling natively:
 #[cfg(not(any(target_arch = "wasm32")))]
 fn main() -> eframe::Result<()> {
+    use egui::ViewportBuilder;
+
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
 
     log::info!("logging initialized.");
 
+    let window_builder_hook =
+        Box::new(|mut viewport_builder: ViewportBuilder| -> ViewportBuilder {
+            // Fix some weird window position issue on native Win32
+            //? TODO bug this upstream?
+            viewport_builder.position = Some(egui::pos2(100.0, 100.0));
+
+            viewport_builder
+        });
+
     let native_options = eframe::NativeOptions {
         //initial_window_size: Some([400.0, 300.0].into()),
         //min_window_size: Some([300.0, 220.0].into()),
+        window_builder: Some(window_builder_hook),
         ..Default::default()
     };
 

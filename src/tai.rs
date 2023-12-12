@@ -27,16 +27,31 @@ pub struct DateTimeTai {
 }
 
 impl DateTimeTai {
+    #[must_use]
     pub fn from_utc(utc: DateTime<Utc>) -> Self {
         Self::from(utc)
     }
 
+    #[must_use]
     pub fn from_ndt_tai(ndt: NaiveDateTime) -> Self {
         Self { ndt }
     }
 
+    #[must_use]
     pub fn to_utc(self) -> DateTime<Utc> {
         Into::into(self)
+    }
+
+    /// Adds some number of days.
+    #[must_use]
+    pub fn checked_add_days(self, days: chrono::Days) -> Option<Self> {
+        self.ndt.checked_add_days(days).map(Self::from_ndt_tai)
+    }
+
+    /// Subtracts some number of days.
+    #[must_use]
+    pub fn checked_sub_days(self, days: chrono::Days) -> Option<Self> {
+        self.ndt.checked_sub_days(days).map(Self::from_ndt_tai)
     }
 }
 

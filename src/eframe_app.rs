@@ -13,65 +13,95 @@
 #![allow(clippy::new_without_default)] //? TODO for development
 #![allow(clippy::too_many_arguments)]
 
+use std::borrow::Cow;
+use std::sync::Arc;
+
 use anyhow::{anyhow, bail, ensure, Context, Result};
+use egui::{epaint, Align, Frame, Hyperlink, Layout, Ui};
 use log::{debug, error, info, trace, warn};
+use serde::{self, Deserialize, Serialize};
 
 use chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime, SecondsFormat, TimeZone, Utc};
-//use egui_extras::DatePickerButton;
 
-use crate::gl_draw::paint_root_viewport_gl;
 use crate::tai::DateTimeTai;
+use crate::ui::showable::ShowableEguiWindow;
+use crate::ui::time_ctrl_window::TimeCtrlWindow;
 use crate::view_state::ViewState;
 use crate::world_state::WorldState;
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
-#[derive(serde::Deserialize, serde::Serialize)]
-#[serde(default)] // if we add new fields, give them default values when deserializing old state
+#[derive(Deserialize, Serialize)]
+#[serde(default)]
 pub struct SunangleApp {
-    #[serde(skip)] // This how you opt-out of serialization of a field
-    value: f32,
+    current_time_checkbx: bool,
+    #[serde(skip)]
+    opt_current_time_window: Option<TimeCtrlWindow>,
 
     //next_frame_number: u64,
+    #[serde(skip)]
     utc_text_edit: String,
-    utc_to_tai_clicked: bool,
+
     tai: DateTimeTai,
 }
 
 impl Default for SunangleApp {
     fn default() -> Self {
         Self {
-            value: 2.7,
+            current_time_checkbx: true,
+            opt_current_time_window: None,
+
             //next_frame_number: 0,
             utc_text_edit: String::new(),
-            utc_to_tai_clicked: false,
+
             tai: WorldState::default_tai(),
         }
     }
 }
 
 impl SunangleApp {
-    pub fn tai(&self) -> DateTimeTai {
-        self.tai
-    }
-
     /// Called once before the first frame.
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         // This is also where you can customize the look and feel of egui using
         // `cc.egui_ctx.set_visuals` and `cc.egui_ctx.set_fonts`.
 
         // Load previous app state
-        let mut self_: Self = cc
-            .storage
-            .map(|storage: &dyn eframe::Storage| {
-                eframe::get_value(storage, eframe::APP_KEY).unwrap_or_default()
-            })
-            .unwrap_or_default();
+        Self::load_from_storage(cc).unwrap_or_default()
+    }
 
-        //self_.next_frame_number = 0;
-        self_.utc_to_tai_clicked = false;
-        self_.utc_text_edit = self_.tai.to_string();
+    fn load_from_storage(cc: &eframe::CreationContext<'_>) -> Option<Self> {
+        let Some(storage) = cc.storage else {
+            debug!("Loading SunagleApp: No storage");
+            return None;
+        };
 
-        self_
+        let Some(str_self) = storage.get_string(eframe::APP_KEY) else {
+            debug!("Loading SunagleApp: Storage exists, but APP_KEY is empty");
+            return None;
+        };
+
+        match ron::from_str::<Self>(&str_self) {
+            Err(e) => {
+                warn!("Loading SunagleApp: decode err: {e}");
+                None
+            }
+            Ok(mut self_) => {
+                debug!("Loaded SunagleApp:\n{}", self_.to_string(true));
+                Some(self_)
+            }
+        }
+    }
+
+    fn to_string(&self, pretty: bool) -> String {
+        if pretty {
+            ron::ser::to_string_pretty(self, ron::ser::PrettyConfig::default())
+        } else {
+            ron::ser::to_string(self)
+        }
+        .unwrap_or_default()
+    }
+
+    pub fn tai(&self) -> DateTimeTai {
+        self.tai
     }
 }
 
@@ -87,44 +117,64 @@ impl eframe::App for SunangleApp {
         }
     }
 
-    /// Called occasionally and before shutdown. Persist the state here.
+    /// Called occasionally, and before shutdown, to persist state.
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
+        debug!("Saving SunagleApp:\n{}", self.to_string(true));
+
+        info!("Saving...");
         eframe::set_value(storage, eframe::APP_KEY, self);
+        info!("saved.");
     }
 }
 
 impl SunangleApp {
     fn update_impl(&mut self, ctx: &egui::Context, eframe_frame: &mut eframe::Frame) -> Result<()> {
         // Update the time
-        if self.utc_to_tai_clicked {
-            self.utc_to_tai_clicked = false;
-            //debug!("utc_to_tai_clicked");
 
-            // Attempt to parse utc_text_edit into tai
-            self.tai = self.utc_text_edit.parse()?;
+        /* if let Some(Some(())) = self
+            .opt_current_time_window
+            .as_mut()
+            .map(TimeCtrlWindow::take_utc_to_tai_click)
+        {
+            debug!("utc_to_tai_clicked");
+        } */
 
-            // That worked, so write tai into utc_text_edit
-            info!("Assigned to TAI from 'UTC -> TAI' button");
-            info!("{} -> {}", self.utc_text_edit, &self.tai);
-            self.utc_text_edit = self.tai.to_utc().to_string();
-            info!("{} -> {}", &self.tai, self.utc_text_edit);
+        if let Some(tai) = self
+            .opt_current_time_window
+            .as_mut()
+            .and_then(|ctw| ctw.take_updated_tai(self.tai))
+        {
+            debug!("updated tai");
+            self.tai = tai;
         }
 
         //let world_state = WorldState::world_at_tai(self.tai);
         //let view_state = ViewState::new();
 
-        // Paint the gl stuff behind the UI, log any errors.
-        if let Err(e) = paint_root_viewport_gl(
-            self,
-            ctx,
-            eframe_frame, //world_state, &view_state
-        ) {
-            error!("gl_draw::paint_root_viewport_gl(): error {e}");
-        }
-
         // Now do all the egui UI stuff.
 
-        egui::TopBottomPanel::top("top_panel").show(ctx, |ui| {
+        self.top_panel(ctx);
+        self.central_panel(ctx);
+
+        if self.current_time_checkbx {
+            self.opt_current_time_window
+                .get_or_insert_with(|| TimeCtrlWindow::new(self.tai))
+                .show(ctx);
+        }
+
+        Ok(())
+    }
+
+    fn top_panel(&mut self, ctx: &egui::Context) {
+        let tp = egui::TopBottomPanel::top("top_panel");
+
+        tp.show(ctx, |ui| self.top_panel_add_contents(ui));
+    }
+
+    fn top_panel_add_contents(&mut self, ui: &mut Ui) {
+        ui.heading("Sunangle");
+
+        /*
             egui::menu::bar(ui, |ui| {
                 #[cfg(not(target_arch = "wasm32"))] // no File->Quit on web pages!
                 {
@@ -139,61 +189,80 @@ impl SunangleApp {
 
                 egui::widgets::global_dark_light_mode_buttons(ui);
             });
+        */
 
-            //ui.separator();
-            ui.label(format!("Frame: {}", ctx.frame_nr()));
+        ui.horizontal(|ui| {
+            ui.label("Controls:");
+            ui.checkbox(&mut self.current_time_checkbx, "Time");
         });
+    }
 
-        egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("Sunangle");
+    fn central_panel(&mut self, ctx: &egui::Context) {
+        let central_panel_frame_settings = Frame::none().fill(egui::Color32::RED);
 
-            // ui.horizontal(|ui| {
-            //     ui.label("Write something: ");
-            //     ui.text_edit_singleline(&mut self.label);
-            // });
+        let cp = egui::CentralPanel::default().frame(central_panel_frame_settings);
 
-            ui.add(egui::Slider::new(&mut self.value, 0.0..=10.0).text("value"));
-            if ui.button("Increment").clicked() {
-                self.value += 1.0;
-            }
+        cp.show(ctx, |ui| self.central_panel_add_contents(ui));
+    }
 
-            ui.separator();
+    fn central_panel_add_contents(&mut self, ui: &mut Ui) {
+        /*
+        // let mut datepicker_value = default_date();
+        // ui.add(DatePickerButton::new(&mut datepicker_value));
+        //ui.add(DatePickerButton::new(&mut self.datepicker_value));
+        //ui.separator();
+        //ui.label(format!("UTC: {utc}"));
+         */
 
-            ui.add(egui::github_link_file!(
-                "https://github.com/marshray/sunangle/",
-                "Source code."
-            ));
+        ui.code(&self.tai.to_string());
 
-            // let mut datepicker_value = default_date();
-            // ui.add(DatePickerButton::new(&mut datepicker_value));
-            //ui.add(DatePickerButton::new(&mut self.datepicker_value));
-            ui.text_edit_singleline(&mut self.utc_text_edit);
-
-            if ui.button("UTC -> TAI").clicked() {
-                self.utc_to_tai_clicked = true;
-            }
-
-            ui.code(&self.tai.to_string());
-
-            ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
-                ui.horizontal(|ui| {
-                    ui.spacing_mut().item_spacing.x = 0.0;
-                    ui.label("Powered by ");
-                    ui.hyperlink_to("egui", "https://github.com/emilk/egui");
-                    ui.label(" and ");
-                    ui.hyperlink_to(
-                        "eframe",
-                        "https://github.com/emilk/egui/tree/master/crates/eframe",
-                    );
-                    ui.label(".");
-                });
-                egui::warn_if_debug_build(ui);
+        ui.with_layout(Layout::left_to_right(egui::Align::BOTTOM), |ui| {
+            ui.horizontal(|ui| {
+                ui.add(Hyperlink::from_label_and_url(
+                    "Source code",
+                    "https://github.com/marshray/sunangle/tree/main/src",
+                ));
             });
 
-            //ui.separator();
-            //ui.label(format!("UTC: {utc}"));
+            ui.horizontal(|ui| {
+                ui.spacing_mut().item_spacing.x = 0.0;
+                ui.label("Powered by ");
+                ui.hyperlink_to("egui", "https://github.com/emilk/egui");
+                ui.label(" and ");
+                ui.hyperlink_to(
+                    "eframe",
+                    "https://github.com/emilk/egui/tree/master/crates/eframe",
+                );
+                ui.label(".");
+            });
         });
 
-        Ok(())
+        self.central_panel_set_up_paint_callback(ui);
+    }
+
+    // Request a callback to paint the central panel using `threedapp`.
+    fn central_panel_set_up_paint_callback(&mut self, ui: &mut Ui) {
+        let egui_glow_callbackfn = egui_glow::CallbackFn::new(
+            |paint_callback_info: epaint::PaintCallbackInfo,
+             egui_glow_painter: &egui_glow::Painter| {
+                let glow_context = egui_glow_painter.gl();
+
+                crate::threed::threedapp::with_three_d_app(glow_context, move |threedapp| {
+                    threedapp.paint_callback(&paint_callback_info, egui_glow_painter)
+                });
+            },
+        );
+
+        //let rect = egui::Rect::EVERYTHING;
+        let painter = ui.painter();
+        let clip_rect = painter.clip_rect();
+
+        let paint_callback = egui::PaintCallback {
+            rect: clip_rect,
+            callback: Arc::new(egui_glow_callbackfn),
+        };
+
+        let shape = egui::Shape::Callback(paint_callback);
+        painter.add(shape);
     }
 }
