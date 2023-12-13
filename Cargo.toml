@@ -1,12 +1,8 @@
-[package]
-name = "sunangle"
-version = "0.1.0"
-authors = [
-    "Marsh Ray <marshray@live.com>"
-    # With thanks to Emil Ernerfeldt for eframe and eframe_template!
+[workspace]
+resolver = "2"
+members = [
+    "sunangle"
 ]
-edition = "2021"
-rust-version = "1.72"
 
 #========================================== patches ================================================
 
@@ -71,71 +67,6 @@ rev = "baf6e8ba316b8e5edff9fbeab2a9a5134856a21c"
 version = "=0.16.3"
 git = "https://github.com/marshray/three-d.git"
 rev = "0cd8b4cc2d5fc52a5e5ae3dfe1458c4b1056d653"
-
-#==================================== dependencies (all targets) ===================================
-
-[dependencies]
-
-#------------------------------------------ General purpose
-
-anyhow = "1.0.75"
-log = "0.4"
-num-traits = "0.2.17"
-#scopeguard = "1.2.0"
-serde = { version = "1", features = ["derive"] }
-ron = "0.8.1"
-thiserror = "1.0.50"
-
-#------------------------------------------ Time
-
-chrono = { version = "0.4", features = ["serde"] }
-chrono-tz = "0.8.4"
-# tzfile = "0.1.3"
-# humantime = "2.1.0" # A parser and formatter for std::time::{Duration, SystemTime}
-
-#------------------------------------------ Graphics and UI
-
-glow = { version = "0.13", default-features = false }
-
-egui = { version = "=0.24.1", default-features = false }
-
-egui_glow = { version = "=0.24.1", default-features = false }
-
-eframe = { version = "=0.24.1", default-features = false, features = [
-    "accesskit",     # Make egui comptaible with screen readers
-    "default_fonts", # Embed the default egui fonts
-    "glow",          # Use the 'glow' rendering backend rather than 'wgpu'
-    "persistence",   # Persist app state (window positions, etc)
-] }
-
-# egui_extras = { version = "*", features = ["chrono", "datepicker"] }
-
-three-d-asset = { version = "0.6", default-features = false, features = [] } # "obj", "png", "http"
-
-three-d = { version = "=0.16.3", default-features = false }
-#three-d = { version = "=0.16.3", default-features = false, features = ["egui-gui"] }
-
-#image = { version = "0.24", features = ["jpeg", "png"] }
-
-#================================ dependencies (native app) ========================================
-
-[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-
-env_logger = "0.10"
-egui-winit = { version = "=0.24.1", default-features = false }
-
-#============================== dependencies (wasm32 web app) ======================================
-
-[target.'cfg(target_arch = "wasm32")'.dependencies]
-wasm-bindgen = "=0.2.89"
-wasm-bindgen-futures = "0.4"
-web-sys = "0.3"
-# features = [ "HtmlCanvasElement", "WebGl2RenderingContext", "Window"]
-
-#================================== dev-dependencies ===============================================
-
-[dev-dependencies]
-insta = { version = "1.34.0", features = ["ron"] }
 
 #=================================  profile settings ===============================================
 
