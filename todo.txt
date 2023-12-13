@@ -3,6 +3,7 @@ ref: https://github.com/emilk/egui/pull/3646
 ref: https://github.com/asny/three-d/issues/421
 ref: https://github.com/grovesNL/glow/issues/268
 
+split into workspace and packages
 frame counter
 ctrl+c on command line
 viewport
@@ -14,6 +15,8 @@ model-view matrix
 projection matrix
 vertex shader
 fragment shader
+camera motion and navigation
+split general framework parts
 
 cs transform stack
 cs transform - (t)  to 

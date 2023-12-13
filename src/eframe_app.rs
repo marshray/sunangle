@@ -198,7 +198,7 @@ impl SunangleApp {
     }
 
     fn central_panel(&mut self, ctx: &egui::Context) {
-        let central_panel_frame_settings = Frame::none().fill(egui::Color32::RED);
+        let central_panel_frame_settings = Frame::none().fill(egui::Color32::BLACK);
 
         let cp = egui::CentralPanel::default().frame(central_panel_frame_settings);
 
