@@ -3,6 +3,21 @@ resolver = "2"
 members = [
     "sunangle"
 ]
+default-members = [
+    "sunangle"
+]
+
+[workspace.package]
+edition = "2021"
+rust-version = "1.72"
+
+[workspace.dependencies]
+anyhow = "1.0.75"
+log = "0.4"
+num-traits = "0.2.17"
+serde = { version = "1", features = ["derive"] }
+ron = "0.8.1"
+thiserror = "1.0.50"
 
 #========================================== patches ================================================
 

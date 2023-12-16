@@ -121,9 +121,11 @@ impl eframe::App for SunangleApp {
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         debug!("Saving SunagleApp:\n{}", self.to_string(true));
 
-        info!("Saving...");
+        #[cfg(not(target_arch = "wasm32"))] info!("Saving...");
+
         eframe::set_value(storage, eframe::APP_KEY, self);
-        info!("saved.");
+
+        #[cfg(not(target_arch = "wasm32"))] info!("saved.");
     }
 }
 

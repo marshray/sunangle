@@ -5,8 +5,7 @@ authors = [
     "Marsh Ray <marshray@live.com>"
     # With thanks to Emil Ernerfeldt for eframe and eframe_template!
 ]
-edition = "2021"
-rust-version = "1.72"
+edition.workspace = true
 
 #==================================== dependencies (all targets) ===================================
 
@@ -14,13 +13,12 @@ rust-version = "1.72"
 
 #------------------------------------------ General purpose
 
-anyhow = "1.0.75"
-log = "0.4"
-num-traits = "0.2.17"
-#scopeguard = "1.2.0"
-serde = { version = "1", features = ["derive"] }
-ron = "0.8.1"
-thiserror = "1.0.50"
+anyhow.workspace = true
+log.workspace = true
+num-traits.workspace = true
+serde.workspace = true
+ron.workspace = true
+thiserror.workspace = true
 
 #------------------------------------------ Time
 

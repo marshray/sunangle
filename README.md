@@ -15,6 +15,7 @@ or build it for the web and share it using Github Pages.
 
 ### Build and run locally as a native app
 
+#### Set up
 Make sure you are using the latest version of stable rust by running `rustup update`.
 
 On Linux you need to first run:
@@ -24,6 +25,21 @@ On Linux you need to first run:
 On Fedora Rawhide you need to run:
 
 `dnf install clang clang-devel clang-tools-extra libxkbcommon-devel pkg-config openssl-devel libxcb-devel gtk3-devel atk fontconfig-devel`
+
+#### Build
+From the top of your checkout (the directory containing this `README.md`):
+1. Clean
+   > `cargo clean; cargo clean --release`
+1. Run
+   > `cargo build`
+   or
+   > `cargo build --release`
+
+#### Run
+1. Run
+   > `cargo run`
+   or
+   > `cargo run --release`
 
 Then to run the app
 
@@ -39,19 +55,19 @@ Then to run the app
    > `cargo install --locked trunk`
 
 #### Build
-From the top of your checkout (the directory containing `src`):
+From the top of your checkout (the directory containing this `README.md`):
 1. Clean
    > `trunk clean`
 1. Some of the build steps are extremely verbose at `debug` or `trace` level,
 so reflect upon any value you may have set for the `RUST_LOG` environment variable.
    > `echo $RUST_LOG`
 1. Build
-   > `trunk build --release --public-url sunangle`
+   > `trunk build --release`
 
 #### Test locally
 1. **Build**, as described above.
 1. Serve the build results over `http` on `127.0.0.1:8080` at the path `/sunangle`:
-   > `trunk serve --release --public-url sunangle`
+   > `trunk serve --release`
    * Note: Trunk will watch for changes to project files and rebuild automatically.
 1. Navigate to [`http://127.0.0.1:8080/sunangle/index.html#dev`](
     http://127.0.0.1:8080/sunangle/index.html#dev) in a web browser.
@@ -76,19 +92,28 @@ https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages
 ## Source organization
 
 - `sunangle/`
-  - `Cargo.toml`
-  - `src/`
-    - `lib.rs` Defines module structure, re-exports `SunangleApp`.
-    - `main.rs` Program startup, `fn main()`
-    - `app.rs` The main application struct, `SunangleApp`.
-      - Implements the  [`eframe::App`](
-        https://docs.rs/eframe/latest/eframe/trait.App.html) trait.
-        - Local save state logic
-        - "Updates" the UI on every redraw
-    - `tai.rs` Type representing International Atomic Time, TAI
-    - `world_state.rs` A representation of the world, computed from a point in time
-    - `view_state.rs` A representation of the view, camera position, etc.
-  - `assets/` used in building the web app
+  - `Cargo.toml` The workspace
+  - `sunangle/` The `sunangle` package
+    - `Cargo.toml`
+    - `src/`
+      - `lib.rs` Defines module structure, re-exports `SunangleApp`.
+      - `main.rs` Program startup, `fn main()`
+      - `ui/` Egui-based ui
+      - `threed/` three_d based view
+      - `egui_app.rs` The main application struct, `SunangleApp`.
+        - Implements the  [`eframe::App`](
+          https://docs.rs/eframe/latest/eframe/trait.App.html) trait.
+          - Local save state logic
+          - "Updates" the UI on every redraw
+      - `tai.rs` Type representing International Atomic Time, TAI
+      - `world_state.rs` A representation of the world, computed from a point in time
+      - `view_state.rs` A representation of the view, camera position, etc.
+      - `time/` Some old code for time, mostly using `chrono` instead
+    - `Trunk.toml` Configures `trunk` build system for WASM
+    - `www/`
+      - `index.html` Main web page, but also controls `trunk` build
+      - `assets/` used in building the web app
+  - `rust-toolchain` Specifies what components are needed from `rustup`
 
 ## Learning about egui
 

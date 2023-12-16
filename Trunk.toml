@@ -1,1 +1,9 @@
 [build]
+target = "www/index.html"
+dist = "../dist"
+public_url = "/sunangle/"
+
+# Watch functionality on Windows fixed in 0.18.0 https://github.com/trunk-rs/trunk/issues/597
+[watch]
+watch = [ ".." ]
+ignore = [ "target" ]

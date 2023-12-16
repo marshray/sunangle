@@ -8,19 +8,23 @@
 <head>
     <title>Sunangle</title>
 
-    <!-- config for our rust wasm binary. go to https://trunkrs.dev/assets/#rust for more customization -->
-    <link data-trunk rel="rust" data-wasm-opt="2" />
-    <!-- this is the base url relative to which other urls will be constructed. trunk will insert this from the public-url option -->
+    <!-- Config for our Rust WASM binary. See https://trunkrs.dev/assets/#rust for more
+        customization -->
+    <link data-trunk rel="rust" data-wasm-opt="2" href="../sunangle" data-bin="sunangle" />
+
+    <!-- Write the URL passed to --public-url (or specified in Trunk.toml [build]public_url) to the
+        HTML output. This will be accessible at runtime using document.baseURI, useful for apps that
+        need to know the base URL on which they're hosted (e.g. for routing). -->
     <base data-trunk-public-url />
 
     <link data-trunk rel="icon" href="assets/favicon.ico">
 
-    <link data-trunk rel="copy-file" href="assets/sw.js" />
-    <link data-trunk rel="copy-file" href="assets/manifest.json" />
-    <link data-trunk rel="copy-file" href="assets/icon-1024.png" />
-    <link data-trunk rel="copy-file" href="assets/icon-256.png" />
     <link data-trunk rel="copy-file" href="assets/icon_ios_touch_192.png" />
+    <link data-trunk rel="copy-file" href="assets/icon-256.png" />
+    <link data-trunk rel="copy-file" href="assets/icon-1024.png" />
+    <link data-trunk rel="copy-file" href="assets/manifest.json" />
     <link data-trunk rel="copy-file" href="assets/maskable_icon_x512.png" />
+    <link data-trunk rel="copy-file" href="assets/sw.js" />
 
 
     <link rel="manifest" href="manifest.json">
@@ -112,7 +116,6 @@
                 transform: rotate(360deg);
             }
         }
-
     </style>
 </head>
 

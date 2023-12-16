@@ -24,7 +24,6 @@ use std::borrow::Cow;
 //? use serde::{Deserialize, Serialize};
 
 use egui::{Context, Ui};
-
 pub trait ShowableEguiWindow {
     fn name(&self) -> Cow<'_, str>;
 

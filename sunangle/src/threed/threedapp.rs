@@ -172,22 +172,25 @@ impl ThreeDApp {
                 let r = 0.0;
                 let g = 0.5 + pos.z;
                 let b = 0.0;
+                */
 
                 /*
                 // -1.0 <= RGB <= 1.0
                 let r = r * 2.0 - 1.0;
                 let g = g * 2.0 - 1.0;
                 let b = b * 2.0 - 1.0;
+                */
 
                 let p = 0.2;
                 let t = g;
                 let g = 2.0 * (t / p - (0.5 + t / p).floor());
                 let g = (1.0 + g) / 2.0;
-                */
+                /*
                 //let r = r * invert_z;
                 //let g = g * invert_x;
                 //let b = b * invert_y;
                 */
+                
                 let r = ((r * 256.0) as u8).min(255);
                 let g = ((g * 256.0) as u8).min(255);
                 let b = ((b * 256.0) as u8).min(255);
