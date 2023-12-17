@@ -13,7 +13,7 @@
     <link data-trunk rel="rust" data-wasm-opt="2" href="../sunangle" data-bin="sunangle" />
 
     <!-- Write the URL passed to --public-url (or specified in Trunk.toml [build]public_url) to the
-        HTML output. This will be accessible at runtime using document.baseURI, useful for apps that
+        HTML output. This will be accessible at runtime using document.baseURI for apps that
         need to know the base URL on which they're hosted (e.g. for routing). -->
     <base data-trunk-public-url />
 
@@ -121,11 +121,11 @@
 
 <body>
     <!-- The WASM code will resize the canvas dynamically -->
-    <!-- the id is hardcoded in main.rs . so, make sure both match. -->
-    <canvas id="the_canvas_id"></canvas>
+    <!-- Make sure this canvas id matches the value in main.rs. -->
+    <canvas id="sunangle_canvas_id"></canvas>
 
-    <!--Register Service Worker. this will cache the wasm / js scripts for offline use (for PWA functionality). -->
-    <!-- Force refresh (Ctrl + F5) to load the latest files instead of cached files  -->
+    <!-- Register a service worker to cache the wasm/js scripts for offline use (for PWA functionality). -->
+    <!-- Force refresh (Ctrl + F5) to load the latest files instead of cached files.  -->
     <script>
         // We disable caching during development so that we always view the latest version.
         if ('serviceWorker' in navigator && window.location.hash !== "#dev") {

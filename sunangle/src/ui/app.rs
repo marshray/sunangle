@@ -11,10 +11,12 @@
 #![allow(unused_imports)] //? TODO for development
 #![allow(non_snake_case)] //? TODO for development
 #![allow(clippy::new_without_default)] //? TODO for development
+#![allow(clippy::redundant_closure)] //? TODO for development
 #![allow(clippy::too_many_arguments)]
 
 use std::borrow::Cow;
-use std::sync::Arc;
+use std::rc::Rc;
+use std::sync::{Arc, RwLock};
 
 use anyhow::{anyhow, bail, ensure, Context, Result};
 use egui::{epaint, Align, Frame, Hyperlink, Layout, Ui};
@@ -24,36 +26,45 @@ use serde::{self, Deserialize, Serialize};
 use chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime, SecondsFormat, TimeZone, Utc};
 
 use crate::tai::DateTimeTai;
+use crate::ui;
 use crate::ui::showable::ShowableEguiWindow;
-use crate::ui::time_ctrl_window::TimeCtrlWindow;
-use crate::view_state::ViewState;
-use crate::world_state::WorldState;
+use crate::view_state::{AnimationState, ViewState};
+use crate::world_state::{TimeState, WorldState};
 
 /// We derive Deserialize/Serialize so we can persist app state on shutdown.
 #[derive(Deserialize, Serialize)]
 #[serde(default)]
 pub struct SunangleApp {
     current_time_checkbx: bool,
-    #[serde(skip)]
-    opt_current_time_window: Option<TimeCtrlWindow>,
+    animation_checkbx: bool,
 
+    #[serde(skip)]
+    opt_current_time_ctrl_window: Option<ui::CurrentTimeCtrlWindow>,
+
+    #[serde(skip)]
+    opt_animation_ctrl_window: Option<ui::AnimationCtrlWindow>,
+
+    arcrwl_animation_state: Arc<RwLock<AnimationState>>,
+    arcrwl_world_state: Arc<RwLock<WorldState>>,
     //next_frame_number: u64,
-    #[serde(skip)]
-    utc_text_edit: String,
+    //#[serde(skip)]
 
-    tai: DateTimeTai,
+    //? TODO: world_state::TimeState
+    //tai: DateTimeTai,
 }
 
 impl Default for SunangleApp {
     fn default() -> Self {
         Self {
             current_time_checkbx: true,
-            opt_current_time_window: None,
-
+            animation_checkbx: true,
+            opt_current_time_ctrl_window: None,
+            opt_animation_ctrl_window: None,
+            arcrwl_animation_state: Arc::new(RwLock::new(AnimationState::default())),
+            arcrwl_world_state: Arc::new(RwLock::new(WorldState::default())),
             //next_frame_number: 0,
-            utc_text_edit: String::new(),
 
-            tai: WorldState::default_tai(),
+            //tai: TimeState::default_tai(),
         }
     }
 }
@@ -99,10 +110,6 @@ impl SunangleApp {
         }
         .unwrap_or_default()
     }
-
-    pub fn tai(&self) -> DateTimeTai {
-        self.tai
-    }
 }
 
 impl eframe::App for SunangleApp {
@@ -115,52 +122,42 @@ impl eframe::App for SunangleApp {
         if let Err(e) = self.update_impl(ctx, eframe_frame) {
             error!("eframe::App::update error {e}");
         }
+
+        self.consider_requesting_new_frame(ctx);
     }
 
     /// Called occasionally, and before shutdown, to persist state.
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         debug!("Saving SunagleApp:\n{}", self.to_string(true));
 
-        #[cfg(not(target_arch = "wasm32"))] info!("Saving...");
+        #[cfg(not(target_arch = "wasm32"))]
+        info!("Saving...");
 
         eframe::set_value(storage, eframe::APP_KEY, self);
 
-        #[cfg(not(target_arch = "wasm32"))] info!("saved.");
+        #[cfg(not(target_arch = "wasm32"))]
+        info!("saved.");
     }
 }
 
 impl SunangleApp {
     fn update_impl(&mut self, ctx: &egui::Context, eframe_frame: &mut eframe::Frame) -> Result<()> {
-        // Update the time
-
-        /* if let Some(Some(())) = self
-            .opt_current_time_window
-            .as_mut()
-            .map(TimeCtrlWindow::take_utc_to_tai_click)
-        {
-            debug!("utc_to_tai_clicked");
-        } */
-
-        if let Some(tai) = self
-            .opt_current_time_window
-            .as_mut()
-            .and_then(|ctw| ctw.take_updated_tai(self.tai))
-        {
-            debug!("updated tai");
-            self.tai = tai;
-        }
-
-        //let world_state = WorldState::world_at_tai(self.tai);
-        //let view_state = ViewState::new();
-
-        // Now do all the egui UI stuff.
-
         self.top_panel(ctx);
         self.central_panel(ctx);
 
         if self.current_time_checkbx {
-            self.opt_current_time_window
-                .get_or_insert_with(|| TimeCtrlWindow::new(self.tai))
+            self.opt_current_time_ctrl_window
+                .get_or_insert_with(|| {
+                    ui::CurrentTimeCtrlWindow::new(self.arcrwl_world_state.clone())
+                })
+                .show(ctx);
+        }
+
+        if self.animation_checkbx {
+            self.opt_animation_ctrl_window
+                .get_or_insert_with(|| {
+                    ui::AnimationCtrlWindow::new(self.arcrwl_animation_state.clone())
+                })
                 .show(ctx);
         }
 
@@ -169,33 +166,33 @@ impl SunangleApp {
 
     fn top_panel(&mut self, ctx: &egui::Context) {
         let tp = egui::TopBottomPanel::top("top_panel");
-
         tp.show(ctx, |ui| self.top_panel_add_contents(ui));
     }
 
     fn top_panel_add_contents(&mut self, ui: &mut Ui) {
         ui.heading("Sunangle");
 
-        /*
-            egui::menu::bar(ui, |ui| {
-                #[cfg(not(target_arch = "wasm32"))] // no File->Quit on web pages!
-                {
-                    ui.menu_button("File", |ui| {
-                        if ui.button("Quit").clicked() {
-                            //eframe_frame.close();
-                            error!("I don't know how to quit (eframe::Frame removed the close method)");
-                        }
-                    });
-                    ui.add_space(16.0);
-                }
+        // /*
+        egui::menu::bar(ui, |ui| {
+            #[cfg(not(target_arch = "wasm32"))] // no File->Quit on web pages!
+            {
+                ui.menu_button("File", |ui| {
+                    if ui.button("Quit").clicked() {
+                        //eframe_frame.close();
+                        error!("I don't know how to quit (eframe::Frame removed the close method)");
+                    }
+                });
+                ui.add_space(16.0);
+            }
 
-                egui::widgets::global_dark_light_mode_buttons(ui);
-            });
-        */
+            egui::widgets::global_dark_light_mode_buttons(ui);
+        });
+        // */
 
         ui.horizontal(|ui| {
             ui.label("Controls:");
             ui.checkbox(&mut self.current_time_checkbx, "Time");
+            ui.checkbox(&mut self.animation_checkbx, "Animation");
         });
     }
 
@@ -208,15 +205,11 @@ impl SunangleApp {
     }
 
     fn central_panel_add_contents(&mut self, ui: &mut Ui) {
-        /*
-        // let mut datepicker_value = default_date();
-        // ui.add(DatePickerButton::new(&mut datepicker_value));
-        //ui.add(DatePickerButton::new(&mut self.datepicker_value));
-        //ui.separator();
-        //ui.label(format!("UTC: {utc}"));
-         */
-
-        ui.code(&self.tai.to_string());
+        let tai = {
+            let world_state_guard = self.arcrwl_world_state.read().unwrap();
+            world_state_guard.time.tai
+        };
+        ui.code(tai.to_string());
 
         ui.with_layout(Layout::left_to_right(egui::Align::BOTTOM), |ui| {
             ui.horizontal(|ui| {
@@ -244,13 +237,26 @@ impl SunangleApp {
 
     // Request a callback to paint the central panel using `threedapp`.
     fn central_panel_set_up_paint_callback(&mut self, ui: &mut Ui) {
+        let arcrwl_animation_state = self.arcrwl_animation_state.clone();
+        let arcrwl_world_state = self.arcrwl_world_state.clone();
+
         let egui_glow_callbackfn = egui_glow::CallbackFn::new(
-            |paint_callback_info: epaint::PaintCallbackInfo,
-             egui_glow_painter: &egui_glow::Painter| {
+            move |paint_callback_info: epaint::PaintCallbackInfo,
+                  egui_glow_painter: &egui_glow::Painter| {
                 let glow_context = egui_glow_painter.gl();
+                let arcrwl_animation_state = arcrwl_animation_state.clone();
+                let arcrwl_world_state = arcrwl_world_state.clone();
 
                 crate::threed::threedapp::with_three_d_app(glow_context, move |threedapp| {
-                    threedapp.paint_callback(&paint_callback_info, egui_glow_painter)
+                    let arcrwl_animation_state = arcrwl_animation_state.clone();
+                    let arcrwl_world_state = arcrwl_world_state.clone();
+
+                    threedapp.paint_callback(
+                        &paint_callback_info,
+                        egui_glow_painter,
+                        arcrwl_animation_state,
+                        arcrwl_world_state,
+                    )
                 });
             },
         );
@@ -266,5 +272,20 @@ impl SunangleApp {
 
         let shape = egui::Shape::Callback(paint_callback);
         painter.add(shape);
+    }
+
+    fn consider_requesting_new_frame(&mut self, ctx: &egui::Context) {
+        let is_animating = {
+            let ani_state = self.arcrwl_animation_state.read().unwrap();
+            ani_state.is_animating()
+        };
+
+        if is_animating {
+            const MAX_FRAMERATE: f64 = 60.0;
+            const MIN_FRAMEDURATION: f64 = 1.0 / MAX_FRAMERATE;
+            //? TODO: we should take into account how long the current frame took to draw and subtract that
+            // from MAX_FRAMERATE.
+            ctx.request_repaint_after(std::time::Duration::from_secs_f64(MIN_FRAMEDURATION));
+        }
     }
 }

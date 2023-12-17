@@ -21,12 +21,12 @@
 //? use serde::{Deserialize, Serialize};
 #![warn(clippy::all, rust_2018_idioms)]
 
-mod eframe_app;
-pub use eframe_app::SunangleApp;
-
+mod geometry;
 mod tai;
 mod threed;
 mod time;
 mod ui;
 mod view_state;
 mod world_state;
+
+pub use ui::app::SunangleApp;

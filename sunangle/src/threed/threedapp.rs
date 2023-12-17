@@ -18,7 +18,7 @@
 use std::any::Any;
 use std::cell::RefCell;
 use std::rc::Rc;
-use std::sync::Arc;
+use std::sync::{Arc, RwLock};
 
 use anyhow::{anyhow, bail, ensure, Result};
 use log::{debug, error, info, trace, warn};
@@ -36,9 +36,8 @@ use three_d::{
 };
 use three_d_asset::{Matrix4, PbrMaterial};
 
-use crate::eframe_app::SunangleApp;
 use crate::tai::DateTimeTai;
-use crate::view_state::ViewState;
+use crate::view_state::{AnimationState, ViewState};
 use crate::world_state::WorldState;
 
 pub fn with_three_d_app<R>(
@@ -71,8 +70,7 @@ where
 pub struct ThreeDApp {
     core_context: three_d::core::Context,
     camera: Camera,
-    //model: Gm<Mesh, ColorMaterial>,
-    //model: Box<dyn ObjectGeometry>,
+    opt_object_triangle: Option<Gm<Mesh, ColorMaterial>>,
     opt_gm_mesh_color: Option<Gm<Mesh, ColorMaterial>>,
     opt_gm_mesh_phys: Option<Gm<Mesh, PhysicalMaterial>>,
     triangle_rotate: Deg<f32>,
@@ -87,24 +85,47 @@ impl ThreeDApp {
 
         let core_context = three_d::core::Context::from_gl_context(arc_glow_context).unwrap();
 
+        let viewport = Viewport::new_at_origo(1, 1);
+
+        let camera_pos_x = 0.0;
+        let camera_pos_y = 0.0;
+        let camera_pos_z = -4.0;
+
+        let camera_tgt_x = 0.0;
+        let camera_tgt_y = 0.0;
+        let camera_tgt_z = 0.0;
+
+        //? TODO: is this a unit orientation vector, or relative to camera pos?
+        let up_x = 0.0;
+        let up_y = 1.0;
+        let up_z = 0.0;
+
+        // Near and far clipping planes. Must be nonnegative.
+        let z_near = 0.1;
+        //let z_far = f32::MAX / 1000.0; // practically forever
+        let z_far = 100.0;
+
+        // Field of view.
+        let fov_y = degrees(40.0);
+
         let camera = Camera::new_perspective(
-            Viewport::new_at_origo(1, 1), //x ????
-            vec3(0.0, 0.0, 2.0),          //x ????
-            vec3(0.0, 0.0, 0.0),          //x ????
-            vec3(0.0, 1.0, 0.0),          //x ????
-            degrees(45.0),                //x ????
-            0.1,
-            10.0,
+            viewport,
+            vec3(camera_pos_x, camera_pos_y, camera_pos_z),
+            vec3(camera_tgt_x, camera_tgt_y, camera_tgt_z),
+            vec3(up_x, up_y, up_z),
+            fov_y,
+            z_near,
+            z_far,
         );
 
-        //let model = Self::make_basic_triangle_model(&core_context);
-
+        let opt_object_triangle = Some(Self::make_basic_triangle_model(&core_context));
         let opt_gm_mesh_color = Some(Self::make_sphere_model(&core_context));
         let opt_gm_mesh_phys = Some(Self::make_opaque_model(&core_context));
 
         Self {
             core_context,
             camera,
+            opt_object_triangle,
             opt_gm_mesh_color,
             opt_gm_mesh_phys,
             triangle_rotate: degrees(123.0),
@@ -147,9 +168,9 @@ impl ThreeDApp {
 
             for (v_ix, pos) in ps.iter().enumerate() {
                 // 0.0 <= RGB <= 1.0
-                let r = 0.5 + pos.x;
+                let r = 0.5 + pos.y;
                 let g = 0.5 + pos.y;
-                let b = 0.5 + pos.z;
+                let b = 0.5 + pos.y;
 
                 if !(0.0..=1.0).contains(&r) {
                     error!("r = {r}");
@@ -181,16 +202,21 @@ impl ThreeDApp {
                 let b = b * 2.0 - 1.0;
                 */
 
+                //let r = r/4.0;
+
+                /*
                 let p = 0.2;
                 let t = g;
                 let g = 2.0 * (t / p - (0.5 + t / p).floor());
                 let g = (1.0 + g) / 2.0;
+                // */
+
                 /*
                 //let r = r * invert_z;
                 //let g = g * invert_x;
                 //let b = b * invert_y;
-                */
-                
+                 */
+
                 let r = ((r * 256.0) as u8).min(255);
                 let g = ((g * 256.0) as u8).min(255);
                 let b = ((b * 256.0) as u8).min(255);
@@ -351,7 +377,10 @@ impl ThreeDApp {
         &mut self,
         paint_callback_info: &epaint::PaintCallbackInfo,
         egui_glow_painter: &egui_glow::Painter,
-    ) -> Option<glow::Framebuffer> {
+        arcrwl_animation_state: Arc<RwLock<AnimationState>>,
+        arcrwl_world_state: Arc<RwLock<WorldState>>,
+    ) // -> Option<glow::Framebuffer>
+    {
         //? TODO why?
         // Disable sRGB textures for three-d
         #[cfg(not(target_arch = "wasm32"))]
@@ -361,7 +390,7 @@ impl ThreeDApp {
         }
 
         let tri_rot_y = self.triangle_rotate;
-        trace!("threedapp.paint_cb: triangle_rotate: {tri_rot_y:?}");
+        //trace!("threedapp.paint_cb: triangle_rotate: {tri_rot_y:?}");
 
         self.triangle_rotate += degrees(1.0);
 
@@ -382,17 +411,29 @@ impl ThreeDApp {
 
         let scissor_box = Self::scissor_box_from_paint_info(paint_callback_info);
 
-        if let Some(gm_mesh_color) = self.opt_gm_mesh_color.as_mut() {
-            gm_mesh_color.set_transformation(Mat4::from_angle_y(tri_rot_y));
+        // Clear depth 1.0 is the far plane.
+        //render_target.clear_partially(scissor_box, ClearState::depth(1.0));
+        render_target.clear(ClearState::depth(1.0));
 
-            render_target
-                // Clear the color and depth of the screen render target //x ????
-                .clear_partially(scissor_box, ClearState::depth(1.0))
-                // Render the triangle with the color material which uses the per vertex colors defined at construction //x ????
-                .render_partially(scissor_box, &self.camera, [&gm_mesh_color], &[]);
+        // /*
+        if let Some(object) = self.opt_object_triangle.as_mut() {
+            object.set_transformation(Mat4::from_angle_y(tri_rot_y));
+
+            render_target.render_partially(scissor_box, &self.camera, [&object], &[]);
         }
+        // */
+
+        // /*
+        if let Some(object) = self.opt_gm_mesh_color.as_mut() {
+            object.set_transformation(Mat4::from_angle_y(tri_rot_y));
+
+            render_target.render_partially(scissor_box, &self.camera, [&object], &[]);
+        }
+        // */
+        
+        //render_target.clear(ClearState::depth(1.0));
 
         // Take back the screen fbo, we will continue to use it.
-        render_target.into_framebuffer()
+        //render_target.into_framebuffer() //? TODO use this
     }
 }

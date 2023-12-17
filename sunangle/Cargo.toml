@@ -20,6 +20,10 @@ serde.workspace = true
 ron.workspace = true
 thiserror.workspace = true
 
+#------------------------------------------ Defined in this workspace
+
+coordinate-systems.workspace = true
+
 #------------------------------------------ Time
 
 chrono = { version = "0.4", features = ["serde"] }

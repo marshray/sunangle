@@ -39,6 +39,11 @@ impl DateTimeTai {
     }
 
     #[must_use]
+    pub fn now() -> Self {
+        Self::from(Utc::now())
+    }
+
+    #[must_use]
     pub fn to_utc(self) -> DateTime<Utc> {
         Into::into(self)
     }
