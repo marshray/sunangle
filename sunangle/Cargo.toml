@@ -23,6 +23,7 @@ thiserror.workspace = true
 #------------------------------------------ Defined in this workspace
 
 coordinate-systems.workspace = true
+video.workspace = true
 
 #------------------------------------------ Time
 

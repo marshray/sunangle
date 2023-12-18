@@ -16,19 +16,36 @@
 #![allow(clippy::too_many_arguments)]
 
 //? use std::any::Any;
-//? use std::borrow::Cow;
-//? use std::fmt::Display;
+use std::borrow::Cow;
+//? use std::fmt::{Debug, Display};
 //? use std::ops::RangeInclusive;
 //? use std::sync::Arc;
 
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
 //? use log::{debug, error, info, trace, warn};
-//? use serde::{Deserialize, Serialize};
+//? use once_cell::sync::Lazy;
+use serde::{Deserialize, Serialize};
 
 use crate::*;
 
-pub trait CartesianCoordinateSystem: CoordinateSystem { }
+#[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Deserialize, Serialize)]
+pub struct VideoFormat {
+    /// Name.
+    pub name: Cow<'static, str>,
 
-pub trait CartesianCoordinateSystemD<const D: usize>:
-    CoordinateSystemD<D> + CartesianCoordinateSystem
-{ }
+    /// Resolution.
+    pub resolution: VideoResolution,
+    
+    /// Frame rate.
+    pub frame_rate: FrameRate,
+}
+/*
+pub const VIDEO_FORMAT_1080p30: VideoFormat = VideoFormat { name: "1080p30".into(), resolution: VIDEO_RESOLUTION_1080p, frame_rate: FrameRate { num: 30, den: 1 } };
+
+pub const COMMMON_VIDEO_FORMATS: [VideoFormat] = [
+    VIDEO_FORMAT_1080p30,
+    VideoFormat { name: "1080p60".into(), resolution: VIDEO_RESOLUTION_1080p, frame_rate: FrameRate { num: 60, den: 1 } },
+];
+*/
+//? TODO: tests

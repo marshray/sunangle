@@ -1829,6 +1829,7 @@ dependencies = [
  "autocfg",
  "num-integer",
  "num-traits",
+ "serde",
 ]
 
 [[package]]
@@ -2553,6 +2554,7 @@ dependencies = [
  "thiserror",
  "three-d",
  "three-d-asset",
+ "video",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
@@ -2780,6 +2782,19 @@ name = "version_check"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
+
+[[package]]
+name = "video"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "insta",
+ "num-integer",
+ "num-rational",
+ "num-traits",
+ "once_cell",
+ "serde",
+]
 
 [[package]]
 name = "waker-fn"

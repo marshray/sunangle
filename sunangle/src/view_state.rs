@@ -20,6 +20,7 @@
 //? use std::fmt::Display;
 //? use std::ops::RangeInclusive;
 //? use std::sync::Arc;
+use std::time::Instant;
 
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
 //? use log::{debug, error, info, trace, warn};
@@ -29,7 +30,36 @@ use crate::tai::DateTimeTai;
 use crate::ui::animation_ctrl_window;
 use crate::world_state::TimeState;
 
-//======================================================================== animation
+//======================================================================== timebase and animation
+
+/* #[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct EpochAndElapsed {
+    epoch_tai: DateTimeTai,
+
+    #[serde(skip)]
+    opt_instant: Option<Instant>,
+} */
+
+#[derive(Debug, Default, Clone, Deserialize, Serialize)]
+pub enum AnimationTimebase {
+    #[default]
+    SystemClock,
+    
+    Fixed {
+        tai: DateTimeTai
+    },
+
+    EpochAndElapsed {
+        epoch_tai: DateTimeTai,
+    
+        #[serde(skip)]
+        opt_instant: Option<Instant>,
+    },
+
+    Video {
+        timebase: video::Timebase
+    },
+}
 
 #[derive(Debug, Default, Clone, Copy, Deserialize, Serialize)]
 pub enum AnimationStateEn {
@@ -38,15 +68,6 @@ pub enum AnimationStateEn {
     Play,
     Rewind,
     FF,
-}
-
-#[derive(Debug, Default, Clone, Copy, Deserialize, Serialize)]
-pub enum AnimationTimeSrc {
-    #[default]
-    ClockNow,
-    Fixed(DateTimeTai),
-    EpochAndElapsedClock(DateTimeTai, f64),
-    //Frame(f64),
 }
 
 #[derive(Debug, Clone, Copy, Deserialize, Serialize)]

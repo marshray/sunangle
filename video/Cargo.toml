@@ -1,0 +1,21 @@
+[package]
+name = "video"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+num-integer.workspace = true
+num-rational.workspace = true
+num-traits.workspace = true
+once_cell.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+anyhow.workspace = true
+insta.workspace = true
+
+#[package.metadata.docs.rs]
+#features = []
+#rustdoc-args = ["--generate-link-to-definition"]

@@ -17,18 +17,26 @@
 
 //? use std::any::Any;
 //? use std::borrow::Cow;
-//? use std::fmt::Display;
+//? use std::fmt::{Debug, Display};
 //? use std::ops::RangeInclusive;
 //? use std::sync::Arc;
 
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
 //? use log::{debug, error, info, trace, warn};
+//? use once_cell::sync::Lazy;
 //? use serde::{Deserialize, Serialize};
 
-use crate::*;
+mod format;
+pub use crate::format::VideoFormat;
 
-pub trait CartesianCoordinateSystem: CoordinateSystem { }
+mod frame_rate;
+pub use crate::frame_rate::FrameRate;
 
-pub trait CartesianCoordinateSystemD<const D: usize>:
-    CoordinateSystemD<D> + CartesianCoordinateSystem
-{ }
+mod resolution;
+pub use crate::resolution::VideoResolution;
+
+mod timebase;
+pub use crate::timebase::Timebase;
+
+mod timecode;
+pub use crate::timecode::{TimecodeKind, Timecode};

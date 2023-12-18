@@ -3,10 +3,12 @@ resolver = "2"
 members = [
     "sunangle",
     "coordinate-systems",
+    "video",
 ]
 default-members = [
     "sunangle",
     "coordinate-systems",
+    "video",
 ]
 
 [workspace.package]
@@ -14,14 +16,21 @@ edition = "2021"
 rust-version = "1.72"
 
 [workspace.dependencies]
+
+#--- crates defined in the workspace
+coordinate-systems = { path = "./coordinate-systems" }
+video = { path = "./video" }
+
+#--- common dependencies
 anyhow = "1.0.75"
 insta = { version = "1.34.0", features = ["glob", "redactions", "ron"] }
 log = "0.4"
-num-traits = "0.2.17"
+num-integer = { version = "0.1.45", features = [] }
+num-rational = { version = "0.4.1", default-features = false, features = ["serde", "std"] }
+num-traits = { version = "0.2.17", features = [] }
 once_cell = "1.19.0"
 serde = { version = "1", features = ["derive"] }
 ron = "0.8.1"
-coordinate-systems = { path = "./coordinate-systems" }
 
 #--- keep these synced with whatever the `three-d` crate is using
 thiserror = "1"

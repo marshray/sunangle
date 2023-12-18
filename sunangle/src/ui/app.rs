@@ -170,9 +170,7 @@ impl SunangleApp {
     }
 
     fn top_panel_add_contents(&mut self, ui: &mut Ui) {
-        ui.heading("Sunangle");
-
-        // /*
+        /*
         egui::menu::bar(ui, |ui| {
             #[cfg(not(target_arch = "wasm32"))] // no File->Quit on web pages!
             {
@@ -182,14 +180,14 @@ impl SunangleApp {
                         error!("I don't know how to quit (eframe::Frame removed the close method)");
                     }
                 });
-                ui.add_space(16.0);
+                //ui.add_space(16.0);
             }
-
-            egui::widgets::global_dark_light_mode_buttons(ui);
         });
         // */
 
         ui.horizontal(|ui| {
+            ui.heading("Sunangle");
+            ui.add_space(16.0);
             ui.label("Controls:");
             ui.checkbox(&mut self.current_time_checkbx, "Time");
             ui.checkbox(&mut self.animation_checkbx, "Animation");
