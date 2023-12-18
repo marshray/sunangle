@@ -21,7 +21,6 @@
 //? use serde::{Deserialize, Serialize};
 #![warn(clippy::all, rust_2018_idioms)]
 
-mod geometry;
 mod tai;
 mod threed;
 mod time;
