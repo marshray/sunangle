@@ -23,19 +23,41 @@ use std::fmt::{Debug, Display};
 
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
 //? use log::{debug, error, info, trace, warn};
-//? use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 
 use crate::*;
 
-pub trait CoordinateSystem: Debug + Display {
-    /// Returns the name of the coordinate system.
-    fn name(&self) -> Cow<'_, str>;
-
-    /// Returns `true` iff the coordinate system is a [Cartesian coordinate system](https://en.wikipedia.org/wiki/Cartesian_coordinate_system)
-    /// of (positive) `D` dimension. I.e., there are `D` orthogonal axes.
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+pub enum CSStructure {
+    //? TODO is this needed?
+    ///[Euclidian space](https://en.wikipedia.org/wiki/Euclidean_space)
+    /// of positive dimension `D`.
     ///
     /// Perhaps it could implement [`cgmath::EuclideanSpace`](https://docs.rs/cgmath/latest/cgmath/trait.EuclideanSpace.html) trait.
-    fn cartesian(&self) -> bool;
+    Euclidian,
+
+    ///[Cartesian coordinate system](https://en.wikipedia.org/wiki/Cartesian_coordinate_system)
+    /// of positive dimension `D`. I.e., there are `D` orthogonal axes.
+    ///
+    /// Perhaps it could implement [`cgmath::EuclideanSpace`](https://docs.rs/cgmath/latest/cgmath/trait.EuclideanSpace.html) trait.
+    Cartesian,
+
+    /// Such as the Latitude, Longitude, Height (PLH) system of WGS 84.
+    Ellipsoid,
+}
+
+pub trait Name {
+    /// Returns the name of the coordinate system.
+    fn name(&self) -> &CowStaticStr;
+}
+
+pub trait Urls {
+    /// Returns access to the URLs describing the entity.
+    fn urls(&self) -> &dyn Deref<Target = [(CowStaticStr, CowStaticStr)]>;
+}
+
+pub trait CoordinateSystem: Name + Urls + Debug + Display {
+    fn cs_structure(&self) -> CSStructure;
 
     /// Returns the number of dimensions, i.e., coordinates needed to uniquely identify a point.
     fn cnt_dimensions(&self) -> usize;
@@ -48,14 +70,7 @@ pub trait CoordinateSystemD<const D: usize>: CoordinateSystem {
     /// The D-dimensional array type needed to represent a point.
     //type P = [u64; D];
 
-    /// The number of dimensions.
-    const D: usize = D;
-
-    /// The D-dimensional array representing the coordinate system origin.
-    //const ORIGIN: P = [0.0_f64; D];
-    const ORIGIN: [f64; D] = [0.0_f64; D];
-
     fn origin(&self) -> [f64; D] {
-        Self::ORIGIN
+        [0.0_f64; D]
     }
 }

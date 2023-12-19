@@ -23,20 +23,22 @@ use std::fmt::{Debug, DebugStruct, Display};
 
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
 //? use log::{debug, error, info, trace, warn};
+use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 
 use crate::*;
 
-/// The definition of a specific coordinate system.
+/// The definition of a specific Ellipsoid3.
+/// 
 #[derive(PartialEq, PartialOrd, Deserialize, Serialize)]
-pub struct SpecificCoordinateSystem<const D: usize> {
+pub struct SpecificEllipsoid3 {
     pub name: CowStaticStr,
     pub urls: Vec<(CowStaticStr, CowStaticStr)>,
     pub structure: CSStructure,
     pub dim_infos: Vec<DimensionInfo>,
 }
 
-impl<const D: usize> SpecificCoordinateSystem<D> {
+impl SpecificEllipsoid3 {
     pub fn debug_struct_fields<'a, 'b: 'a, 'd>(
         &self,
         debug_struct: &'d mut DebugStruct<'a, 'b>,
@@ -49,33 +51,33 @@ impl<const D: usize> SpecificCoordinateSystem<D> {
     }
 }
 
-impl<const D: usize> Display for SpecificCoordinateSystem<D> {
+impl Display for SpecificEllipsoid3 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let name = format!("SpecificCoordinateSystem<{D}>");
+        let name = format!("SpecificEllipsoid<{D}>");
         let mut debug_struct = f.debug_struct(&name);
         self.debug_struct_fields(&mut debug_struct).finish()
     }
 }
 
-impl<const D: usize> Debug for SpecificCoordinateSystem<D> {
+impl Debug for SpecificEllipsoid3 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         Display::fmt(self, f)
     }
 }
 
-impl<const D: usize> Name for SpecificCoordinateSystem<D> {
+impl Name for SpecificEllipsoid3 {
     fn name(&self) -> &CowStaticStr {
         self.name.into()
     }
 }
 
-impl<const D: usize> Urls for SpecificCoordinateSystem<D> {
+impl Urls for SpecificEllipsoid3 {
     fn urls(&self) -> &dyn Deref<Target = [(CowStaticStr, CowStaticStr)]> {
         &self.urls
     }
 }
 
-impl<const D: usize> CoordinateSystem for SpecificCoordinateSystem<D> {
+impl CoordinateSystem for SpecificEllipsoid3 {
     fn cs_structure(&self) -> CSStructure {
         self.structure
     }
@@ -94,4 +96,67 @@ impl<const D: usize> CoordinateSystem for SpecificCoordinateSystem<D> {
     }
 }
 
-impl<const D: usize> CoordinateSystemD<D> for SpecificCoordinateSystem<D> {}
+/// See [IOGP 373-7-2 Geomatics Guidance number 7, part 2](https://epsg.org/guidance-notes.html)
+/// for details on Ellipsoid3 calculations.
+#[derive(PartialEq, PartialOrd, Deserialize, Serialize)]
+pub struct SpecificEllipsoid3alCoordinateSystem {
+    pub scs: SpecificEllipsoid<3>,
+}
+
+impl SpecificEllipsoid3alCoordinateSystem {
+    pub const CNT_DIMENSIONS: usize = 3;
+
+    pub fn debug_struct_fields<'a, 'b: 'a, 'd>(
+        &self,
+        debug_struct: &'d mut DebugStruct<'a, 'b>,
+    ) -> &'d mut DebugStruct<'a, 'b> {
+        self.scs.debug_struct_fields(debug_struct)
+    }
+}
+
+impl Display for SpecificEllipsoid3alCoordinateSystem {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut debug_struct = f.debug_struct("SpecificEllipsoid3CoordinateSystem");
+        self.debug_struct_fields(&mut debug_struct).finish()
+    }
+}
+
+impl Debug for SpecificEllipsoid3alCoordinateSystem {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Display::fmt(self, f)
+    }
+}
+
+impl Name for SpecificEllipsoid3alCoordinateSystem {
+    fn name(&self) -> CowStaticStr {
+        self.name.into()
+    }
+}
+
+impl Urls for SpecificEllipsoid3alCoordinateSystem {
+    fn urls(&self) -> &dyn Deref<Target = [(CowStaticStr, CowStaticStr)]> {
+        &self.urls
+    }
+}
+
+impl CoordinateSystem for SpecificEllipsoid3alCoordinateSystem {
+    fn cs_structure(&self) -> CSStructure {
+        debug_assert_eq!(self.scs.cs_structure(), CSStructure::Cartesian);
+        CSStructure::Ellipsoid
+    }
+
+    fn cnt_dimensions(&self) -> usize {
+        Self::CNT_DIMENSIONS
+    }
+
+    fn dimension_info(&self, ix: usize) -> Option<&DimensionInfo> {
+        self.scs.dimension_info(ix)
+    }
+}
+
+impl CoordinateSystemD<3> for SpecificEllipsoid3alCoordinateSystem {}
+
+impl EllipsoidalCoordinateSystem for SpecificEllipsoid3alCoordinateSystem {}
+
+impl Ellipsoid3CoordinateSystem for SpecificEllipsoid3alCoordinateSystem {}
+

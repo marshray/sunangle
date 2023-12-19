@@ -30,12 +30,22 @@ use crate::*;
 /// Information about a Dimension of a [`CoordinateSystem`].
 #[derive(Debug, PartialEq, PartialOrd, Serialize)]
 pub struct DimensionInfo {
-    /// The conventional name for a variable representing a coordinate of this dimension. E.g. "x".
-    /// A single letter is preferred.
-    pub name: Cow<'static, str>,
+    /// The conventional name for this dimension.
+    /// E.g. "X" or "Latitude".
+    pub dim_name: CowStaticStr,
 
-    /// Inclusive min and exclusive max.
-    /// For example, an angular dimension expressed in radians may have bounds `(0.0, std::f64::consts::TAU)`
+    /// The conventional names for a variable representing a coordinate of this dimension.
+    /// E.g. "x" or "".
+    /// A single letter is preferred.
+    pub var_name: CowStaticStr,
+
+    /// Other names for a variable representing a coordinate of this dimension.
+    pub alt_names: Vec<CowStaticStr>,
+
+    /// Inclusive min and exclusive max for a cyclic quantity like an angle.
+    /// For example, an angular dimension expressed in degrees may have bounds such as:
+    /// - `(   0.0, 360.0)`, or
+    /// - `(-180.0, 180.0)`
     pub opt_cyclic_bounds: Option<(f64, f64)>,
 }
 

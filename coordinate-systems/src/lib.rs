@@ -27,49 +27,40 @@ use std::ops::Deref;
 use once_cell::sync::Lazy;
 //? use serde::{Deserialize, Serialize};
 
-mod dimension_info;
-pub use crate::dimension_info::DimensionInfo;
+pub type CowStr = Cow<'static, str>;
 
-mod coordinate_system;
-pub use crate::coordinate_system::{CoordinateSystem, CoordinateSystemD};
-
+/*
 mod cartesian_coordinate_system;
 pub use crate::cartesian_coordinate_system::{
     CartesianCoordinateSystem, CartesianCoordinateSystemD,
 };
 
-mod specific_coordinate_system;
-pub use crate::specific_coordinate_system::SpecificCoordinateSystem;
+mod coordinate_system;
+pub use crate::coordinate_system::{CoordinateSystem, CoordinateSystemD, CSStructure, Name, Urls};
+
+mod datum;
+pub use crate::datum::{Datum, DynamicDatum};
+
+mod dimension_info;
+pub use crate::dimension_info::DimensionInfo;
+
+mod ellipsoidal_coordinate_system;
+pub use crate::ellipsoidal_coordinate_system::{
+    EllipsoidalCoordinateSystem, Ellipsoidal3CoordinateSystem
+};
 
 mod specific_cartesian_coordinate_system;
 pub use crate::specific_cartesian_coordinate_system::SpecificCartesianCoordinateSystem;
 
-mod generic_systems;
-pub use crate::generic_systems::{XY, XYZ};
+mod specific_coordinate_system;
+pub use crate::specific_coordinate_system::SpecificCoordinateSystem;
 
-pub static COORDINATE_SYSTEMS: Lazy<Vec<&'static (dyn CoordinateSystem + Send + Sync)>> =
-    Lazy::new(|| vec![XY.deref(), XYZ.deref()]);
+mod specific_datum;
+pub use crate::specific_datum::SpecificDatum;
 
-#[cfg(test)]
-#[allow(non_snake_case)]
-mod t {
-    use super::*;
-    use anyhow::{anyhow, bail, ensure, Context, Result};
-    use insta::assert_ron_snapshot;
+mod specific_ellipsoidal_coordinate_system;
+pub use crate::specific_ellipsoidal_coordinate_system::SpecificEllipsoid3alCoordinateSystem;
 
-    #[test]
-    fn t() -> anyhow::Result<()> {
-        let coordinate_systems = COORDINATE_SYSTEMS.deref();
-        let coordinate_system_names = coordinate_systems
-            .iter()
-            .map(|&cs| cs.name())
-            .collect::<Vec<_>>();
-        assert_ron_snapshot!(coordinate_system_names, @r###"
-        [
-          "XY",
-          "XYZ",
-        ]
-        "###);
-        Ok(())
-    }
-}
+mod predefined;
+pub use predefined::*;
+*/

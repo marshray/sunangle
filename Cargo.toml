@@ -4,11 +4,13 @@ members = [
     "sunangle",
     "coordinate-systems",
     "video",
+    "world-model",
 ]
 default-members = [
     "sunangle",
     "coordinate-systems",
     "video",
+    "world-model",
 ]
 
 [workspace.package]
@@ -20,6 +22,7 @@ rust-version = "1.72"
 #--- crates defined in the workspace
 coordinate-systems = { path = "./coordinate-systems" }
 video = { path = "./video" }
+world-model = { path = "./world-model" }
 
 #--- common dependencies
 anyhow = "1.0.75"

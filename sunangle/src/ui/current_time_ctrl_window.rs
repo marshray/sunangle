@@ -37,7 +37,7 @@ pub struct CurrentTimeCtrlWindow {
 }
 
 impl CurrentTimeCtrlWindow {
-    const NAME_STR: &str = "Time";
+    const NAME_STR: &'static str = "Time";
 
     pub fn new(arcrwl_world_state: Arc<RwLock<WorldState>>) -> CurrentTimeCtrlWindow {
         let tai = {

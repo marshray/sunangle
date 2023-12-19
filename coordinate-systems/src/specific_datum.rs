@@ -29,14 +29,13 @@ use crate::*;
 
 /// The definition of a specific coordinate system.
 #[derive(PartialEq, PartialOrd, Deserialize, Serialize)]
-pub struct SpecificCoordinateSystem<const D: usize> {
-    pub name: CowStaticStr,
-    pub urls: Vec<(CowStaticStr, CowStaticStr)>,
-    pub structure: CSStructure,
-    pub dim_infos: Vec<DimensionInfo>,
+pub struct SpecificDatum {
+    pub name: &'static str,
+    pub urls: Vec<(&'static str, &'static str)>,
+    pub opt_frame_reference_epoch: Option<CowStaticStr>,
 }
 
-impl<const D: usize> SpecificCoordinateSystem<D> {
+impl SpecificDatum {
     pub fn debug_struct_fields<'a, 'b: 'a, 'd>(
         &self,
         debug_struct: &'d mut DebugStruct<'a, 'b>,
@@ -44,54 +43,41 @@ impl<const D: usize> SpecificCoordinateSystem<D> {
         debug_struct
             .field("name", &self.name)
             .field("urls", &self.urls)
-            .field("structure", &self.CSStructure)
-            .field("dim_infos", &self.dim_infos)
+            .field("opt_frame_reference_epoch", &self.opt_frame_reference_epoch)
     }
 }
 
-impl<const D: usize> Display for SpecificCoordinateSystem<D> {
+impl Display for SpecificDatum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let name = format!("SpecificCoordinateSystem<{D}>");
-        let mut debug_struct = f.debug_struct(&name);
+        let mut debug_struct = f.debug_struct("SpecificDatum");
         self.debug_struct_fields(&mut debug_struct).finish()
     }
 }
 
-impl<const D: usize> Debug for SpecificCoordinateSystem<D> {
+impl Debug for SpecificDatum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         Display::fmt(self, f)
     }
+
 }
 
-impl<const D: usize> Name for SpecificCoordinateSystem<D> {
-    fn name(&self) -> &CowStaticStr {
+impl Name for SpecificDatum {
+    fn name(&self) -> CowStaticStr {
         self.name.into()
     }
 }
 
-impl<const D: usize> Urls for SpecificCoordinateSystem<D> {
+impl Urls for SpecificDatum {
     fn urls(&self) -> &dyn Deref<Target = [(CowStaticStr, CowStaticStr)]> {
         &self.urls
     }
 }
 
-impl<const D: usize> CoordinateSystem for SpecificCoordinateSystem<D> {
-    fn cs_structure(&self) -> CSStructure {
-        self.structure
-    }
-
-    fn cnt_dimensions(&self) -> usize {
-        D
-    }
-
-    fn dimension_info(&self, ix: usize) -> Option<&DimensionInfo> {
-        assert_eq!(self.dim_infos.len(), D);
-        if ix < D {
-            Some(&self.dim_infos[ix])
-        } else {
-            None
-        }
-    }
+impl Datum for SpecificDatum {
 }
 
-impl<const D: usize> CoordinateSystemD<D> for SpecificCoordinateSystem<D> {}
+impl DynamicDatum for SpecificDatum {
+    fn frame_reference_epoch(&self) -> CowStaticStr {
+        &self.opt_frame_reference_epoch.unwrap_or_default()
+    }
+}

@@ -25,11 +25,11 @@ use std::fmt::{Debug, DebugStruct, Display};
 //? use log::{debug, error, info, trace, warn};
 use serde::{Deserialize, Serialize};
 
-use crate::*;
+use crate::{*, coordinate_system::CSStructure};
 
 /// The definition of a specific Cartesian coordinate system.
 
-#[derive(PartialEq, PartialOrd, Serialize)]
+#[derive(PartialEq, PartialOrd, Deserialize, Serialize)]
 pub struct SpecificCartesianCoordinateSystem<const D: usize> {
     pub scs: SpecificCoordinateSystem<D>,
 }
@@ -57,13 +57,22 @@ impl<const D: usize> Debug for SpecificCartesianCoordinateSystem<D> {
     }
 }
 
-impl<const D: usize> CoordinateSystem for SpecificCartesianCoordinateSystem<D> {
-    fn name(&self) -> Cow<'_, str> {
+impl<const D: usize> Name for SpecificCartesianCoordinateSystem<D> {
+    fn name(&self) -> &CowStaticStr {
         self.scs.name()
     }
+}
 
-    fn cartesian(&self) -> bool {
-        true
+impl<const D: usize> Urls for SpecificCartesianCoordinateSystem<D> {
+    fn urls(&self) -> &dyn Deref<Target = [(CowStaticStr, CowStaticStr)]> {
+        self.scs.urls()
+    }
+}
+
+impl<const D: usize> CoordinateSystem for SpecificCartesianCoordinateSystem<D> {
+    fn cs_structure(&self) -> CSStructure {
+        debug_assert_eq!(self.scs.cs_structure(), CSStructure::Cartesian);
+        CSStructure::Cartesian
     }
 
     fn cnt_dimensions(&self) -> usize {

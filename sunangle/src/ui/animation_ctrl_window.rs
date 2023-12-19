@@ -34,7 +34,7 @@ pub struct AnimationCtrlWindow {
 }
 
 impl AnimationCtrlWindow {
-    const NAME_STR: &str = "Animation";
+    const NAME_STR: &'static str = "Animation";
 
     pub fn new(arcrwl_animation_state: Arc<RwLock<AnimationState>>) -> AnimationCtrlWindow {
         AnimationCtrlWindow {
