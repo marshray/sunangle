@@ -47,7 +47,7 @@ pub enum CSStructure {
 }
 
 pub trait Name {
-    /// Returns the name of the coordinate system.
+    /// Returns the name of the entity.
     fn name(&self) -> &CowStaticStr;
 }
 
