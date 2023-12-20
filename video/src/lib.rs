@@ -39,4 +39,4 @@ mod timebase;
 pub use crate::timebase::Timebase;
 
 mod timecode;
-pub use crate::timecode::{TimecodeKind, Timecode};
+pub use crate::timecode::{Timecode, TimecodeKind};

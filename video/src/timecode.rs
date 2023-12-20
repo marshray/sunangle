@@ -92,14 +92,20 @@ pub enum SmpteMaybeDroppedTimecode {
 }
 
 impl Timecode {
-    pub fn next_including_dropped(mut self) -> SmpteMaybeDroppedTimecode {        
+    pub fn next_including_dropped(mut self) -> SmpteMaybeDroppedTimecode {
         use SmpteMaybeDroppedTimecode::*;
 
-        assert!(*self.kind.frame_rate.ratio().denom() == 1, "TODO support dropped timecode properly");
-        assert!(!self.kind.drop_smpte, "TODO properly support dropped timecode");
+        assert!(
+            *self.kind.frame_rate.ratio().denom() == 1,
+            "TODO support dropped timecode properly"
+        );
+        assert!(
+            !self.kind.drop_smpte,
+            "TODO properly support dropped timecode"
+        );
 
         let fps = self.kind.frame_rate.fps_floor();
-        
+
         self.ff += 1;
         if fps <= self.ff {
             self.ff = 0;

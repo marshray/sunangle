@@ -45,8 +45,7 @@ impl TimebaseSpec {
     }
 } */
 
-#[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-#[derive(Deserialize, Serialize)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct Timebase {
     next_timecode: Timecode,
     //timebase_spec: TimebaseSpec,
@@ -64,7 +63,10 @@ impl Timebase {
     }
 
     pub fn set_next(&mut self, timecode: &Timecode) -> Result<()> {
-        ensure!(self.timecode_kind() == timecode.kind(), "TimecodeKind mismatch");
+        ensure!(
+            self.timecode_kind() == timecode.kind(),
+            "TimecodeKind mismatch"
+        );
         self.next_timecode = *timecode;
         Ok(())
     }

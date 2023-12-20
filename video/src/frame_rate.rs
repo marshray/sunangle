@@ -29,12 +29,11 @@ use num_rational::Ratio;
 use serde::{Deserialize, Serialize};
 
 /// Frames per some number of seconds.
-/// 
+///
 /// The [`Ratio`] type likes to reduce fractions, but maybe there could theoretically be cases
 /// where the un-reduced fraction could be significant.
-/// 
-#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord)]
-#[derive(Deserialize, Serialize)]
+///
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct FrameRate([u16; 2], Ratio<u16>);
 
 impl FrameRate {
@@ -51,10 +50,14 @@ impl FrameRate {
     }
 
     /// The not-reduced numerator.
-    pub const fn frames(&self) -> u16 { self.0[0] }
-    
+    pub const fn frames(&self) -> u16 {
+        self.0[0]
+    }
+
     /// The not-reduced denominator.
-    pub const fn seconds(&self) -> u16 { self.0[1] }
+    pub const fn seconds(&self) -> u16 {
+        self.0[1]
+    }
 
     /// The ratio, possibly reduced.
     pub const fn ratio(&self) -> Ratio<u16> {
@@ -63,7 +66,7 @@ impl FrameRate {
 
     /// floor(frames per second)
     pub const fn fps_floor(&self) -> u16 {
-        self.0[0]/self.0[1]
+        self.0[0] / self.0[1]
     }
 
     /// ceil(frames per second)

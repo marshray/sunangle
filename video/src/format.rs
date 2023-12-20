@@ -28,15 +28,14 @@ use serde::{Deserialize, Serialize};
 
 use crate::*;
 
-#[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord)]
-#[derive(Deserialize, Serialize)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct VideoFormat {
     /// Name.
     pub name: Cow<'static, str>,
 
     /// Resolution.
     pub resolution: VideoResolution,
-    
+
     /// Frame rate.
     pub frame_rate: FrameRate,
 }

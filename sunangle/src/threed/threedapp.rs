@@ -422,7 +422,6 @@ impl ThreeDApp {
             render_target.render_partially(scissor_box, &self.camera, [&object], &[]);
         }
         // */
-
         // /*
         if let Some(object) = self.opt_gm_mesh_color.as_mut() {
             object.set_transformation(Mat4::from_angle_y(tri_rot_y));
@@ -430,7 +429,7 @@ impl ThreeDApp {
             render_target.render_partially(scissor_box, &self.camera, [&object], &[]);
         }
         // */
-        
+
         //render_target.clear(ClearState::depth(1.0));
 
         // Take back the screen fbo, we will continue to use it.

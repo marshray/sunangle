@@ -44,20 +44,20 @@ pub struct EpochAndElapsed {
 pub enum AnimationTimebase {
     #[default]
     SystemClock,
-    
+
     Fixed {
-        tai: DateTimeTai
+        tai: DateTimeTai,
     },
 
     EpochAndElapsed {
         epoch_tai: DateTimeTai,
-    
+
         #[serde(skip)]
         opt_instant: Option<Instant>,
     },
 
     Video {
-        timebase: video::Timebase
+        timebase: video::Timebase,
     },
 }
 
