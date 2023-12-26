@@ -86,8 +86,29 @@ mod t {
 
     #[test]
     fn t() -> anyhow::Result<()> {
-        assert_ron_snapshot!(*VIDEO_RESOLUTION_720, @"");
-        assert_ron_snapshot!(*VIDEO_RESOLUTION_1080, @"");
+        assert_ron_snapshot!(*VIDEO_RESOLUTION_720, @r###"
+        VideoResolution(
+          names: [
+            "720",
+            "1280x720",
+            "HD",
+            "WXGA",
+          ],
+          dims_px: (1280, 720),
+          pixel_aspect: (1, 1),
+        )
+        "###);
+        assert_ron_snapshot!(*VIDEO_RESOLUTION_1080, @r###"
+        VideoResolution(
+          names: [
+            "1080",
+            "1920x1080",
+            "Full HD",
+          ],
+          dims_px: (1920, 1080),
+          pixel_aspect: (1, 1),
+        )
+        "###);
         Ok(())
     }
 }

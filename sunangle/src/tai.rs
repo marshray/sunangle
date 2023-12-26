@@ -20,7 +20,7 @@ use anyhow::{anyhow, bail, ensure, Context, Result};
 use log::{debug, error, info, trace, warn};
 use serde::{Deserialize, Serialize};
 
-use chrono::{DateTime, Duration, NaiveDateTime, TimeZone, Utc};
+use chrono::{DateTime, Duration, NaiveDate, NaiveDateTime, NaiveTime, TimeZone, Utc};
 
 #[derive(Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct DateTimeTai {
@@ -29,18 +29,18 @@ pub struct DateTimeTai {
 
 impl DateTimeTai {
     #[must_use]
+    pub fn now() -> Self {
+        Self::from(Utc::now())
+    }
+
+    #[must_use]
     pub fn from_utc(utc: DateTime<Utc>) -> Self {
         Self::from(utc)
     }
 
     #[must_use]
-    pub fn from_ndt_tai(ndt: NaiveDateTime) -> Self {
+    pub const fn from_ndt_tai(ndt: NaiveDateTime) -> Self {
         Self { ndt }
-    }
-
-    #[must_use]
-    pub fn now() -> Self {
-        Self::from(Utc::now())
     }
 
     #[must_use]
@@ -59,6 +59,22 @@ impl DateTimeTai {
     pub fn checked_sub_days(self, days: chrono::Days) -> Option<Self> {
         self.ndt.checked_sub_days(days).map(Self::from_ndt_tai)
     }
+
+    /// TAI at the start of the most recent 400-year Gregorian calendar (in UTC).
+    ///
+    /// Feb 29, 2000 should have been skipped by the 100-year rule, but it was not due to
+    /// the 400-year rule. So March 1, 2000 was the beginning of the next 400-year cycle.
+    ///
+    /// 22 leap seconds had been observed by this date.
+    /// 
+    pub const EPOCH_400: Self = if let (Some(nd), Some(nt)) = (
+        NaiveDate::from_ymd_opt(2000, 3, 1),
+        NaiveTime::from_hms_opt(0, 0, 22),
+    ) {
+        Self::from_ndt_tai(NaiveDateTime::new(nd, nt))
+    } else {
+        panic!()
+    };
 }
 
 impl std::fmt::Display for DateTimeTai {

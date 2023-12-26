@@ -32,14 +32,27 @@
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumProperty, EnumString};
 
-#[cfg(test)]
-#[allow(non_snake_case)]
-mod t {
-    use super::*;
-    use insta::assert_ron_snapshot;
+//! This crate is intended to be useful for anything involving space- or time-axis coordinate
+//! systems.
+//! 
+//! Some parts are inspired by formal specifications for GIS data, and may even reference them,
+//! but does not attempt conformance to any documented standards.
+//! 
+//! For example,
+//! - Open Geospatial Consortium
+//!   - [Well-known text representation of coordinate reference systems](https://www.ogc.org/standard/wkt-crs/)
+//!     - [18-010r11 v2.1.11](https://docs.ogc.org/is/18-010r11/18-010r11.pdf)
+//!     - [18-010r7 v2.0.6](https://docs.ogc.org/is/18-010r7/18-010r7.html)
+//! 
+//! However, it is not an OO design. The types in this crate are intended to be used with an
+//! entity component system (ECS).
 
-    #[test]
-    fn t() {
-        //assert_ron_snapshot!(, @"");
-    }
-}
+mod core;
+#[cfg(test)]
+mod core_test;
+
+//mod cs;
+//mod geom;
+//mod datum;
+//mod crs;
+

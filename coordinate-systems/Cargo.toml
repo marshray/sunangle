@@ -9,7 +9,9 @@ derive_more = { version = "1.0.0-beta.6", default-features = false, features = [
 once_cell.workspace = true
 serde.workspace = true
 hecs = { version = "0.10.4", features = ["macros", "column-serialize", "row-serialize"] }
-strum = { strum = "0.25.0", features = ["derive"] }
+hecs-macros = "0.10.0"
+
+#strum = { strum = "0.25.0", features = ["derive"] }
 
 [dev-dependencies]
 anyhow.workspace = true

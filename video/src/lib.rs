@@ -30,7 +30,13 @@ mod format;
 pub use crate::format::VideoFormat;
 
 mod frame_rate;
-pub use crate::frame_rate::FrameRate;
+#[rustfmt::skip]
+pub use crate::frame_rate::{FrameRate,
+    FRAMERATE_15_FPS,
+    FRAMERATE_30_FPS,
+    FRAMERATE_60_FPS,
+    COMMMON_FRAMERATES,    
+};
 
 mod resolution;
 pub use crate::resolution::VideoResolution;
@@ -39,4 +45,13 @@ mod timebase;
 pub use crate::timebase::Timebase;
 
 mod timecode;
-pub use crate::timecode::{Timecode, TimecodeKind};
+pub use crate::timecode::Timecode;
+
+mod timecode_kind;
+pub use crate::timecode_kind::{
+    TimecodeKind,
+    TIMECODEKIND_15_FPS,
+    TIMECODEKIND_30_FPS,
+    TIMECODEKIND_60_FPS,
+    COMMMON_TIMECODEKINDS,
+};

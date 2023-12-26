@@ -26,6 +26,7 @@ use serde::{self, Deserialize, Serialize};
 use chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime, SecondsFormat, TimeZone, Utc};
 
 use crate::tai::DateTimeTai;
+use crate::draw_frame_info::DrawFrameInfo;
 use crate::ui;
 use crate::ui::showable::ShowableEguiWindow;
 use crate::view_state::{AnimationState, ViewState};
@@ -35,6 +36,13 @@ use crate::world_state::{TimeState, WorldState};
 #[derive(Deserialize, Serialize)]
 #[serde(default)]
 pub struct SunangleApp {
+    /// Ephemeral Frame stuff.
+    
+    #[serde(skip)]
+    draw_frame_info: DrawFrameInfo,
+
+    /// UI stuff
+
     current_time_checkbx: bool,
     animation_checkbx: bool,
 
@@ -56,6 +64,7 @@ pub struct SunangleApp {
 impl Default for SunangleApp {
     fn default() -> Self {
         Self {
+            draw_frame_info: DrawFrameInfo::new(),
             current_time_checkbx: true,
             animation_checkbx: true,
             opt_current_time_ctrl_window: None,
@@ -115,15 +124,19 @@ impl SunangleApp {
 impl eframe::App for SunangleApp {
     /// Called each time the UI needs repainting, which may be many times per second.
     fn update(&mut self, ctx: &egui::Context, eframe_frame: &mut eframe::Frame) {
-        // The "next" frame begins.
-        //let frame_number = self.next_frame_number;
-        //self.next_frame_number += 1;
+        if let Err(e) = self.draw_frame_info.start_ui_update(ctx.frame_nr()) {
+            error!("eframe::App::update error start_ui_update {e}");
+        }
 
         if let Err(e) = self.update_impl(ctx, eframe_frame) {
             error!("eframe::App::update error {e}");
         }
 
         self.consider_requesting_new_frame(ctx);
+
+        if let Err(e) = self.draw_frame_info.finish_ui_update() {
+            error!("eframe::App::update error finish_ui_update {e}");
+        }
     }
 
     /// Called occasionally, and before shutdown, to persist state.
@@ -245,10 +258,12 @@ impl SunangleApp {
                 let arcrwl_animation_state = arcrwl_animation_state.clone();
                 let arcrwl_world_state = arcrwl_world_state.clone();
 
+                //self.draw_frame_info.start_paint();
+                
                 crate::threed::threedapp::with_three_d_app(glow_context, move |threedapp| {
                     let arcrwl_animation_state = arcrwl_animation_state.clone();
                     let arcrwl_world_state = arcrwl_world_state.clone();
-
+                    
                     threedapp.paint_callback(
                         &paint_callback_info,
                         egui_glow_painter,
@@ -256,6 +271,8 @@ impl SunangleApp {
                         arcrwl_world_state,
                     )
                 });
+
+                //self.draw_frame_info.finish_paint();
             },
         );
 

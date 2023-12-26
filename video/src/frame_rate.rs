@@ -21,11 +21,11 @@
 //? use std::ops::RangeInclusive;
 //? use std::sync::Arc;
 
-//? use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{anyhow, bail, ensure, Context, Result};
 //? use log::{debug, error, info, trace, warn};
 use num_integer::Integer;
 use num_rational::Ratio;
-//? use once_cell::sync::Lazy;
+use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 
 /// Frames per some number of seconds.
@@ -37,15 +37,20 @@ use serde::{Deserialize, Serialize};
 pub struct FrameRate([u16; 2], Ratio<u16>);
 
 impl FrameRate {
+    /// Attempts to create a new [`FrameRate`] for an integer frames-per-second.
+    pub fn try_new_fps(fps: u16) -> Result<Self> {
+        Self::try_new(fps, 1)
+    }
+
     /// Attempts to create a new [`FrameRate`].
     /// Both parameters accept any numbers except for `0`.
-    pub fn try_new(frames: u16, seconds: u16) -> Option<Self> {
+    pub fn try_new(frames: u16, seconds: u16) -> Result<Self> {
         if frames == 0 || seconds == 0 {
-            None
+            Err(anyhow!("Frames and seconds must be nonzero."))
         } else {
             let pr = [frames, seconds];
             let r = Into::<(u16, u16)>::into(pr).into(); // reduces
-            Some(FrameRate(pr, r))
+            Ok(FrameRate(pr, r))
         }
     }
 
@@ -79,4 +84,69 @@ impl FrameRate {
     }
 }
 
-//? TODO: tests
+pub static FRAMERATE_15_FPS: Lazy<FrameRate> = Lazy::new(|| FrameRate::try_new_fps(15).unwrap());
+pub static FRAMERATE_29_97_FPS: Lazy<FrameRate> =
+    Lazy::new(|| FrameRate::try_new(30000, 1001).unwrap());
+pub static FRAMERATE_30_FPS: Lazy<FrameRate> = Lazy::new(|| FrameRate::try_new_fps(30).unwrap());
+pub static FRAMERATE_59_94_FPS: Lazy<FrameRate> =
+    Lazy::new(|| FrameRate::try_new(60000, 1001).unwrap());
+pub static FRAMERATE_60_FPS: Lazy<FrameRate> = Lazy::new(|| FrameRate::try_new_fps(60).unwrap());
+
+#[rustfmt::skip]
+pub static COMMMON_FRAMERATES: Lazy<Vec<&FrameRate>> = Lazy::new(|| vec![
+    &FRAMERATE_15_FPS,
+    &FRAMERATE_30_FPS,
+    &FRAMERATE_60_FPS,
+]);
+
+#[cfg(test)]
+#[allow(non_snake_case)]
+mod t {
+    use super::*;
+    use anyhow::{anyhow, bail, ensure, Context, Result};
+    use insta::assert_ron_snapshot;
+
+    #[test]
+    fn t() {
+        assert_ron_snapshot!(*COMMMON_FRAMERATES, @r###"
+        [
+          FrameRate((15, 1), (15, 1)),
+          FrameRate((30, 1), (30, 1)),
+          FrameRate((60, 1), (60, 1)),
+        ]
+        "###);
+    }
+
+    #[test]
+    fn t2997() -> anyhow::Result<()> {
+        let fr = *FRAMERATE_29_97_FPS;
+        assert_ron_snapshot!(fr.frames(), @"30000");
+        assert_ron_snapshot!(fr.seconds(), @"1001");
+        assert_ron_snapshot!(fr.ratio(), @"(30000, 1001)");
+        assert_ron_snapshot!(fr.fps_floor(), @"29");
+        assert_ron_snapshot!(fr.fps_ceil(), @"30");
+        Ok(())
+    }
+
+    #[test]
+    fn t5994() -> anyhow::Result<()> {
+        let fr = *FRAMERATE_59_94_FPS;
+        assert_ron_snapshot!(fr.frames(), @"60000");
+        assert_ron_snapshot!(fr.seconds(), @"1001");
+        assert_ron_snapshot!(fr.ratio(), @"(60000, 1001)");
+        assert_ron_snapshot!(fr.fps_floor(), @"59");
+        assert_ron_snapshot!(fr.fps_ceil(), @"60");
+        Ok(())
+    }
+
+    #[test]
+    fn t_reducible() -> anyhow::Result<()> {
+        let fr = FrameRate::try_new(60, 2)?;
+        assert_ron_snapshot!(fr.frames(), @"60");
+        assert_ron_snapshot!(fr.seconds(), @"2");
+        assert_ron_snapshot!(fr.ratio(), @"(30, 1)");
+        assert_ron_snapshot!(fr.fps_floor(), @"30");
+        assert_ron_snapshot!(fr.fps_ceil(), @"30");
+        Ok(())
+    }
+}

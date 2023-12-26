@@ -38,31 +38,18 @@ pub struct TimeState {
 impl Default for TimeState {
     fn default() -> Self {
         TimeState {
-            tai: Self::default_tai(),
+            tai: DateTimeTai::EPOCH_400,
         }
     }
 }
 
 impl TimeState {
-    pub fn default_date() -> NaiveDate {
-        NaiveDate::from_ymd_opt(2000, 3, 1).unwrap()
-    }
-
-    pub fn default_utc() -> DateTime<chrono::Utc> {
-        Self::default_date()
-            .and_hms_opt(0, 0, 0)
-            .unwrap()
-            .and_local_timezone(Utc)
-            .unwrap()
-    }
-
-    pub fn default_tai() -> DateTimeTai {
-        Self::default_utc().into()
-    }
-
-    pub fn new(opt_tai: Option<DateTimeTai>) -> TimeState {
-        let tai = opt_tai.unwrap_or_else(Self::default_tai);
-        TimeState { tai }
+    pub fn new(opt_tai: Option<DateTimeTai>) -> Self {
+        let mut self_ = Self::default();
+        if let Some(tai) = opt_tai {
+            self_.tai = tai
+        }
+        self_
     }
 }
 

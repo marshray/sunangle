@@ -37,14 +37,14 @@ pub struct VideoFormat {
     pub resolution: VideoResolution,
 
     /// Frame rate.
-    pub frame_rate: FrameRate,
+    pub framerate: FrameRate,
 }
 /*
-pub const VIDEO_FORMAT_1080p30: VideoFormat = VideoFormat { name: "1080p30".into(), resolution: VIDEO_RESOLUTION_1080p, frame_rate: FrameRate { num: 30, den: 1 } };
+pub const VIDEO_FORMAT_1080p30: VideoFormat = VideoFormat { name: "1080p30".into(), resolution: VIDEO_RESOLUTION_1080p, framerate: FrameRate { num: 30, den: 1 } };
 
 pub const COMMMON_VIDEO_FORMATS: [VideoFormat] = [
     VIDEO_FORMAT_1080p30,
-    VideoFormat { name: "1080p60".into(), resolution: VIDEO_RESOLUTION_1080p, frame_rate: FrameRate { num: 60, den: 1 } },
+    VideoFormat { name: "1080p60".into(), resolution: VIDEO_RESOLUTION_1080p, framerate: FrameRate { num: 60, den: 1 } },
 ];
 */
 //? TODO: tests

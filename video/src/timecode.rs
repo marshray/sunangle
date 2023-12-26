@@ -17,57 +17,33 @@
 
 //? use std::any::Any;
 //? use std::borrow::Cow;
-//? use std::fmt::{Debug, Display};
+use std::fmt::{Debug, Display};
 //? use std::ops::RangeInclusive;
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
+//? use derive_more::Display;
 //? use log::{debug, error, info, trace, warn};
+//? use num_enum::{IntoPrimitive, TryFromPrimitive};
+//? use num_integer::Integer;
 //? use num_rational::Ratio;
-//? use num_traits::identities::Zero;
-//? use once_cell::sync::Lazy;
+//? use num_traits::{NumCast, ToPrimitive, Zero};
+use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
+//? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
 use crate::*;
 
-#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
-pub struct TimecodeKind {
-    frame_rate: FrameRate,
-    drop_smpte: bool,
-}
-
-impl TimecodeKind {
-    pub fn new(frame_rate: &FrameRate) -> TimecodeKind {
-        TimecodeKind {
-            frame_rate: *frame_rate,
-            drop_smpte: false,
-        }
-    }
-
-    #[cfg(test)]
-    #[rustfmt::skip]
-    pub fn try_new(frame_rate: FrameRate, drop_smpte: bool) -> Option<TimecodeKind> {
-        match (drop_smpte, frame_rate.frames(), frame_rate.seconds()) {
-              (false,     _,    _)
-            | ( true, 30000, 1001)
-            | ( true, 60000, 1001) => Some(TimecodeKind { frame_rate, drop_smpte }),
-            _ => None,
-        }
-    }
-}
-
-#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
+#[derive(Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord, Deserialize, Serialize)]
 pub struct Timecode {
     kind: TimecodeKind,
     hh: u32,
     mm: u8,  // 0 - 59
     ss: u8,  // 0 - 59
-    ff: u16, // 0 < kind.frame_rate.fps_ceil()
+    ff: u16, // 0 < kind.framerate.fps_ceil()
 }
 
-//? TODO: Timecode Display
-//? TODO: Timecode Debug
 //? TODO: Timecode Parse, from string, etc
 
 impl Timecode {
@@ -86,6 +62,19 @@ impl Timecode {
     }
 }
 
+impl Display for Timecode {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:02}:{:02}:{:02}:{:02}", self.hh, self.mm, self.ss, self.ff)
+    }
+}
+
+impl Debug for Timecode {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}: ", self.kind)?;
+        Display::fmt(self, f)
+    }
+}
+
 pub enum SmpteMaybeDroppedTimecode {
     Dropped(Timecode),
     Framed(Timecode),
@@ -96,15 +85,15 @@ impl Timecode {
         use SmpteMaybeDroppedTimecode::*;
 
         assert!(
-            *self.kind.frame_rate.ratio().denom() == 1,
+            *self.kind.framerate().ratio().denom() == 1,
             "TODO support dropped timecode properly"
         );
         assert!(
-            !self.kind.drop_smpte,
+            !self.kind.drop_smpte(),
             "TODO properly support dropped timecode"
         );
 
-        let fps = self.kind.frame_rate.fps_floor();
+        let fps = self.kind.framerate().fps_floor();
 
         self.ff += 1;
         if fps <= self.ff {
@@ -139,5 +128,54 @@ impl Timecode {
                 }
             }
         }
+    }
+}
+
+#[cfg(test)]
+#[allow(non_snake_case)]
+mod t {
+    use super::*;
+    use insta::assert_ron_snapshot;
+
+    #[test]
+    fn t() -> anyhow::Result<()> {
+        let mut tc = Timecode::new(&TIMECODEKIND_15_FPS);
+        assert_ron_snapshot!(tc, @r###"
+        Timecode(
+          kind: TimecodeKind(
+            framerate: FrameRate((15, 1), (15, 1)),
+            drop_smpte: false,
+          ),
+          hh: 0,
+          mm: 0,
+          ss: 0,
+          ff: 0,
+        )
+        "###);
+        assert_ron_snapshot!(tc.to_string(), @r###""00:00:00:00""###);
+        
+        tc = tc.next();
+        assert_ron_snapshot!(tc.to_string(), @r###""00:00:00:01""###);
+        for _ in 0..13 { tc = tc.next(); }
+        assert_ron_snapshot!(tc.to_string(), @r###""00:00:00:14""###);
+        tc = tc.next();
+        assert_ron_snapshot!(tc.to_string(), @r###""00:00:01:00""###);
+
+        for _ in 0..(58*15 + 14) { tc = tc.next(); }
+        assert_ron_snapshot!(tc.to_string(), @r###""00:00:59:14""###);
+        tc = tc.next();
+        assert_ron_snapshot!(tc.to_string(), @r###""00:01:00:00""###);
+
+        for _ in 0..(58*60*15 + 59*15 + 14) { tc = tc.next(); }
+        assert_ron_snapshot!(tc.to_string(), @r###""00:59:59:14""###);
+        tc = tc.next();
+        assert_ron_snapshot!(tc.to_string(), @r###""01:00:00:00""###);
+
+        for _ in 0..(59*60*15 + 59*15 + 14) { tc = tc.next(); }
+        assert_ron_snapshot!(tc.to_string(), @r###""01:59:59:14""###);
+        tc = tc.next();
+        assert_ron_snapshot!(tc.to_string(), @r###""02:00:00:00""###);
+
+        Ok(())
     }
 }

@@ -61,6 +61,8 @@ pub enum AnimationTimebase {
     },
 }
 
+//======================================================================== animation and recording state
+
 #[derive(Debug, Default, Clone, Copy, Deserialize, Serialize)]
 pub enum AnimationStateEn {
     Paused,
