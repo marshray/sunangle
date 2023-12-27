@@ -37,12 +37,12 @@ use crate::world_state::{TimeState, WorldState};
 #[serde(default)]
 pub struct SunangleApp {
     // Ephemeral Frame stuff.
-
+    //
     #[serde(skip)]
     draw_frame_info: DrawFrameInfo,
 
     // UI stuff
-
+    //
     current_time_checkbx: bool,
     animation_checkbx: bool,
 
