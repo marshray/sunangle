@@ -64,7 +64,11 @@ impl Timecode {
 
 impl Display for Timecode {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:02}:{:02}:{:02}:{:02}", self.hh, self.mm, self.ss, self.ff)
+        write!(
+            f,
+            "{:02}:{:02}:{:02}:{:02}",
+            self.hh, self.mm, self.ss, self.ff
+        )
     }
 }
 
@@ -153,25 +157,33 @@ mod t {
         )
         "###);
         assert_ron_snapshot!(tc.to_string(), @r###""00:00:00:00""###);
-        
+
         tc = tc.next();
         assert_ron_snapshot!(tc.to_string(), @r###""00:00:00:01""###);
-        for _ in 0..13 { tc = tc.next(); }
+        for _ in 0..13 {
+            tc = tc.next();
+        }
         assert_ron_snapshot!(tc.to_string(), @r###""00:00:00:14""###);
         tc = tc.next();
         assert_ron_snapshot!(tc.to_string(), @r###""00:00:01:00""###);
 
-        for _ in 0..(58*15 + 14) { tc = tc.next(); }
+        for _ in 0..(58 * 15 + 14) {
+            tc = tc.next();
+        }
         assert_ron_snapshot!(tc.to_string(), @r###""00:00:59:14""###);
         tc = tc.next();
         assert_ron_snapshot!(tc.to_string(), @r###""00:01:00:00""###);
 
-        for _ in 0..(58*60*15 + 59*15 + 14) { tc = tc.next(); }
+        for _ in 0..(58 * 60 * 15 + 59 * 15 + 14) {
+            tc = tc.next();
+        }
         assert_ron_snapshot!(tc.to_string(), @r###""00:59:59:14""###);
         tc = tc.next();
         assert_ron_snapshot!(tc.to_string(), @r###""01:00:00:00""###);
 
-        for _ in 0..(59*60*15 + 59*15 + 14) { tc = tc.next(); }
+        for _ in 0..(59 * 60 * 15 + 59 * 15 + 14) {
+            tc = tc.next();
+        }
         assert_ron_snapshot!(tc.to_string(), @r###""01:59:59:14""###);
         tc = tc.next();
         assert_ron_snapshot!(tc.to_string(), @r###""02:00:00:00""###);

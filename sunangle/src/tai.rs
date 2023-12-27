@@ -66,7 +66,7 @@ impl DateTimeTai {
     /// the 400-year rule. So March 1, 2000 was the beginning of the next 400-year cycle.
     ///
     /// 22 leap seconds had been observed by this date.
-    /// 
+    ///
     pub const EPOCH_400: Self = if let (Some(nd), Some(nt)) = (
         NaiveDate::from_ymd_opt(2000, 3, 1),
         NaiveTime::from_hms_opt(0, 0, 22),

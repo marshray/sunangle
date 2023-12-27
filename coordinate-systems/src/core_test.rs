@@ -39,7 +39,7 @@ struct Name;
 
 /// todo check out https://docs.rs/mirror-mirror/latest/mirror_mirror/index.html
 
-//============================================== 
+//==============================================
 
 enum AngleUnit {
     Turn,
@@ -53,7 +53,7 @@ enum UnitLength {
     Meter,
 }
 
-//============================================== 
+//==============================================
 
 /// Note that this is limited range. It does not wrap.
 struct LatitudeDegree(f64);
@@ -62,11 +62,10 @@ impl LatitudeDegree {
     const MIN_INCLUSIVE: f64 = -90.0;
 
     /// The North Pole
-    const MAX_INCLUSIVE: f64 =  90.0;
+    const MAX_INCLUSIVE: f64 = 90.0;
 }
 
-impl LatitudeDegree {
-}
+impl LatitudeDegree {}
 
 /// Value naturally wraps.
 struct LongitudeDegree(f64);
@@ -76,16 +75,15 @@ impl LongitudeDegree {
 
     /// Allow the "anti-prime meridian (?)"
     const MAX_INCLUSIVE: f64 = 180.0;
-    
+
     /// Normalize the value to within the valid range.
     pub fn normalize(self) -> Self {
-        //? TODO: 
+        //? TODO:
         self
     }
 }
 
-impl LongitudeDegree {
-}
+impl LongitudeDegree {}
 
 //============================================== Time units
 /*
@@ -165,7 +163,7 @@ pub struct Usage {
 /// Must be at least one usage.
 pub struct Usages(Vec<Usage>);
 
-//============================================== 
+//==============================================
 
 
 pub struct ScopeExtentIdentifierRemark {
@@ -250,7 +248,7 @@ mod t {
         let datum = Datum {};
         let datum_en = world.spawn((123, true, "abc"));
 
-/* 
+/*
         let a = world.spawn((123, true, "abc"));
         {
             let er = EpsgEntityType::DatumEnsemble.entity_ref(4978);
@@ -270,7 +268,7 @@ mod t {
         }
  */
 
-        
+
         //assert_ron_snapshot!(, @"");
     }
 }

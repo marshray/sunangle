@@ -48,6 +48,7 @@ mod timecode;
 pub use crate::timecode::Timecode;
 
 mod timecode_kind;
+#[rustfmt::skip]
 pub use crate::timecode_kind::{
     TimecodeKind,
     TIMECODEKIND_15_FPS,

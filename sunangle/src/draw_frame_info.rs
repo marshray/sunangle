@@ -32,15 +32,17 @@ use num_enum::{IntoPrimitive, TryFromPrimitive};
 use num_traits::{NumCast, ToPrimitive};
 //? use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
-use strum::{self, EnumCount, EnumIter, EnumDiscriminants, EnumProperty, EnumString, FromRepr, IntoEnumIterator};
+use strum::{
+    self, EnumCount, EnumDiscriminants, EnumIter, EnumProperty, EnumString, FromRepr,
+    IntoEnumIterator,
+};
 
 use video::Timecode;
 
 use crate::tai::DateTimeTai;
 
 /// The state of a [`DrawFrameInfo`].
-#[derive(Debug, EnumIter, IntoPrimitive, EnumCount, TryFromPrimitive)]
-#[derive(Deserialize, Serialize)]
+#[derive(Debug, EnumIter, IntoPrimitive, EnumCount, TryFromPrimitive, Deserialize, Serialize)]
 #[repr(u8)]
 pub enum DrawFrameState {
     Initial,
@@ -51,12 +53,10 @@ pub enum DrawFrameState {
 }
 
 /// Infomation about the state of a frame to be drawn.
-#[derive(Debug)]
-#[derive(Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct DrawFrameInfo {
     v_state_entry_times: Vec<DateTimeTai>,
     //state_info: DrawFrameState,
-    
     opt_frame_nr: Option<u64>,
     opt_timecode: Option<Timecode>,
 }
@@ -98,8 +98,12 @@ impl DrawFrameInfo {
     }
 
     /// Gets the state entry times, or `None` for states that have not yet been entered.
-    pub fn state_entry_times_tai(&self, st: DrawFrameState) -> Vec::<(DrawFrameState, Option<DateTimeTai>)> {
-        DrawFrameState::iter().enumerate()
+    pub fn state_entry_times_tai(
+        &self,
+        st: DrawFrameState,
+    ) -> Vec<(DrawFrameState, Option<DateTimeTai>)> {
+        DrawFrameState::iter()
+            .enumerate()
             .map(|(ix, st)| (st, self.v_state_entry_times.get(ix).cloned()))
             .collect()
     }
@@ -125,7 +129,9 @@ impl DrawFrameInfo {
     }
 
     /// Returns the optional [`egui::frame_nr`].
-    pub fn opt_frame_nr(&self) -> Option<u64> { self.opt_frame_nr }
+    pub fn opt_frame_nr(&self) -> Option<u64> {
+        self.opt_frame_nr
+    }
 
     /// Returns the [`egui::frame_nr`], or `Err`.
     pub fn frame_nr(&self) -> Result<u64> {
@@ -144,7 +150,7 @@ impl DrawFrameInfo {
         self.opt_frame_nr = Some(frame_nr);
         self.v_state_entry_times.push(tai);
         debug_assert!(self.is_state(DrawFrameState::UiUpdateStarted));
-        
+
         Ok(())
     }
 

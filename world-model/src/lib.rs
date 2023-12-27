@@ -32,9 +32,6 @@
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumProperty, EnumString};
 
-
-
-
 #[cfg(test)]
 #[allow(non_snake_case)]
 mod t {

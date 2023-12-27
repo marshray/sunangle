@@ -25,8 +25,8 @@ use serde::{self, Deserialize, Serialize};
 
 use chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime, SecondsFormat, TimeZone, Utc};
 
-use crate::tai::DateTimeTai;
 use crate::draw_frame_info::DrawFrameInfo;
+use crate::tai::DateTimeTai;
 use crate::ui;
 use crate::ui::showable::ShowableEguiWindow;
 use crate::view_state::{AnimationState, ViewState};
@@ -36,12 +36,12 @@ use crate::world_state::{TimeState, WorldState};
 #[derive(Deserialize, Serialize)]
 #[serde(default)]
 pub struct SunangleApp {
-    /// Ephemeral Frame stuff.
-    
+    // Ephemeral Frame stuff.
+
     #[serde(skip)]
     draw_frame_info: DrawFrameInfo,
 
-    /// UI stuff
+    // UI stuff
 
     current_time_checkbx: bool,
     animation_checkbx: bool,
@@ -259,11 +259,11 @@ impl SunangleApp {
                 let arcrwl_world_state = arcrwl_world_state.clone();
 
                 //self.draw_frame_info.start_paint();
-                
+
                 crate::threed::threedapp::with_three_d_app(glow_context, move |threedapp| {
                     let arcrwl_animation_state = arcrwl_animation_state.clone();
                     let arcrwl_world_state = arcrwl_world_state.clone();
-                    
+
                     threedapp.paint_callback(
                         &paint_callback_info,
                         egui_glow_painter,

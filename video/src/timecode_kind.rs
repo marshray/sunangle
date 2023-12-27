@@ -62,15 +62,22 @@ impl TimecodeKind {
     }
 
     /// The [`FrameRate`].
-    pub fn framerate(&self) -> FrameRate { self.framerate }
+    pub fn framerate(&self) -> FrameRate {
+        self.framerate
+    }
 
     /// Indicates whether this is a SMPTE "drop frame" (more correctly "drop timecode") kind of timecode.
-    pub fn drop_smpte(&self) -> bool { self.drop_smpte }
+    pub fn drop_smpte(&self) -> bool {
+        self.drop_smpte
+    }
 }
 
-pub static TIMECODEKIND_15_FPS: Lazy<TimecodeKind> = Lazy::new(|| TimecodeKind::new(&FRAMERATE_15_FPS));
-pub static TIMECODEKIND_30_FPS: Lazy<TimecodeKind> = Lazy::new(|| TimecodeKind::new(&FRAMERATE_30_FPS));
-pub static TIMECODEKIND_60_FPS: Lazy<TimecodeKind> = Lazy::new(|| TimecodeKind::new(&FRAMERATE_60_FPS));
+pub static TIMECODEKIND_15_FPS: Lazy<TimecodeKind> =
+    Lazy::new(|| TimecodeKind::new(&FRAMERATE_15_FPS));
+pub static TIMECODEKIND_30_FPS: Lazy<TimecodeKind> =
+    Lazy::new(|| TimecodeKind::new(&FRAMERATE_30_FPS));
+pub static TIMECODEKIND_60_FPS: Lazy<TimecodeKind> =
+    Lazy::new(|| TimecodeKind::new(&FRAMERATE_60_FPS));
 
 #[rustfmt::skip]
 pub static COMMMON_TIMECODEKINDS: Lazy<Vec<&TimecodeKind>> = Lazy::new(|| vec![
