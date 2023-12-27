@@ -739,6 +739,7 @@ dependencies = [
  "hecs",
  "hecs-macros",
  "insta",
+ "num-rational",
  "once_cell",
  "serde",
 ]

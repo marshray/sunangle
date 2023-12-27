@@ -15,23 +15,6 @@
 #![allow(clippy::redundant_closure)] //? TODO for development
 #![allow(clippy::too_many_arguments)]
 
-//? use std::any::Any;
-//? use std::borrow::Cow;
-//? use std::fmt::{Debug, Display};
-//? use std::ops::RangeInclusive;
-//? use std::sync::Arc;
-//? use std::time::Instant;
-
-//? use anyhow::{anyhow, bail, ensure, Context, Result};
-//? use derive_more::Display;
-//? use log::{debug, error, info, trace, warn};
-//? use num_integer::Integer;
-//? use num_rational::Ratio;
-//? use num_traits::identities::Zero;
-//? use once_cell::sync::Lazy;
-//? use serde::{Deserialize, Serialize};
-//? use strum::{self, EnumProperty, EnumString};
-
 //! This crate is intended to be useful for anything involving space- or time-axis coordinate
 //! systems.
 //! 
@@ -47,12 +30,31 @@
 //! However, it is not an OO design. The types in this crate are intended to be used with an
 //! entity component system (ECS).
 
+//? use std::any::Any;
+use std::borrow::Cow;
+//? use std::fmt::{Debug, Display};
+//? use std::ops::RangeInclusive;
+//? use std::sync::Arc;
+//? use std::time::Instant;
+
+//? use anyhow::{anyhow, bail, ensure, Context, Result};
+//? use derive_more::Display;
+//? use log::{debug, error, info, trace, warn};
+//? use num_integer::Integer;
+//? use num_rational::Ratio;
+//? use num_traits::identities::Zero;
+//? use once_cell::sync::Lazy;
+//? use serde::{Deserialize, Serialize};
+//? use strum::{self, EnumProperty, EnumString};
+
+type CowStaticStr = Cow<'static, str>;
+
 mod core;
 #[cfg(test)]
 mod core_test;
 
 //mod cs;
-//mod geom;
+//mod geom; // Ellipsoid3Sphere, Ellipsoid3Oblate, Ellipsoid3Triaxial
 //mod datum;
 //mod crs;
 
