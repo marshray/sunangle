@@ -53,6 +53,8 @@ mod core;
 #[cfg(test)]
 mod core_test;
 
+mod core_ecs;
+
 //mod cs;
 //mod geom; // Ellipsoid3Sphere, Ellipsoid3Oblate, Ellipsoid3Triaxial
 //mod datum;

@@ -10,6 +10,7 @@ num-rational.workspace = true
 once_cell.workspace = true
 serde.workspace = true
 hecs = { version = "0.10.4", features = ["macros", "column-serialize", "row-serialize"] }
+#hecs-hierarchy = "0.11.7"
 hecs-macros = "0.10.0"
 
 #strum = { strum = "0.25.0", features = ["derive"] }
