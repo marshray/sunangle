@@ -15,23 +15,8 @@
 #![allow(clippy::redundant_closure)] //? TODO for development
 #![allow(clippy::too_many_arguments)]
 
-//! This crate is intended to be useful for anything involving space- or time-axis coordinate
-//! systems.
-//!
-//! Some parts are inspired by formal specifications for GIS data, and may even reference them,
-//! but does not attempt conformance to any documented standards.
-//!
-//! For example,
-//! - Open Geospatial Consortium
-//!   - [Well-known text representation of coordinate reference systems](https://www.ogc.org/standard/wkt-crs/)
-//!     - [18-010r11 v2.1.11](https://docs.ogc.org/is/18-010r11/18-010r11.pdf)
-//!     - [18-010r7 v2.0.6](https://docs.ogc.org/is/18-010r7/18-010r7.html)
-//!
-//! However, it is not an OO design. The types in this crate are intended to be used with an
-//! entity component system (ECS).
-
 //? use std::any::Any;
-use std::borrow::Cow;
+//? use std::borrow::Cow;
 //? use std::fmt::{Debug, Display};
 //? use std::ops::RangeInclusive;
 //? use std::sync::Arc;
@@ -40,26 +25,39 @@ use std::borrow::Cow;
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
 //? use derive_more::Display;
 //? use log::{debug, error, info, trace, warn};
+//? use num_enum::{IntoPrimitive, TryFromPrimitive};
 //? use num_integer::Integer;
 //? use num_rational::Ratio;
-//? use num_traits::identities::Zero;
+//? use num_traits::{NumCast, ToPrimitive, Zero};
 //? use once_cell::sync::Lazy;
 //? use serde::{Deserialize, Serialize};
-//? use strum::{self, EnumProperty, EnumString};
+//? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-type CowStaticStr = Cow<'static, str>;
+use bevy_ecs::prelude::*;
 
-mod core;
+#[derive(Component)]
+struct Position { x: f32, y: f32 }
+
+#[derive(Component)]
+struct Velocity { x: f32, y: f32 }
+
 #[cfg(test)]
-mod core_test;
+#[allow(non_snake_case)]
+mod t {
+    use super::*;
+    use insta::assert_ron_snapshot;
 
-/*
-mod core_hecs;
-*/
-
-mod core_becs;
-
-//mod cs;
-//mod geom; // Ellipsoid3Sphere, Ellipsoid3Oblate, Ellipsoid3Triaxial
-//mod datum;
-//mod crs;
+    #[test]
+    fn t() {
+        let mut world = World::new();
+        
+        let entity = world
+            .spawn((Position { x: 0.0, y: 0.0 }, Velocity { x: 1.0, y: 0.0 }))
+            .id();
+        
+        let entity_ref = world.entity(entity);
+        let position = entity_ref.get::<Position>().unwrap();
+        let velocity = entity_ref.get::<Velocity>().unwrap();        
+        //? assert_ron_snapshot!(, @"");
+    }
+}

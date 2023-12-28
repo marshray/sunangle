@@ -33,7 +33,7 @@ use std::ops::RangeInclusive;
 //? use strum::{self, EnumProperty, EnumString};
 
 use crate::*;
-use hecs_macros::*;
+//use hecs_macros::*;
 
 struct Name;
 

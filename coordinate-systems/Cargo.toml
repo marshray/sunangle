@@ -9,9 +9,12 @@ derive_more = { version = "1.0.0-beta.6", default-features = false, features = [
 num-rational.workspace = true
 once_cell.workspace = true
 serde.workspace = true
-hecs = { version = "0.10.4", features = ["macros", "column-serialize", "row-serialize"] }
+
+#hecs = { version = "0.10.4", features = ["macros", "column-serialize", "row-serialize"] }
 #hecs-hierarchy = "0.11.7"
-hecs-macros = "0.10.0"
+#hecs-macros = "0.10.0"
+
+bevy_ecs = "0.12.1"
 
 #strum = { strum = "0.25.0", features = ["derive"] }
 
