@@ -18,14 +18,16 @@
 //? use std::any::Any;
 use std::{borrow::Cow, process::ExitCode};
 //? use std::fmt::{Debug, Display};
-use std::ops::Deref;
+//use std::ops::Deref;
 //? use std::ops::RangeInclusive;
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
 //? use derive_more::Display;
-use hecs::{serialize::row::*, *};
+use derive_more::{Deref, DerefMut};
+//use hecs::{serialize::row::*, *};
+
 //? use log::{debug, error, info, trace, warn};
 //? use num_integer::Integer;
 use num_rational::Ratio;
@@ -38,6 +40,57 @@ use crate::*;
 
 //=================================================================================================|
 
+//-------------------------------------------------------------------------------------------------|
+
+#[derive(Default, Deref, DerefMut)]
+struct World {
+    #[deref]
+    #[deref_mut]
+    pub world: hecs::World,
+}
+
+impl World {
+    pub fn new() -> World {
+        Self::default()
+    }
+}
+
+impl serde::Serialize for World {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        let mut ctx = SerContext;
+
+        hecs::serialize::row::serialize(self, &mut ctx, serializer)
+
+        //let mut s = serializer.serialize_struct("SWorld", 1)?;
+        //s.serialize_field("name", &self.name)?;
+        //s.end()
+    }
+}
+
+//=================================================================================================|
+
+struct SerContext;
+
+impl hecs::serialize::row::SerializeContext for SerContext {
+    fn serialize_entity<S>(&mut self, entity: hecs::EntityRef<'_>, mut map: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::ser::SerializeMap,
+    {
+        Name::serialize_entity(entity, &mut map)?;
+        DimensionKind::serialize_entity(entity, &mut map)?;
+        Exactness::serialize_entity(entity, &mut map)?;
+        Ratio::<u64>::serialize_entity(entity, &mut map)?;
+        map.end()
+    }
+}
+
+//=================================================================================================|
+
+//=================================================================================================|
+
 //trait ComponentName {
 //    fn component_name() -> CowStaticStr;
 //}
@@ -46,7 +99,7 @@ use crate::*;
 
 trait SerializeEntity<T> {
     fn serialize_entity<S: serde::ser::SerializeMap>(
-        entity: EntityRef<'_>,
+        entity: hecs::EntityRef<'_>,
         map: &mut S,
     ) -> Result<(), S::Error>;
 }
@@ -56,7 +109,7 @@ macro_rules! impl_serialize_entity {
     ($id:ident, $ty:ty) => {
         impl SerializeEntity<$ty> for $ty {
             fn serialize_entity<S: serde::ser::SerializeMap>(
-                entity: EntityRef<'_>,
+                entity: hecs::EntityRef<'_>,
                 map: &mut S,
             ) -> Result<(), S::Error> {
                 if let Some(x) = entity.get::<&$ty>() {
@@ -70,7 +123,7 @@ macro_rules! impl_serialize_entity {
     ($id:ident) => {
         impl SerializeEntity<$id> for $id {
             fn serialize_entity<S: serde::ser::SerializeMap>(
-                entity: EntityRef<'_>,
+                entity: hecs::EntityRef<'_>,
                 map: &mut S,
             ) -> Result<(), S::Error> {
                 if let Some(x) = entity.get::<&$id>() {
@@ -110,11 +163,11 @@ impl_serialize_entity!(Name);
 //=================================================================================================|
 
 fn ecs_add_const(
-    world: &mut World,
+    world: &mut hecs::World,
     name: &str,
     (exactness, ratio_u64): (Exactness, Ratio<u64>),
-) -> Entity {
-    let mut builder = EntityBuilder::new();
+) -> hecs::Entity {
+    let mut builder = hecs::EntityBuilder::new();
     builder
         .add(Name(name.to_string()))
         .add(DimensionKind::Scale)
@@ -123,7 +176,7 @@ fn ecs_add_const(
     world.spawn(builder.build())
 }
 
-fn ecs_add_consts(world: &mut World) {
+fn ecs_add_consts(world: &mut hecs::World) {
     ecs_add_const(world, "pi", PI);
     ecs_add_const(world, "pi_inv", PI_INV);
     ecs_add_const(world, "tau", TAU);
@@ -319,39 +372,6 @@ define_derived_unit!(
 
 //=================================================================================================|
 
-//-------------------------------------------------------------------------------------------------|
-
-struct SerContext;
-
-impl SerializeContext for SerContext {
-    fn serialize_entity<S>(&mut self, entity: EntityRef<'_>, mut map: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::ser::SerializeMap,
-    {
-        Name::serialize_entity(entity, &mut map)?;
-        DimensionKind::serialize_entity(entity, &mut map)?;
-        Exactness::serialize_entity(entity, &mut map)?;
-        Ratio::<u64>::serialize_entity(entity, &mut map)?;
-        map.end()
-    }
-}
-
-struct EcsWorld(pub hecs::World);
-
-impl serde::Serialize for EcsWorld {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        let mut ctx = SerContext;
-        hecs::serialize::row::serialize(&self.0, &mut ctx, serializer)
-
-        //let mut s = serializer.serialize_struct("SWorld", 1)?;
-        //s.serialize_field("name", &self.name)?;
-        //s.end()
-    }
-}
-
 //----------
 
 #[cfg(test)]
@@ -363,13 +383,11 @@ mod t {
 
     #[test]
     fn t_ecs() -> anyhow::Result<()> {
-        let mut sworld = EcsWorld(World::new());
+        let mut world = World::new();
 
-        assert_ron_snapshot!(sworld, @"{}");
+        assert_ron_snapshot!(world, @"{}");
 
-        let world = &mut sworld.0;
-
-        ecs_add_consts(world);
+        ecs_add_consts(&mut world);
 
         /* for &unit in &*COMMMON_UNITS {
             let name = Name(unit.name().to_string());
@@ -377,7 +395,7 @@ mod t {
             let _e = world.spawn((name, unit));
         } */
 
-        assert_ron_snapshot!(sworld, @r###"
+        assert_ron_snapshot!(world, @r###"
         {
           4294967296: {
             "Name": "pi",
