@@ -39,7 +39,7 @@ use crate::*;
 pub type RatioU64 = num_rational::Ratio<u64>;
 pub use num_rational::BigRational;
 
-#[derive(Debug, Display, Deref, DerefMut, Clone, From, Into)]
+#[derive(Clone, Debug, Display, Deref, DerefMut, From, Into)]
 pub struct Name(pub String);
 
 impl std::convert::From<&str> for Name {
@@ -48,7 +48,7 @@ impl std::convert::From<&str> for Name {
     }
 }
 
-#[derive(Debug, Display, Deref, DerefMut, Clone, From, Into)]
+#[derive(Clone, Debug, Display, Deref, DerefMut, From, Into)]
 pub struct Abbr(pub String);
 
 impl std::convert::From<&str> for Abbr {
@@ -57,13 +57,13 @@ impl std::convert::From<&str> for Abbr {
     }
 }
 
-#[derive(Debug, Display, Clone)]
+#[derive(Clone, Copy, Debug, Display)]
 pub enum Exactness {
     Exact,
     Approximate,
 }
 
-#[derive(Debug, Display, Clone)]
+#[derive(Clone, Debug, Display)]
 pub enum EcsNum {
     RatioU64(RatioU64),
 
@@ -75,7 +75,7 @@ pub enum EcsNum {
     Entity(Entity),
 }
 
-#[derive(Debug, Display, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Display, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub enum DimensionKind {
     Length,
     Angle,

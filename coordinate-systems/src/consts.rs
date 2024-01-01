@@ -36,7 +36,7 @@ use hecs::{Bundle, Entity, World};
 
 use crate::*;
 
-#[derive(Bundle, Debug, Display)]
+#[derive(Bundle, Clone, Debug, Display)]
 #[display("Unit {{ {:?}, {dimension_kind}, {exactness}, {value} }}", name.to_string())]
 pub struct DimensionedConstant {
     name: Name,

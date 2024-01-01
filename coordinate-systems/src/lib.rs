@@ -49,7 +49,4 @@ pub fn ecs_add_stuff(world: &mut hecs::World) {
     crate::units::ecs_add_stuff(world);
 }
 
-//mod cs;
 //mod geom; // Ellipsoid3Sphere, Ellipsoid3Oblate, Ellipsoid3Triaxial
-//mod datum;
-//mod crs;
