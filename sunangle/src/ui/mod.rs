@@ -23,9 +23,14 @@
 //? use serde::{Deserialize, Serialize};
 
 pub mod animation_ctrl_window;
-pub mod app;
-pub mod current_time_ctrl_window;
-pub mod showable;
-
 pub use animation_ctrl_window::AnimationCtrlWindow;
+
+pub mod app;
+
+pub mod current_time_ctrl_window;
 pub use current_time_ctrl_window::CurrentTimeCtrlWindow;
+
+pub mod ecs_explore_window;
+pub use ecs_explore_window::EcsExploreWindow;
+
+pub mod showable;

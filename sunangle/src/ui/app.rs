@@ -20,6 +20,7 @@ use std::sync::{Arc, RwLock};
 
 use anyhow::{anyhow, bail, ensure, Context, Result};
 use egui::{epaint, Align, Frame, Hyperlink, Layout, Ui};
+use hecs::World;
 use log::{debug, error, info, trace, warn};
 use serde::{self, Deserialize, Serialize};
 
@@ -36,6 +37,10 @@ use crate::world_state::{TimeState, WorldState};
 #[derive(Deserialize, Serialize)]
 #[serde(default)]
 pub struct SunangleApp {
+    // Ecs
+    #[serde(skip)]
+    world: World,
+
     // Ephemeral Frame stuff.
     //
     #[serde(skip)]
@@ -43,14 +48,19 @@ pub struct SunangleApp {
 
     // UI stuff
     //
+    ui_settings_checkbox: bool,
     current_time_checkbx: bool,
     animation_checkbx: bool,
+    ecs_explore_checkbx: bool,
 
     #[serde(skip)]
     opt_current_time_ctrl_window: Option<ui::CurrentTimeCtrlWindow>,
 
     #[serde(skip)]
     opt_animation_ctrl_window: Option<ui::AnimationCtrlWindow>,
+
+    #[serde(skip)]
+    opt_ecs_explore_window: Option<ui::EcsExploreWindow>,
 
     arcrwl_animation_state: Arc<RwLock<AnimationState>>,
     arcrwl_world_state: Arc<RwLock<WorldState>>,
@@ -64,11 +74,15 @@ pub struct SunangleApp {
 impl Default for SunangleApp {
     fn default() -> Self {
         Self {
+            world: World::new(),
             draw_frame_info: DrawFrameInfo::new(),
+            ui_settings_checkbox: false,
             current_time_checkbx: true,
             animation_checkbx: true,
+            ecs_explore_checkbx: true,
             opt_current_time_ctrl_window: None,
             opt_animation_ctrl_window: None,
+            opt_ecs_explore_window: None,
             arcrwl_animation_state: Arc::new(RwLock::new(AnimationState::default())),
             arcrwl_world_state: Arc::new(RwLock::new(WorldState::default())),
             //next_frame_number: 0,
@@ -85,7 +99,12 @@ impl SunangleApp {
         // `cc.egui_ctx.set_visuals` and `cc.egui_ctx.set_fonts`.
 
         // Load previous app state
-        Self::load_from_storage(cc).unwrap_or_default()
+        let mut self_ = Self::load_from_storage(cc).unwrap_or_default();
+
+        // Initialize the world.
+        coordinate_systems::ecs_add_stuff(&mut self_.world);
+
+        self_
     }
 
     fn load_from_storage(cc: &eframe::CreationContext<'_>) -> Option<Self> {
@@ -158,6 +177,14 @@ impl SunangleApp {
         self.top_panel(ctx);
         self.central_panel(ctx);
 
+        if self.ui_settings_checkbox {
+            egui::Window::new("UI Settings")
+            //.open()
+            .vscroll(true)
+            .show(ctx, |ui| {
+                ctx.settings_ui(ui);
+            });}
+
         if self.current_time_checkbx {
             self.opt_current_time_ctrl_window
                 .get_or_insert_with(|| {
@@ -174,6 +201,11 @@ impl SunangleApp {
                 .show(ctx);
         }
 
+        if self.ecs_explore_checkbx {
+            self.opt_ecs_explore_window
+                .get_or_insert_with(|| ui::EcsExploreWindow::new())
+                .show(ctx);
+        }
         Ok(())
     }
 
@@ -202,6 +234,7 @@ impl SunangleApp {
             ui.heading("Sunangle");
             ui.add_space(16.0);
             ui.label("Controls:");
+            ui.checkbox(&mut self.ui_settings_checkbox, "UI Settings");
             ui.checkbox(&mut self.current_time_checkbx, "Time");
             ui.checkbox(&mut self.animation_checkbx, "Animation");
         });

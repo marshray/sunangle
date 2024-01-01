@@ -15,21 +15,6 @@
 #![allow(clippy::redundant_closure)] //? TODO for development
 #![allow(clippy::too_many_arguments)]
 
-//! This crate is intended to be useful for anything involving space- or time-axis coordinate
-//! systems.
-//!
-//! Some parts are inspired by formal specifications for GIS data, and may even reference them,
-//! but does not attempt conformance to any documented standards.
-//!
-//! For example,
-//! - Open Geospatial Consortium
-//!   - [Well-known text representation of coordinate reference systems](https://www.ogc.org/standard/wkt-crs/)
-//!     - [18-010r11 v2.1.11](https://docs.ogc.org/is/18-010r11/18-010r11.pdf)
-//!     - [18-010r7 v2.0.6](https://docs.ogc.org/is/18-010r7/18-010r7.html)
-//!
-//! However, it is not an OO design. The types in this crate are intended to be used with an
-//! entity component system (ECS).
-
 //? use std::any::Any;
 use std::borrow::Cow;
 //? use std::fmt::{Debug, Display};
@@ -38,26 +23,31 @@ use std::borrow::Cow;
 //? use std::time::Instant;
 
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
-//? use derive_more::Display;
+//? use derive_more::{Deref, DerefMut, Display};
 //? use log::{debug, error, info, trace, warn};
+//? use num_enum::{IntoPrimitive, TryFromPrimitive};
 //? use num_integer::Integer;
 //? use num_rational::Ratio;
-//? use num_traits::identities::Zero;
+//? use num_traits::{NumCast, ToPrimitive, Zero};
 //? use once_cell::sync::Lazy;
 //? use serde::{Deserialize, Serialize};
-//? use strum::{self, EnumProperty, EnumString};
+//? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-type CowStaticStr = Cow<'static, str>;
+pub type CowStaticStr = Cow<'static, str>;
 
 mod core;
-#[cfg(test)]
-mod core_test;
+pub use crate::core::{Abbr, BigRational, DimensionKind, EcsNum, Exactness, Name, RatioU64};
 
-/*
-mod core_hecs;
-*/
+mod consts;
+pub use crate::consts::DimensionedConstant;
 
-mod core_becs;
+mod units;
+//pub use crate::core::{Name, Exactness};
+
+pub fn ecs_add_stuff(world: &mut hecs::World) {
+    crate::consts::ecs_add_stuff(world);
+    crate::units::ecs_add_stuff(world);
+}
 
 //mod cs;
 //mod geom; // Ellipsoid3Sphere, Ellipsoid3Oblate, Ellipsoid3Triaxial

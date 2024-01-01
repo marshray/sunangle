@@ -16,69 +16,56 @@
 #![allow(clippy::too_many_arguments)]
 
 //? use std::any::Any;
-//? use std::borrow::Cow;
+use std::borrow::Cow;
 //? use std::fmt::{Debug, Display};
 //? use std::ops::RangeInclusive;
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
-//? use anyhow::{anyhow, bail, ensure, Context, Result};
-use derive_more::{Deref, DerefMut, Display, From, Into};
-use hecs::Entity;
-//? use log::{debug, error, info, trace, warn};
+use anyhow::{anyhow, bail, ensure, Context, Result};
+//? use derive_more::{Deref, DerefMut, Display, From, Into};
+use log::{debug, error, info, trace, warn};
 //? use num_enum::{IntoPrimitive, TryFromPrimitive};
 //? use num_integer::Integer;
-//use num_rational::Ratio;
+//? use num_rational::Ratio;
 //? use num_traits::{NumCast, ToPrimitive, Zero};
 //? use once_cell::sync::Lazy;
-//? use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use crate::*;
+use crate::ui::showable::ShowableEguiWindow;
 
-pub type RatioU64 = num_rational::Ratio<u64>;
-pub use num_rational::BigRational;
+#[derive(Debug, Default, Deserialize, Serialize)]
+pub struct EcsExploreWindow {}
 
-#[derive(Debug, Display, Deref, DerefMut, Clone, From, Into)]
-pub struct Name(pub String);
+impl EcsExploreWindow {
+    const NAME_STR: &'static str = "ECS World";
 
-impl std::convert::From<&str> for Name {
-    fn from(s: &str) -> Self {
-        Self(s.to_string())
+    pub fn new() -> Self {
+        Self {}
     }
 }
 
-#[derive(Debug, Display, Deref, DerefMut, Clone, From, Into)]
-pub struct Abbr(pub String);
-
-impl std::convert::From<&str> for Abbr {
-    fn from(s: &str) -> Self {
-        Self(s.to_string())
+impl ShowableEguiWindow for EcsExploreWindow {
+    fn name(&self) -> Cow<'_, str> {
+        Self::NAME_STR.into()
     }
-}
 
-#[derive(Debug, Display, Clone)]
-pub enum Exactness {
-    Exact,
-    Approximate,
-}
+    fn add_contents(&mut self, ui: &mut egui::Ui) {
+        /*
+        ui.horizontal(|ui| {
+            ui.text_edit_singleline(&mut self.utc_text_edit);
 
-#[derive(Debug, Display, Clone)]
-pub enum EcsNum {
-    RatioU64(RatioU64),
+            if ui.button("set").clicked() {
+                self.on_clicked_set();
+            }
+        });
 
-    BigRational(BigRational),
-
-    F64(f64),
-
-    #[display("Entity({:?})", "_0")]
-    Entity(Entity),
-}
-
-#[derive(Debug, Display, Clone, Copy, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub enum DimensionKind {
-    Length,
-    Angle,
-    Scale,
-    Time,
+        ui.horizontal(|ui| {
+            if ui.button("now").clicked() {
+                self.on_clicked_now();
+            }
+        });
+        // */
+    }
 }

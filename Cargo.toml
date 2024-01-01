@@ -26,11 +26,17 @@ world-model = { path = "./world-model" }
 
 #--- common dependencies
 anyhow = "1.0.75"
+derive_more = { version = "1.0.0-beta.6", default-features = false, features = [
+        "deref", "deref_mut", "display", "from", "into"
+    ] }
+hecs = { version = "0.10.4", features = ["macros", "column-serialize", "row-serialize"] }
+#hecs-hierarchy = "0.11.7"
+#hecs-macros = "0.10.0"
 insta = { version = "1.34.0", features = ["glob", "redactions", "ron"] }
 log = "0.4"
 num_enum = "0.6" # Unwanted dependency "android-activity" uses 0.6.1
 num-integer = { version = "0.1.45", features = [] }
-num-rational = { version = "0.4.1", default-features = false, features = ["serde", "std"] }
+num-rational = { version = "0.4.1", default-features = false, features = ["num-bigint", "serde", "std"] }
 num-traits = { version = "0.2.17", features = [] }
 once_cell = "1.19.0"
 ron = "0.8.1"
