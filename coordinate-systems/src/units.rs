@@ -26,6 +26,7 @@ use anyhow::{anyhow, bail, ensure, Context, Result};
 use derive_more::Display;
 use enumflags2::{bitflags, make_bitflags, BitFlags};
 use hecs::{Bundle, Entity, World};
+use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //use log::{debug, error, info, trace, warn};
 //? use num_enum::{IntoPrimitive, TryFromPrimitive};
 //? use num_integer::Integer;
@@ -35,6 +36,7 @@ use hecs::{Bundle, Entity, World};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
+use crate::names::Namespace;
 use crate::*;
 
 #[derive(Debug, Display, Clone)]
@@ -80,6 +82,7 @@ impl Unit {
 
 fn ecs_add_unit(
     world: &mut World,
+    e_ns_parent: Entity,
     dimension_kind: DimensionKind,
     name: &str,
     abbr: &str,
@@ -95,7 +98,7 @@ fn ecs_add_unit(
     #[cfg(debug_assertions)]
     let _unit = unit.clone();
 
-    let e = world.spawn(unit);
+    let e = world.attach_new::<Namespace, _>(e_ns_parent, unit).unwrap();
 
     #[cfg(debug_assertions)]
     eprintln!("debug: {e:?} {_unit}");
@@ -119,6 +122,7 @@ enum WhichPrefixes {
 #[rustfmt::skip]
 fn ecs_add_derived_unit_si_prefixes(
     world: &mut World,
+    e_ns_parent: Entity,
     base_unit: Entity,
     which: BitFlags<WhichPrefixes>
 ) -> Result<()> {
@@ -200,6 +204,7 @@ fn ecs_add_derived_unit_si_prefixes(
 
         ecs_add_unit(
             world,
+            e_ns_parent,
             dimension_kind,
             &name,
             &abbr,
@@ -213,18 +218,22 @@ fn ecs_add_derived_unit_si_prefixes(
     Ok(())
 }
 
-pub(crate) fn ecs_add_stuff(world: &mut World) {
-    ecs_add_stuff2(world).unwrap();
-}
-
-fn ecs_add_stuff2(world: &mut World) -> Result<()> {
+pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
     use DimensionKind::*;
+
+    let ns_root = ecs_ns_get_or_create_root(world)?;
+
+    let ns_units = world.attach_new::<Namespace, _>(ns_root, (Name::from("units"),))?;
 
     // Length units
     {
-        let meter = ecs_add_unit(world, Length, "meter", "m", UnitDef::BaseUnit);
+        let ns_length = world.attach_new::<Namespace, _>(ns_units, (Name::from("length"),))?;
+
+        let meter = ecs_add_unit(world, ns_length, Length, "meter", "m", UnitDef::BaseUnit);
+
         ecs_add_derived_unit_si_prefixes(
             world,
+            meter,
             meter,
             make_bitflags!(WhichPrefixes::{IncludeCenti | IncludeDeci | ExcludePosExpGt3}),
         )?;
@@ -234,6 +243,7 @@ fn ecs_add_stuff2(world: &mut World) -> Result<()> {
 
         let inch = ecs_add_unit(
             world,
+            meter,
             Length,
             "inch",
             "in",
@@ -245,6 +255,7 @@ fn ecs_add_stuff2(world: &mut World) -> Result<()> {
 
         let foot = ecs_add_unit(
             world,
+            meter,
             Length,
             "foot",
             "ft",
@@ -256,6 +267,7 @@ fn ecs_add_stuff2(world: &mut World) -> Result<()> {
 
         let _mile = ecs_add_unit(
             world,
+            meter,
             Length,
             "mile",
             "mi",
@@ -268,23 +280,34 @@ fn ecs_add_stuff2(world: &mut World) -> Result<()> {
 
     // Time units
     {
-        let s = ecs_add_unit(world, Time, "second", "s", UnitDef::BaseUnit);
-        ecs_add_derived_unit_si_prefixes(world, s, make_bitflags!(WhichPrefixes::{ExcludePosExp}))?;
+        let ns_time = world.attach_new::<Namespace, _>(ns_units, (Name::from("time"),))?;
+
+        let s = ecs_add_unit(world, ns_time, Time, "second", "s", UnitDef::BaseUnit);
+
+        ecs_add_derived_unit_si_prefixes(
+            world,
+            ns_time,
+            s,
+            make_bitflags!(WhichPrefixes::{ExcludePosExp}),
+        )?;
         // hertz	Hz	frequency	s−1
     }
 
     // Angle units
     {
-        let t = ecs_add_unit(world, Angle, "turn", "t", UnitDef::BaseUnit);
+        let angle = world.attach_new::<Namespace, _>(ns_units, (Name::from("angle"),))?;
+
+        let _turn = ecs_add_unit(world, angle, Angle, "turn", "tr", UnitDef::BaseUnit);
 
         ecs_add_unit(
             world,
+            angle,
             Angle,
             "degree",
             "°",
             UnitDef::ScaleToBaseUnit {
                 scale: EcsNum::RatioU64(RatioU64::new_raw(1, 360)),
-                base_unit: t,
+                base_unit: _turn,
             },
         );
 
@@ -293,12 +316,13 @@ fn ecs_add_stuff2(world: &mut World) -> Result<()> {
         {
             ecs_add_unit(
                 world,
+                angle,
                 Angle,
                 "radian",
                 "rad",
                 UnitDef::ScaleToBaseUnit {
                     scale: EcsNum::Entity(e_tau_inv),
-                    base_unit: t,
+                    base_unit: _turn,
                 },
             );
         }

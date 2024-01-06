@@ -22,9 +22,10 @@
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
-//? use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{anyhow, bail, ensure, Context, Result};
 use derive_more::Display;
 use hecs::{Bundle, Entity, World};
+use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use log::{debug, error, info, trace, warn};
 //? use num_enum::{IntoPrimitive, TryFromPrimitive};
 //? use num_integer::Integer;
@@ -34,6 +35,7 @@ use hecs::{Bundle, Entity, World};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
+use crate::names::Namespace;
 use crate::*;
 
 #[derive(Bundle, Clone, Debug, Display)]
@@ -42,7 +44,7 @@ pub struct DimensionedConstant {
     name: Name,
     dimension_kind: DimensionKind,
     exactness: Exactness,
-    value: RatioU64,
+    value: EcsNum,
 }
 
 impl DimensionedConstant {
@@ -61,6 +63,7 @@ impl DimensionedConstant {
 
         #[cfg(debug_assertions)]
         eprintln!("WARN: Couldn't find DimensionedConstant of {dimension_kind} named {name:?}.");
+
         None
     }
 }
@@ -68,19 +71,46 @@ impl DimensionedConstant {
 const APPROX_PI_TIMES_2_62: u64 =
     0b_1100_1001_0000_1111_1101_1010_1010_0010_0010_0001_0110_1000_1100_0010_0011_0100_u64;
 
-fn ecs_add_const(world: &mut World, name: &str, numer: u64, denom: u64) -> Entity {
+fn ecs_add_const(
+    world: &mut World,
+    e_ns_parent: Entity,
+    name: &str,
+    numer: u64,
+    denom: u64,
+) -> Result<Entity> {
     let fc = DimensionedConstant {
         name: Name(String::from(name)),
         dimension_kind: DimensionKind::Scale,
         exactness: Exactness::Approximate,
-        value: RatioU64::new_raw(numer, denom),
+        value: EcsNum::RatioU64(RatioU64::new_raw(numer, denom)),
     };
-    world.spawn(fc)
+
+    world
+        .attach_new::<Namespace, _>(e_ns_parent, fc)
+        .context("ecs_add_const")
 }
 
-pub(crate) fn ecs_add_stuff(world: &mut World) {
-    ecs_add_const(world, "pi", APPROX_PI_TIMES_2_62, 1_u64 << 62);
-    ecs_add_const(world, "pi_inv", 1_u64 << 62, APPROX_PI_TIMES_2_62);
-    ecs_add_const(world, "tau", APPROX_PI_TIMES_2_62, 1_u64 << 61);
-    ecs_add_const(world, "tau_inv", 1_u64 << 61, APPROX_PI_TIMES_2_62);
+pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
+    let ns_root = ecs_ns_get_or_create_root(world)?;
+
+    let ns_consts = world.attach_new::<Namespace, _>(ns_root, (Name::from("consts"),))?;
+
+    ecs_add_const(world, ns_consts, "pi", APPROX_PI_TIMES_2_62, 1_u64 << 62)?;
+    ecs_add_const(
+        world,
+        ns_consts,
+        "pi_inv",
+        1_u64 << 62,
+        APPROX_PI_TIMES_2_62,
+    )?;
+    ecs_add_const(world, ns_consts, "tau", APPROX_PI_TIMES_2_62, 1_u64 << 61)?;
+    ecs_add_const(
+        world,
+        ns_consts,
+        "tau_inv",
+        1_u64 << 61,
+        APPROX_PI_TIMES_2_62,
+    )?;
+
+    Ok(())
 }

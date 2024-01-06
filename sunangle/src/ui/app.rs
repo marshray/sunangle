@@ -179,18 +179,18 @@ impl SunangleApp {
 
         if self.ui_settings_checkbox {
             egui::Window::new("UI Settings")
-            //.open()
-            .vscroll(true)
-            .show(ctx, |ui| {
-                ctx.settings_ui(ui);
-            });}
+                .vscroll(true)
+                .show(ctx, |ui| {
+                    ctx.settings_ui(ui);
+                });
+        }
 
         if self.current_time_checkbx {
             self.opt_current_time_ctrl_window
                 .get_or_insert_with(|| {
                     ui::CurrentTimeCtrlWindow::new(self.arcrwl_world_state.clone())
                 })
-                .show(ctx);
+                .show(ctx, &mut self.world);
         }
 
         if self.animation_checkbx {
@@ -198,13 +198,13 @@ impl SunangleApp {
                 .get_or_insert_with(|| {
                     ui::AnimationCtrlWindow::new(self.arcrwl_animation_state.clone())
                 })
-                .show(ctx);
+                .show(ctx, &mut self.world);
         }
 
         if self.ecs_explore_checkbx {
             self.opt_ecs_explore_window
                 .get_or_insert_with(|| ui::EcsExploreWindow::new())
-                .show(ctx);
+                .show(ctx, &mut self.world);
         }
         Ok(())
     }

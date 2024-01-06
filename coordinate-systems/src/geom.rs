@@ -17,19 +17,21 @@
 
 //? use std::any::Any;
 //? use std::borrow::Cow;
+//? use std::collections::BTreeMap;
 //? use std::fmt::{Debug, Display};
-//? use std::ops::RangeInclusive;
-//? use std::sync::Arc;
+//? use std::ops::{RangeBounds, RangeInclusive};
+//? use std::sync::{Arc, RwLock};
 //? use std::time::Instant;
 
-//? use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{anyhow, bail, ensure, Context, Result};
 use derive_more::{Deref, DerefMut, Display, From, Into};
+//? use enumflags2::{bitflags, make_bitflags, BitFlags};
 use hecs::{Bundle, Entity, World};
 use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use log::{debug, error, info, trace, warn};
 //? use num_enum::{IntoPrimitive, TryFromPrimitive};
 //? use num_integer::Integer;
-//use num_rational::Ratio;
+//? use num_rational::Ratio;
 //? use num_traits::{NumCast, ToPrimitive, Zero};
 //? use once_cell::sync::Lazy;
 //? use serde::{Deserialize, Serialize};
@@ -39,36 +41,21 @@ use crate::names::Namespace;
 use crate::*;
 
 #[derive(Clone, Debug, Display, Deref, DerefMut, From, Into)]
-pub struct Abbr(pub String);
+pub struct Radius(pub f64);
 
-impl std::convert::From<&str> for Abbr {
-    fn from(s: &str) -> Self {
-        Self(s.to_string())
-    }
+/* #[derive(Debug, Display, Clone)]
+pub struct Ellipsoid3Oblate {
 }
 
-#[derive(Clone, Copy, Debug, Display)]
-pub enum Exactness {
-    Exact,
-    Approximate,
+#[derive(Debug, Display, Clone)]
+pub struct Ellipsoid3Triaxial {
 }
+ */
 
-#[derive(Clone, Debug, Display)]
-pub enum EcsNum {
-    RatioU64(RatioU64),
+pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
+    let ns_root = ecs_ns_get_or_create_root(world)?;
 
-    BigRational(BigRational),
+    let _geometry = world.attach_new::<Namespace, _>(ns_root, (Name::from("geometry"),))?;
 
-    F64(f64),
-
-    #[display("Entity({:?})", "_0")]
-    Entity(Entity),
-}
-
-#[derive(Clone, Copy, Debug, Display, Hash, PartialEq, Eq, PartialOrd, Ord)]
-pub enum DimensionKind {
-    Length,
-    Angle,
-    Scale,
-    Time,
+    Ok(())
 }

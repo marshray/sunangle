@@ -11,18 +11,31 @@
 #![allow(unused_imports)] //? TODO for development
 #![allow(non_snake_case)] //? TODO for development
 #![allow(clippy::new_without_default)] //? TODO for development
+#![allow(clippy::let_and_return)] //? TODO for development
+#![allow(clippy::redundant_closure)] //? TODO for development
 #![allow(clippy::too_many_arguments)]
 
 //? use std::any::Any;
 use std::borrow::Cow;
-use std::ops::DerefMut;
-//? use std::fmt::Display;
-//? use std::ops::RangeInclusive;
+//? use std::fmt::{Debug, Display};
+//? use std::ops::{RangeBounds, RangeInclusive};
 use std::sync::{Arc, RwLock};
+//? use std::time::Instant;
 
 //? use anyhow::{anyhow, bail, ensure, Context, Result};
+use derive_more::{
+    Deref,
+    DerefMut, //Display, From, Into
+};
+use hecs::{Bundle, Entity, World};
 use log::{debug, error, info, trace, warn};
+//? use num_enum::{IntoPrimitive, TryFromPrimitive};
+//? use num_integer::Integer;
+//? use num_rational::Ratio;
+//? use num_traits::{NumCast, ToPrimitive, Zero};
+//? use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
+//? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
 use crate::tai::DateTimeTai;
 use crate::ui::showable::ShowableEguiWindow;
@@ -48,7 +61,7 @@ impl ShowableEguiWindow for AnimationCtrlWindow {
         Self::NAME_STR.into()
     }
 
-    fn add_contents(&mut self, ui: &mut egui::Ui) {
+    fn add_contents(&mut self, ui: &mut egui::Ui, world: &mut World) {
         //let mut rate_s = "1.0 s per s".to_string();
         //let mut animation_rate = 1.0_f32;
 

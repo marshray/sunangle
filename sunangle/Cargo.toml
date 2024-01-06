@@ -14,13 +14,15 @@ edition.workspace = true
 #------------------------------------------ General purpose
 
 anyhow.workspace = true
+derive_more.workspace = true
 hecs.workspace = true
+hecs-hierarchy.workspace = true
 log.workspace = true
 num_enum.workspace = true
 num-traits.workspace = true
 once_cell.workspace = true
-serde.workspace = true
 ron.workspace = true
+serde.workspace = true
 strum.workspace = true
 thiserror.workspace = true
 

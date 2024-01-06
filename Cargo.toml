@@ -30,8 +30,8 @@ derive_more = { version = "1.0.0-beta.6", default-features = false, features = [
         "deref", "deref_mut", "display", "from", "into"
     ] }
 hecs = { version = "0.10.4", features = ["macros", "column-serialize", "row-serialize"] }
-#hecs-hierarchy = "0.11.7"
-#hecs-macros = "0.10.0"
+hecs-hierarchy = "0.12"
+hecs-schedule = "0.7"
 insta = { version = "1.34.0", features = ["glob", "redactions", "ron"] }
 log = "0.4"
 num_enum = "0.6" # Unwanted dependency "android-activity" uses 0.6.1
@@ -49,6 +49,27 @@ glow = "=0.13.0"
 cgmath = "0.18"
 
 #========================================== patches ================================================
+
+#------------------------------------------- hecs-schedule
+
+# hecs-hierarchy depends on hecs-schedule.
+# hecs-schedule depends on an old version of hecs.
+#
+[patch.crates-io.hecs-schedule]
+version = "0.7"
+#path = "../../gh/ten3roberts/hecs-schedule"
+git = "https://github.com/marshray/hecs-schedule.git"
+rev = "6191cf04d972c1f23fa360141b6f6a170d0cf3d9"
+
+#------------------------------------------- hecs-hierarchy
+
+# hecs-hierarchy depends on an old version of hecs.
+#
+[patch.crates-io.hecs-hierarchy]
+version = "0.12"
+#path = "../../gh/ten3roberts/hecs-hierarchy"
+git = "https://github.com/marshray/hecs-hierarchy.git"
+rev = "4b9625ed69d7439f28cccf3bdfc1d141b58f8dc8"
 
 #------------------------------------------- glow
 
