@@ -93,10 +93,15 @@ impl Default for SunangleApp {
 }
 
 impl SunangleApp {
+    const MAX_ANIMATION_TIME: f32 = 0.250;
+
     /// Called once before the first frame.
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        // This is also where you can customize the look and feel of egui using
-        // `cc.egui_ctx.set_visuals` and `cc.egui_ctx.set_fonts`.
+        cc.egui_ctx.style_mut(|style| {
+            let prev_animation_time = style.animation_time;
+            debug!("prev_animation_time: {prev_animation_time}");
+            style.animation_time = style.animation_time.min(Self::MAX_ANIMATION_TIME);
+        });
 
         // Load previous app state
         let mut self_ = Self::load_from_storage(cc).unwrap_or_default();
