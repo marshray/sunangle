@@ -55,23 +55,32 @@ pub type Matrix3 = cgmath::Matrix3<f64>;
 pub type Matrix4 = cgmath::Matrix4<f64>;
 
 pub mod core;
-pub use crate::core::{Abbr, DimensionKind, EcsNum, Exactness};
+pub use crate::core::{Abbr, DimensionKind, EcsNum, EcsNumRef, Exactness};
 
 pub mod consts;
 pub use crate::consts::DimensionedConstant;
 
 pub mod names;
-pub use crate::names::{ecs_ns_get_root, ecs_ns_get_or_create_root, ecs_ns_has_some_children, ecs_ns_iter, Name};
+pub use crate::names::{ecs_add, ecs_ns_find_or_create, ecs_ns_has_some_children, ecs_ns_iter, Name, NamePathSpec, NamePathSpecStart, RootNamespace};
 
 pub mod units;
 pub use crate::units::{Unit, UnitDef};
 
 pub mod geom;
+pub use crate::geom::{ecs_add_oblatespheroid, OblateSpheroid, OblateSpheroidDef, OblateSpheroidRef};
 //pub use crate::geom::{Ellipsoid3Sphere, Ellipsoid3Oblate, Ellipsoid3Triaxial};
+
+pub mod gis;
+pub use crate::gis::ecs_ns_find_or_create_gis;
+
+pub mod gl;
+pub use crate::gl::{ecs_add_cs};
 
 pub fn ecs_add_stuff(world: &mut hecs::World) {
     crate::names::ecs_add_stuff(world).unwrap(); // do first
     crate::consts::ecs_add_stuff(world).unwrap();
     crate::units::ecs_add_stuff(world).unwrap();
     crate::geom::ecs_add_stuff(world).unwrap();
+    crate::gis::ecs_add_stuff(world).unwrap();
+    crate::gl::ecs_add_stuff(world).unwrap();
 }

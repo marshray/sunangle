@@ -38,13 +38,15 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 use crate::names::Namespace;
 use crate::*;
 
+//=================================================================================================|
+
 #[derive(Bundle, Clone, Debug, Display)]
-#[display("Unit {{ {:?}, {dimension_kind}, {exactness}, {value} }}", name.to_string())]
+#[display("DimensionedConstant {{ {:?}, {dimension_kind}, {exactness}, {value} }}", name.to_string())]
 pub struct DimensionedConstant {
-    name: Name,
-    dimension_kind: DimensionKind,
-    exactness: Exactness,
-    value: EcsNum,
+    pub name: Name,
+    pub dimension_kind: DimensionKind,
+    pub exactness: Exactness,
+    pub value: EcsNum,
 }
 
 impl DimensionedConstant {
@@ -68,8 +70,12 @@ impl DimensionedConstant {
     }
 }
 
+//=================================================================================================|
+
 const APPROX_PI_TIMES_2_62: u64 =
     0b_1100_1001_0000_1111_1101_1010_1010_0010_0010_0001_0110_1000_1100_0010_0011_0100_u64;
+
+//=================================================================================================|
 
 fn ecs_add_const(
     world: &mut World,
@@ -78,7 +84,7 @@ fn ecs_add_const(
     numer: u64,
     denom: u64,
 ) -> Result<Entity> {
-    let fc = DimensionedConstant {
+    let dc = DimensionedConstant {
         name: Name(String::from(name)),
         dimension_kind: DimensionKind::Scale,
         exactness: Exactness::Approximate,
@@ -86,12 +92,12 @@ fn ecs_add_const(
     };
 
     world
-        .attach_new::<Namespace, _>(e_ns_parent, fc)
+        .attach_new::<Namespace, _>(e_ns_parent, dc)
         .context("ecs_add_const")
 }
 
 pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
-    let ns_root = ecs_ns_get_or_create_root(world)?;
+    let ns_root = RootNamespace::find_or_create(world)?;
 
     let ns_consts = world.attach_new::<Namespace, _>(ns_root, (Name::from("consts"),))?;
 

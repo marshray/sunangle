@@ -22,7 +22,8 @@
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
-//? use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{anyhow, bail, ensure, Context, Result};
+use cgmath::Zero;
 use derive_more::{Deref, DerefMut, Display, From, Into};
 use hecs::{Bundle, Entity, World};
 use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
@@ -38,6 +39,8 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 use crate::names::Namespace;
 use crate::*;
 
+//=================================================================================================|
+
 #[derive(Clone, Debug, Display, Deref, DerefMut, From, Into)]
 pub struct Abbr(pub String);
 
@@ -47,12 +50,27 @@ impl std::convert::From<&str> for Abbr {
     }
 }
 
-#[derive(Clone, Copy, Debug, Display)]
+//=================================================================================================|
+
+#[derive(Clone, Copy, Debug, Display, PartialEq, Eq)]
+pub enum ExactReason {
+    MeasuredWithBothInfinitePrecisionAndAccuracy,
+    ByProof,
+    ByDefinition,
+}
+
+#[derive(Clone, Copy, Debug, Display, PartialEq, Eq)]
 pub enum Exactness {
-    Exact,
+    Exact(ExactReason),
     Approximate,
 }
 
+//=================================================================================================|
+
+/// A numeric value or numeric-valued expression [`hecs::Component`].
+///
+/// This type does not support the usual `Eq` or `Ord` because that could require cloning of large
+/// structures.
 #[derive(Clone, Debug, Display)]
 pub enum EcsNum {
     RatioU64(RatioU64),
@@ -63,12 +81,53 @@ pub enum EcsNum {
 
     #[display("Entity({:?})", "_0")]
     Entity(Entity),
+
+    #[display("Inverse({:?})", "_0")]
+    Inverse(EcsNumRef),
+
+    #[display("{:?}", "_0")]
+    Ref(EcsNumRef),
 }
 
-#[derive(Clone, Copy, Debug, Display, Hash, PartialEq, Eq, PartialOrd, Ord)]
+impl EcsNum {
+    pub fn recip(&self) -> Result<EcsNum> {
+        use EcsNum::*;
+        Ok(match self {
+            RatioU64(r) if *r.denom() != 0 => RatioU64(r.recip()),
+            BigRational(r) if !r.denom().is_zero() => BigRational(r.recip()),
+            F64(f) if f.is_normal() => F64(f.recip()),
+            Entity(e) => Inverse(EcsNumRef(*e)),
+            Inverse(ecsnumref) => Ref(*ecsnumref),
+            _ => { bail!("Can't compute reciprocal of {self:?}"); }
+        })
+    }
+}
+
+//-------------------------------------------------------------------------------------------------|
+
+/// Reference to a [`EcsNum`] [`hecs::Entity`] in the [`hecs::World`].
+#[derive(Clone, Copy, Debug)]
+pub struct EcsNumRef(Entity);
+
+impl EcsNumRef {
+    pub fn new(e: Entity, world: &World) -> Self {
+        debug_assert!(
+            world.satisfies::<&EcsNum>(e).unwrap_or_default(),
+            "Although this newtype can't prevent the EcsNumRef Entity from being removed from the World, it should probably at least start out that way."
+        );
+        Self(e)
+    }
+}
+
+//=================================================================================================|
+
+#[derive(Clone, Copy, Debug, Display, PartialEq, Eq)]
 pub enum DimensionKind {
     Length,
     Angle,
     Scale,
     Time,
 }
+
+//=================================================================================================|
+

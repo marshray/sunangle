@@ -61,21 +61,24 @@ pub struct Unit {
 
 impl Unit {
     pub fn look_up(world: &World, dimension_kind: DimensionKind, name: &str) -> Option<Entity> {
-        #[cfg(debug_assertions)]
+        #[cfg(all(debug_print, debug_assertions))]
         eprintln!("debug: Searching for Unit of {dimension_kind} named {name:?}");
 
         for (e, (&dk, na)) in world.query::<(&DimensionKind, &Name)>().iter() {
-            //#[cfg(debug_assertions)] eprintln!("trace: Checking {e:?} {dk} {na}");
+            #[cfg(all(debug_print, debug_assertions))]
+            eprintln!("trace: Checking {e:?} {dk} {na}");
 
             if dk == dimension_kind && na.as_str() == name {
-                #[cfg(debug_assertions)]
+                #[cfg(all(debug_print, debug_assertions))]
                 eprintln!("debug: {e:?} {name:?} is Unit of {dk} kind.");
+
                 return Some(e);
             }
         }
 
-        #[cfg(debug_assertions)]
+        #[cfg(all(debug_print, debug_assertions))]
         eprintln!("WARN: Couldn't find Unit of {dimension_kind} named {name:?}.");
+        
         None
     }
 }
@@ -95,12 +98,12 @@ fn ecs_add_unit(
         unit_def,
     };
 
-    #[cfg(debug_assertions)]
+    #[cfg(all(debug_print, debug_assertions))]
     let _unit = unit.clone();
 
     let e = world.attach_new::<Namespace, _>(e_ns_parent, unit).unwrap();
 
-    #[cfg(debug_assertions)]
+    #[cfg(all(debug_print, debug_assertions))]
     eprintln!("debug: {e:?} {_unit}");
 
     e
@@ -191,7 +194,10 @@ fn ecs_add_derived_unit_si_prefixes(
             {
                 let r_f: f64 = (*r.numer() as f64)/(*r.denom() as f64);
                 let ratio = r_f/10.0_f64.powi(exp10);
-                //eprintln!("{name} exp10 = {exp10}, r = {r}, r_f = {r_f}, ratio = {ratio}");
+                
+                #[cfg(all(debug_print, debug_assertions))]
+                eprintln!("{name} exp10 = {exp10}, r = {r}, r_f = {r_f}, ratio = {ratio}");
+
                 debug_assert!((0.875..1.125).contains(&ratio));
             }
 
@@ -221,7 +227,7 @@ fn ecs_add_derived_unit_si_prefixes(
 pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
     use DimensionKind::*;
 
-    let ns_root = ecs_ns_get_or_create_root(world)?;
+    let ns_root = RootNamespace::find_or_create(world)?;
 
     let ns_units = world.attach_new::<Namespace, _>(ns_root, (Name::from("units"),))?;
 
@@ -329,4 +335,32 @@ pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+#[allow(non_snake_case, clippy::all)]
+mod t {
+    use super::*;
+    use insta::assert_ron_snapshot;
+
+    use hecs::{Bundle, Entity, With, World};
+
+    #[test]
+    fn t0() -> anyhow::Result<()> {
+        let mut world = World::default();
+        let world = &mut world;
+
+        crate::ecs_add_stuff(world);
+
+        {
+            let mut n = 0_usize;
+            let q = world.query_mut::<With<(), (&Name, &DimensionKind)>>();
+            for (e, _) in q {
+                n += 1;
+            }
+        }
+
+        //assert_ron_snapshot!(, @"");
+        Ok(())
+    }
 }

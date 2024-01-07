@@ -40,22 +40,115 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 use crate::names::Namespace;
 use crate::*;
 
+//=================================================================================================|
+
+//? TODO 2-D Euclidean space described by Cartesian coordinates
+//? TODO 2-D Projective space described by Homogeneous coordinates
+
+//? TODO 3-D Euclidean space described by Cartesian coordinates
+//? TODO 3-D Projective space described by Homogeneous coordinates
+
+//=================================================================================================|
+
 #[derive(Clone, Debug, Display, Deref, DerefMut, From, Into)]
-pub struct Radius(pub f64);
+pub struct Radius(pub EcsNum);
 
-/* #[derive(Debug, Display, Clone)]
-pub struct Ellipsoid3Oblate {
+//=================================================================================================|
+
+/// [Flattening](https://en.wikipedia.org/wiki/Flattening).
+#[derive(Clone, Debug, Display)]
+#[allow(non_camel_case_types)]
+pub enum Flattening {
+    F(EcsNum),
+    F_inv(EcsNum),
 }
 
-#[derive(Debug, Display, Clone)]
-pub struct Ellipsoid3Triaxial {
+impl Flattening {
+    pub fn f(&self) -> Result<EcsNum> {
+        use Flattening::*;
+        match self {
+            F(f) => Ok(f.clone()),
+            F_inv(f_inv) => f_inv.recip(),
+        }
+    }
+
+    pub fn f_inv(&self) -> Result<EcsNum> {
+        use Flattening::*;
+        match self {
+            F(f) => f.recip(),
+            F_inv(f_inv) => Ok(f_inv.clone()),
+        }
+    }
 }
- */
+
+//=================================================================================================|
+
+/// An "ellipsoid of revolution". Also known as an [oblate spheroid](
+/// https://en.wikipedia.org/wiki/Oblate_spheroid).
+#[derive(Clone, Debug, Display)]
+#[display("OblateSpheroidDef {{ a: {a}, f: {f} }}")]
+pub struct OblateSpheroidDef {
+    /// Equatorial radius semi-axis.
+    pub a: DimensionedConstant,
+
+    /// 'Ellipticity', 'flattening', or 'oblateness'.
+    pub f: Flattening,
+}
+
+//-------------------------------------------------------------------------------------------------|
+
+/// [`hecs::Bundle`] for an ellipsoid of revolution in the [`hecs::World`].
+#[derive(Bundle, Clone, Debug, Display)]
+#[display("OblateSpheroid {{ opt_name: {opt_name:?}, def: {def:?} }}")]
+pub struct OblateSpheroid {
+    pub opt_name: Option<Name>,
+    pub def: OblateSpheroidDef,
+}
+
+//-------------------------------------------------------------------------------------------------|
+
+#[derive(Clone, Copy, Debug)]
+pub struct OblateSpheroidRef(Entity);
+
+impl OblateSpheroidRef {
+    pub fn new(e: Entity, world: &World) -> Self {
+        debug_assert!(
+            world.satisfies::<&OblateSpheroid>(e).unwrap_or_default(),
+            "Although this newtype can't prevent the OblateSpheroidRef Entity from being removed from the World, it should probably at least start out that way."
+        );
+        OblateSpheroidRef(e)
+    }
+}
+
+//-------------------------------------------------------------------------------------------------|
+
+pub fn ecs_add_oblatespheroid<IN, ION>(
+    world: &mut World,
+    e_ns_parent: Entity,
+    opt_name: ION,
+    def: OblateSpheroidDef,
+) -> Result<Entity>
+where IN: Into<Name>, ION: Into<Option<IN>>
+{
+    let opt_name: Option<IN> = opt_name.into();
+    let opt_name = opt_name.map(Into::<Name>::into);
+    //let opt_name: Option<Name> = opt_name.into();
+    let os = OblateSpheroid {
+        opt_name,
+        def
+    };
+
+    world
+        .attach_new::<Namespace, _>(e_ns_parent, os)
+        .context("ecs_add_const")
+}
+
+//=================================================================================================|
 
 pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
-    let ns_root = ecs_ns_get_or_create_root(world)?;
+    let ns_geometry = ecs_ns_find_or_create(world, NamePathSpec::absolute(["geometry"]))?;
 
-    let _geometry = world.attach_new::<Namespace, _>(ns_root, (Name::from("geometry"),))?;
+    //?
 
     Ok(())
 }
