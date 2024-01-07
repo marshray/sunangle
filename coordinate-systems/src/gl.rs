@@ -38,8 +38,8 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use crate::names::Namespace;
 use crate::gis::*;
+use crate::names::Namespace;
 use crate::*;
 
 //=================================================================================================|
@@ -101,10 +101,15 @@ pub fn ecs_add_cs(
     name: &str,
     def: CoordinateSystemDef,
 ) -> Result<Entity> {
-    ecs_add(world, e_ns_parent, name, CoordinateSystem {
-        name: name.into(),
-        def,
-    })
+    ecs_add(
+        world,
+        e_ns_parent,
+        name,
+        CoordinateSystem {
+            name: name.into(),
+            def,
+        },
+    )
 }
 
 pub fn ecs_add_crs(
@@ -114,11 +119,16 @@ pub fn ecs_add_crs(
     datum: DatumRef,
     cs: CoordinateSystemRef,
 ) -> Result<Entity> {
-    ecs_add(world, e_ns_parent, name, CoordinateReferenceSystem {
-        name: name.into(),
-        datum,
-        cs,
-    })
+    ecs_add(
+        world,
+        e_ns_parent,
+        name,
+        CoordinateReferenceSystem {
+            name: name.into(),
+            datum,
+            cs,
+        },
+    )
 }
 
 pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
@@ -145,17 +155,18 @@ pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
 
     let e_earth_wgs84_equatorial_radius: Entity = {
         let dc_earth_wgs84_equatorial_radius = DimensionedConstant {
-                name: "earth_wgs84_equatorial_radius".into(),
-                dimension_kind: DimensionKind::Length,
-                // notes: "This is value is only 'Exact' in the sense of the definition of the WGS 84 reference shape."
-                exactness: Exactness::Exact(crate::core::ExactReason::ByDefinition),
-                value: EcsNum::RatioU64(RatioU64::from_integer(6378137)),
-            };
+            name: "earth_wgs84_equatorial_radius".into(),
+            dimension_kind: DimensionKind::Length,
+            // notes: "This is value is only 'Exact' in the sense of the definition of the WGS 84 reference shape."
+            exactness: Exactness::Exact(crate::core::ExactReason::ByDefinition),
+            value: EcsNum::RatioU64(RatioU64::from_integer(6378137)),
+        };
 
-        world.attach_new::<Namespace, _>(ns_gl, dc_earth_wgs84_equatorial_radius)
-        .context("earth_wgs84_equatorial_radius")?
+        world
+            .attach_new::<Namespace, _>(ns_gl, dc_earth_wgs84_equatorial_radius)
+            .context("earth_wgs84_equatorial_radius")?
     };
-    
+
     /*
     let _earth_wgs84_earth_ellipsoid = {
 

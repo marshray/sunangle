@@ -98,7 +98,9 @@ impl EcsNum {
             F64(f) if f.is_normal() => F64(f.recip()),
             Entity(e) => Inverse(EcsNumRef(*e)),
             Inverse(ecsnumref) => Ref(*ecsnumref),
-            _ => { bail!("Can't compute reciprocal of {self:?}"); }
+            _ => {
+                bail!("Can't compute reciprocal of {self:?}");
+            }
         })
     }
 }
@@ -130,4 +132,3 @@ pub enum DimensionKind {
 }
 
 //=================================================================================================|
-

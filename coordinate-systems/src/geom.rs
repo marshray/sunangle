@@ -128,15 +128,14 @@ pub fn ecs_add_oblatespheroid<IN, ION>(
     opt_name: ION,
     def: OblateSpheroidDef,
 ) -> Result<Entity>
-where IN: Into<Name>, ION: Into<Option<IN>>
+where
+    IN: Into<Name>,
+    ION: Into<Option<IN>>,
 {
     let opt_name: Option<IN> = opt_name.into();
-    let opt_name = opt_name.map(Into::<Name>::into);
-    //let opt_name: Option<Name> = opt_name.into();
-    let os = OblateSpheroid {
-        opt_name,
-        def
-    };
+    let opt_name: Option<Name> = opt_name.map(Into::into);
+
+    let os = OblateSpheroid { opt_name, def };
 
     world
         .attach_new::<Namespace, _>(e_ns_parent, os)

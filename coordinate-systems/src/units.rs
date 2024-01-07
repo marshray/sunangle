@@ -78,7 +78,7 @@ impl Unit {
 
         #[cfg(all(debug_print, debug_assertions))]
         eprintln!("WARN: Couldn't find Unit of {dimension_kind} named {name:?}.");
-        
+
         None
     }
 }

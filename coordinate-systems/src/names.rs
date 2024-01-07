@@ -26,7 +26,7 @@
 use anyhow::{anyhow, bail, ensure, Context, Result};
 use derive_more::{Deref, DerefMut, Display, From, Into};
 //? use enumflags2::{bitflags, make_bitflags, BitFlags};
-use hecs::{Bundle, Entity, World, DynamicBundle};
+use hecs::{Bundle, DynamicBundle, Entity, World};
 use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use log::{debug, error, info, trace, warn};
 //? use num_enum::{IntoPrimitive, TryFromPrimitive};
@@ -64,10 +64,8 @@ impl Name {
     }
 
     pub fn opt_from_entity(world: &World, entity: Entity) -> Option<hecs::Ref<'_, Name>> {
-        world
-            .get::<&Name>(entity)
-            .ok()
-            //.map(|n| &*n)
+        world.get::<&Name>(entity).ok()
+        //.map(|n| &*n)
     }
 }
 
@@ -83,45 +81,36 @@ impl RootNamespace {
     /// Gets the [`RootNamespace`] [`hecs::Entity`] from the [`hecs::World`],
     /// or returns [`None`].
     pub fn find_opt(world: &World) -> Option<Entity> {
-        debug_assert_eq!(
-            world.query::<&RootNamespace>().iter().count(), 1,
-            "World has multiple `RootNamespace`s.");
+        debug_assert!(
+            world.query::<&RootNamespace>().iter().count() <= 1,
+            "World has multiple `RootNamespace`s."
+        );
 
-        world.query::<&RootNamespace>().iter()
+        world
+            .query::<&RootNamespace>()
+            .iter()
             .next()
             .map(|(e, _)| e)
     }
 
     /// Gets the [`RootNamespace`] [`hecs::Entity`] from the [`hecs::World`].
     pub fn find(world: &World) -> Result<Entity> {
-        Self::find_opt(world)
-            .ok_or_else(|| anyhow!("RootNamespace not found in World."))
+        Self::find_opt(world).ok_or_else(|| anyhow!("RootNamespace not found in World."))
     }
 
     /// Gets the [`NamespaceRoot`] [`hecs::Entity`] from the [`hecs::World`],
     /// or adds it.
     pub fn find_or_create(world: &mut World) -> Result<Entity> {
-        debug_assert_eq!(
-            world.query::<&RootNamespace>().iter().count(), 1,
-            "World has multiple `RootNamespace`s.");
-
-        // This code is duplicated with `find_opt` because `query_mut` is said to be faster than
-        // `query`.
-        /*
-        let e_root_ns = world.query_mut::<&RootNamespace>().into_iter()
-            .next()
-            .map_or_else(
-                || {
-                    world.spawn((RootNamespace, ))
-                },
-                |(e, _)| e);
-        Ok(e_root_ns) */
+        debug_assert!(
+            world.query::<&RootNamespace>().iter().count() <= 1,
+            "World has multiple `RootNamespace`s."
+        );
 
         let opt_pr = world.query_mut::<&RootNamespace>().into_iter().next();
         let e = if let Some(pr) = opt_pr {
             pr.0
         } else {
-            world.spawn((RootNamespace, ))
+            world.spawn((RootNamespace,))
         };
         Ok(e)
     }
@@ -170,7 +159,7 @@ impl NamePathSpecStart {
 pub struct NamePathSpec<N, II>
 where
     N: Into<Name>,
-    II: IntoIterator<Item = N>
+    II: IntoIterator<Item = N>,
 {
     start: NamePathSpecStart,
     components: II,
@@ -179,19 +168,19 @@ where
 impl<N, II> NamePathSpec<N, II>
 where
     N: Into<Name>,
-    II: IntoIterator<Item = N>
+    II: IntoIterator<Item = N>,
 {
     pub fn absolute(components: II) -> Self {
         Self {
             start: NamePathSpecStart::Root,
-            components
+            components,
         }
     }
-    
+
     pub fn relative(e_from: Entity, components: II) -> Self {
         Self {
             start: NamePathSpecStart::From(e_from),
-            components
+            components,
         }
     }
 }
@@ -201,7 +190,7 @@ where
 pub fn ecs_ns_find_or_create<N, II>(world: &mut World, nps: NamePathSpec<N, II>) -> Result<Entity>
 where
     N: Into<Name>,
-    II: IntoIterator<Item = N>
+    II: IntoIterator<Item = N>,
 {
     use NamePathSpecStart::*;
 
@@ -209,6 +198,7 @@ where
 
     let mut it_components = nps.components.into_iter().fuse();
 
+    #[allow(clippy::while_let_on_iterator)]
     'next_path_component: while let Some(path_component) = it_components.next() {
         let name: Name = path_component.into();
 
@@ -224,11 +214,11 @@ where
 
         break;
     }
-        
+
     // Create any remaining name path components.
-    while let Some(pc_into_name) = it_components.next() {
+    for pc_into_name in it_components {
         let name: Name = pc_into_name.into();
-        e = world.attach_new::<Namespace, _>(e, (name, ))?;
+        e = world.attach_new::<Namespace, _>(e, (name,))?;
     }
 
     Ok(e)
@@ -239,26 +229,29 @@ where
 pub fn ecs_ns_get<N, II>(world: &mut World, nps: NamePathSpec<N, II>) -> Result<Entity>
 where
     N: Into<Name>,
-    II: IntoIterator<Item = N>
+    II: IntoIterator<Item = N>,
 {
-    bail!("TODO");//? TODO
+    bail!("TODO"); //? TODO
 }
 
 //=================================================================================================|
 
 pub fn ecs_ns_entity_has_name(world: &World, entity: Entity) -> Result<bool> {
-    world.satisfies::<&Name>(entity)
-    .map_err(|e| anyhow!("World satisfies entity {entity:?} has a Name component: {e}"))
+    world
+        .satisfies::<&Name>(entity)
+        .map_err(|e| anyhow!("World satisfies entity {entity:?} has a Name component: {e}"))
 }
 
 //-------------------------------------------------------------------------------------------------|
 
 pub fn ecs_ns_has_some_children(world: &World, entity: Entity) -> bool {
     if let Ok(parent) = world.get::<&hecs_hierarchy::Parent<Namespace>>(entity) {
-        //eprintln!("parent has {} children", parent.num_children());
+        #[cfg(all(debug_print, debug_assertions))]
+        eprintln!("parent has {} children", parent.num_children());
         parent.num_children() != 0
     } else {
-        //eprintln!("not a parent");
+        #[cfg(all(debug_print, debug_assertions))]
+        eprintln!("not a parent");
         false
     }
 }
@@ -278,7 +271,11 @@ pub fn ecs_ns_iter(world: &World) -> impl std::iter::IntoIterator<Item = Namespa
     let mut v_out = vec![];
 
     if let Ok(e_root) = RootNamespace::find(world) {
-        fn ecs_ns_iter_children(world: &World, e_parent: Entity, v_out: &mut Vec<NamespaceIterItem>) {
+        fn ecs_ns_iter_children(
+            world: &World,
+            e_parent: Entity,
+            v_out: &mut Vec<NamespaceIterItem>,
+        ) {
             for e_child in world.children::<Namespace>(e_parent) {
                 let s_child = Name::entity_to_name_string(world, e_child);
                 //eprintln!("Child: {e_child:?} {s_child}");
@@ -307,13 +304,13 @@ pub fn ecs_add<C: DynamicBundle>(
     name: &str,
     components: C,
 ) -> Result<Entity> {
-    world.attach_new::<Namespace, _>(e_ns_parent, components)
-    .map_err(|e| anyhow!("World adding {name:?}: {e}"))
+    world
+        .attach_new::<Namespace, _>(e_ns_parent, components)
+        .map_err(|e| anyhow!("World adding {name:?}: {e}"))
 }
 
 //=================================================================================================|
 pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
-
     RootNamespace::find_or_create(world)?;
 
     Ok(())
@@ -329,10 +326,12 @@ mod t {
 
     fn make_world() -> Result<World> {
         let mut world = World::default();
-        //crate::ecs_add_stuff(&mut world);
 
         let r = RootNamespace::find_or_create(&mut world)?; //world.spawn(("r",));
         assert!(!ecs_ns_has_some_children(&world, r));
+
+        crate::ecs_add_stuff(&mut world);
+        assert!(ecs_ns_has_some_children(&world, r));
 
         let r_c1 = world.spawn((Name::from("r-c1"),));
         world.attach::<Namespace>(r_c1, r).unwrap();
@@ -370,15 +369,18 @@ mod t {
     fn t1() -> anyhow::Result<()> {
         let world = make_world()?;
 
+        #[cfg(all(debug_print, debug_assertions))]
         eprintln!("Iterating roots and descendants recursively:");
         for (e_root, _) in world.roots::<Namespace>().unwrap().iter() {
             let s_root = Name::entity_to_name_string(&world, e_root);
+            #[cfg(all(debug_print, debug_assertions))]
             eprintln!("  Root: {e_root:?} {s_root}");
 
             for e_child in world.descendants_depth_first::<Namespace>(e_root) {
                 let s_child = Name::entity_to_name_string(&world, e_child);
                 let e_parent = world.parent::<Namespace>(e_child)?;
                 let s_parent_name = Name::entity_to_name_string(&world, e_parent);
+                #[cfg(all(debug_print, debug_assertions))]
                 eprintln!(
                     "    Descendant: {e_child:?} {s_child} (child of {e_parent:?} {s_parent_name})"
                 );
@@ -396,6 +398,7 @@ mod t {
 
         let world = make_world()?;
 
+        #[cfg(all(debug_print, debug_assertions))]
         eprintln!("Iterating roots and descendants recursively:");
         let depth = AtomicUsize::new(0);
 
@@ -409,15 +412,18 @@ mod t {
             match row {
                 ParentEntry(e) => {
                     indent();
+                    #[cfg(all(debug_print, debug_assertions))]
                     eprintln!("P {}", Name::entity_to_name_string(&world, e));
                     depth.fetch_add(1, Relaxed);
                 }
                 LeafEntry(e) => {
                     indent();
+                    #[cfg(all(debug_print, debug_assertions))]
                     eprintln!("L {}", Name::entity_to_name_string(&world, e));
                 }
                 Leave => {
                     indent();
+                    #[cfg(all(debug_print, debug_assertions))]
                     eprintln!("V");
                     assert_ne!(depth.load(Relaxed), 0);
                     depth.fetch_sub(1, Relaxed);
@@ -438,9 +444,7 @@ mod t {
 
         let ns_root = RootNamespace::find_or_create(world)?;
 
-
         //? assert_ron_snapshot!(, @"");
         Ok(())
     }
-
 }
