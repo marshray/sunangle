@@ -36,7 +36,7 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use crate::names::Namespace;
+use ecs_namespace::NamespaceTag;
 use crate::*;
 
 #[derive(Debug, Display, Clone)]
@@ -101,7 +101,7 @@ fn ecs_add_unit(
     #[cfg(all(debug_print, debug_assertions))]
     let _unit = unit.clone();
 
-    let e = world.attach_new::<Namespace, _>(e_ns_parent, unit).unwrap();
+    let e = world.attach_new::<NamespaceTag, _>(e_ns_parent, unit).unwrap();
 
     #[cfg(all(debug_print, debug_assertions))]
     eprintln!("debug: {e:?} {_unit}");
@@ -229,11 +229,11 @@ pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
 
     let ns_root = RootNamespace::find_or_create(world)?;
 
-    let ns_units = world.attach_new::<Namespace, _>(ns_root, (Name::from("units"),))?;
+    let ns_units = world.attach_new::<NamespaceTag, _>(ns_root, (Name::from("units"),))?;
 
     // Length units
     {
-        let ns_length = world.attach_new::<Namespace, _>(ns_units, (Name::from("length"),))?;
+        let ns_length = world.attach_new::<NamespaceTag, _>(ns_units, (Name::from("length"),))?;
 
         let meter = ecs_add_unit(world, ns_length, Length, "meter", "m", UnitDef::BaseUnit);
 
@@ -286,7 +286,7 @@ pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
 
     // Time units
     {
-        let ns_time = world.attach_new::<Namespace, _>(ns_units, (Name::from("time"),))?;
+        let ns_time = world.attach_new::<NamespaceTag, _>(ns_units, (Name::from("time"),))?;
 
         let s = ecs_add_unit(world, ns_time, Time, "second", "s", UnitDef::BaseUnit);
 
@@ -301,7 +301,7 @@ pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
 
     // Angle units
     {
-        let angle = world.attach_new::<Namespace, _>(ns_units, (Name::from("angle"),))?;
+        let angle = world.attach_new::<NamespaceTag, _>(ns_units, (Name::from("angle"),))?;
 
         let _turn = ecs_add_unit(world, angle, Angle, "turn", "tr", UnitDef::BaseUnit);
 

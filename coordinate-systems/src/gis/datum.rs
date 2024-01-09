@@ -38,7 +38,7 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use crate::names::Namespace;
+use ecs_namespace::NamespaceTag;
 use crate::*;
 
 //=================================================================================================|
@@ -89,7 +89,7 @@ fn ecs_add_datum(world: &mut World, e_ns_parent: Entity, name: &str) -> Result<E
     let datum = Datum { name, datum_def };
 
     world
-        .attach_new::<Namespace, _>(e_ns_parent, datum)
+        .attach_new::<NamespaceTag, _>(e_ns_parent, datum)
         .context("ecs_add_datum({name:?})")
 }
 
@@ -100,7 +100,7 @@ pub(crate) fn ecs_add_stuff(world: &mut World, ns_gis: Entity) -> Result<()> {
 
     let ns_root = RootNamespace::find_or_create(world)?;
 
-    let ns_datum = world.attach_new::<Namespace, _>(ns_root, (Name::from("datum"),))?;
+    let ns_datum = world.attach_new::<NamespaceTag, _>(ns_root, (Name::from("datum"),))?;
 
     // From: https://epsg.io/1309-datum
     // "World Geodetic System 1984 (G2139)"

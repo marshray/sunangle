@@ -39,7 +39,7 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
 use crate::gis::*;
-use crate::names::Namespace;
+use ecs_namespace::NamespaceTag;
 use crate::*;
 
 //=================================================================================================|
@@ -163,7 +163,7 @@ pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
         };
 
         world
-            .attach_new::<Namespace, _>(ns_gl, dc_earth_wgs84_equatorial_radius)
+            .attach_new::<NamespaceTag, _>(ns_gl, dc_earth_wgs84_equatorial_radius)
             .context("earth_wgs84_equatorial_radius")?
     };
 

@@ -41,7 +41,6 @@ use hecs::{Bundle, Entity, World};
 pub mod datum;
 pub use crate::gis::datum::{Datum, DatumDef, DatumRef};
 
-//use crate::names::Namespace;
 use crate::*;
 
 //=================================================================================================|

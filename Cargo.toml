@@ -3,12 +3,14 @@ resolver = "2"
 members = [
     "sunangle",
     "coordinate-systems",
+    "ecs-namespace",
     "video",
     "world-model",
 ]
 default-members = [
     "sunangle",
     "coordinate-systems",
+    "ecs-namespace",
     "video",
     "world-model",
 ]
@@ -22,6 +24,7 @@ rust-version = "1.72"
 #--- crates defined in the workspace
 coordinate-systems = { path = "./coordinate-systems" }
 video = { path = "./video" }
+ecs-namespace = { path = "./ecs-namespace" }
 world-model = { path = "./world-model" }
 
 #--- common dependencies

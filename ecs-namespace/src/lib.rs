@@ -41,7 +41,7 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 
 // Just a tag type for the namespace hierarchy.
 // Not visible outside the crate. Maybe it will need to be?
-pub(crate) struct Namespace;
+pub struct NamespaceTag;
 
 //-------------------------------------------------------------------------------------------------|
 
@@ -202,7 +202,7 @@ where
     'next_path_component: while let Some(path_component) = it_components.next() {
         let name: Name = path_component.into();
 
-        for e_child in world.children::<Namespace>(e) {
+        for e_child in world.children::<NamespaceTag>(e) {
             let opt_ref_child_name = Name::opt_from_entity(world, e_child);
             if let Some(ref_child_name) = opt_ref_child_name {
                 if name == *ref_child_name {
@@ -218,7 +218,7 @@ where
     // Create any remaining name path components.
     for pc_into_name in it_components {
         let name: Name = pc_into_name.into();
-        e = world.attach_new::<Namespace, _>(e, (name,))?;
+        e = world.attach_new::<NamespaceTag, _>(e, (name,))?;
     }
 
     Ok(e)
@@ -245,7 +245,7 @@ pub fn ecs_ns_entity_has_name(world: &World, entity: Entity) -> Result<bool> {
 //-------------------------------------------------------------------------------------------------|
 
 pub fn ecs_ns_has_some_children(world: &World, entity: Entity) -> bool {
-    if let Ok(parent) = world.get::<&hecs_hierarchy::Parent<Namespace>>(entity) {
+    if let Ok(parent) = world.get::<&hecs_hierarchy::Parent<NamespaceTag>>(entity) {
         #[cfg(all(debug_print, debug_assertions))]
         eprintln!("parent has {} children", parent.num_children());
         parent.num_children() != 0
@@ -266,7 +266,7 @@ pub enum NamespaceIterItem {
 }
 
 pub fn ecs_ns_iter(world: &World) -> impl std::iter::IntoIterator<Item = NamespaceIterItem> {
-    use crate::names::NamespaceIterItem::*;
+    use NamespaceIterItem::*;
 
     let mut v_out = vec![];
 
@@ -276,7 +276,7 @@ pub fn ecs_ns_iter(world: &World) -> impl std::iter::IntoIterator<Item = Namespa
             e_parent: Entity,
             v_out: &mut Vec<NamespaceIterItem>,
         ) {
-            for e_child in world.children::<Namespace>(e_parent) {
+            for e_child in world.children::<NamespaceTag>(e_parent) {
                 let s_child = Name::entity_to_name_string(world, e_child);
                 //eprintln!("Child: {e_child:?} {s_child}");
 
@@ -305,12 +305,13 @@ pub fn ecs_add<C: DynamicBundle>(
     components: C,
 ) -> Result<Entity> {
     world
-        .attach_new::<Namespace, _>(e_ns_parent, components)
+        .attach_new::<NamespaceTag, _>(e_ns_parent, components)
         .map_err(|e| anyhow!("World adding {name:?}: {e}"))
 }
 
 //=================================================================================================|
-pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
+
+pub fn ecs_add_stuff(world: &mut World) -> Result<()> {
     RootNamespace::find_or_create(world)?;
 
     Ok(())
@@ -330,37 +331,37 @@ mod t {
         let r = RootNamespace::find_or_create(&mut world)?; //world.spawn(("r",));
         assert!(!ecs_ns_has_some_children(&world, r));
 
-        crate::ecs_add_stuff(&mut world);
+        crate::ecs_add_stuff(&mut world)?;
         assert!(ecs_ns_has_some_children(&world, r));
 
         let r_c1 = world.spawn((Name::from("r-c1"),));
-        world.attach::<Namespace>(r_c1, r).unwrap();
+        world.attach::<NamespaceTag>(r_c1, r).unwrap();
         assert!(ecs_ns_has_some_children(&world, r));
 
         let r_c2 = world.spawn((Name::from("r-c2"),));
-        world.attach::<Namespace>(r_c2, r).unwrap();
+        world.attach::<NamespaceTag>(r_c2, r).unwrap();
 
         let _child_1_1 = world
-            .attach_new::<Namespace, _>(r_c1, (Name::from("r-c1-c1"),))
+            .attach_new::<NamespaceTag, _>(r_c1, (Name::from("r-c1-c1"),))
             .unwrap();
 
         //world.detach::<Namespace>(r_c1).unwrap();
 
         let _r_c3 = world
-            .attach_new::<Namespace, _>(r, (Name::from("r-c3"),))
+            .attach_new::<NamespaceTag, _>(r, (Name::from("r-c3"),))
             .unwrap();
 
         //world.attach::<Namespace>(r_c1, _r_c3).unwrap();
 
         let _r_c4 = world
-            .attach_new::<Namespace, _>(r, (Name::from("r-c4"),))
+            .attach_new::<NamespaceTag, _>(r, (Name::from("r-c4"),))
             .unwrap();
 
         //let r2 = world.spawn((Name::from("r2"),));
         let _r2_c1 = world
-            .attach_new::<Namespace, _>(r, (Name::from("r2-c1"),))
+            .attach_new::<NamespaceTag, _>(r, (Name::from("r2-c1"),))
             .unwrap();
-        //let _r2_c1 = world.attach_new::<Namespace, _>(r2, (Name::from("r2-c1"),)).unwrap();
+        //let _r2_c1 = world.attach_new::<NamespaceTag, _>(r2, (Name::from("r2-c1"),)).unwrap();
 
         Ok(world)
     }
@@ -371,14 +372,14 @@ mod t {
 
         #[cfg(all(debug_print, debug_assertions))]
         eprintln!("Iterating roots and descendants recursively:");
-        for (e_root, _) in world.roots::<Namespace>().unwrap().iter() {
+        for (e_root, _) in world.roots::<NamespaceTag>().unwrap().iter() {
             let s_root = Name::entity_to_name_string(&world, e_root);
             #[cfg(all(debug_print, debug_assertions))]
             eprintln!("  Root: {e_root:?} {s_root}");
 
-            for e_child in world.descendants_depth_first::<Namespace>(e_root) {
+            for e_child in world.descendants_depth_first::<NamespaceTag>(e_root) {
                 let s_child = Name::entity_to_name_string(&world, e_child);
-                let e_parent = world.parent::<Namespace>(e_child)?;
+                let e_parent = world.parent::<NamespaceTag>(e_child)?;
                 let s_parent_name = Name::entity_to_name_string(&world, e_parent);
                 #[cfg(all(debug_print, debug_assertions))]
                 eprintln!(
@@ -393,7 +394,7 @@ mod t {
 
     #[test]
     fn t2() -> anyhow::Result<()> {
-        use crate::names::NamespaceIterItem::*;
+        use NamespaceIterItem::*;
         use std::sync::atomic::{AtomicUsize, Ordering::Relaxed};
 
         let world = make_world()?;
@@ -438,7 +439,7 @@ mod t {
 
     #[test]
     fn t3() -> anyhow::Result<()> {
-        use crate::names::NamespaceIterItem::*;
+        use NamespaceIterItem::*;
 
         let world = &mut World::default();
 

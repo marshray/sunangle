@@ -37,7 +37,7 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use crate::names::Namespace;
+use ecs_namespace::NamespaceTag;
 use crate::*;
 
 //=================================================================================================|
@@ -138,7 +138,7 @@ where
     let os = OblateSpheroid { opt_name, def };
 
     world
-        .attach_new::<Namespace, _>(e_ns_parent, os)
+        .attach_new::<NamespaceTag, _>(e_ns_parent, os)
         .context("ecs_add_const")
 }
 

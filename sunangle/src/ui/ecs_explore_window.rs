@@ -36,7 +36,7 @@ use log::{debug, error, info, trace, warn};
 use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use coordinate_systems::{names::NamespaceIterItem, *};
+use ecs_namespace::*;
 
 use crate::{ui::showable::ShowableEguiWindow, world_state};
 
@@ -77,9 +77,9 @@ impl EcsExploreWindow {
         tr_iter: &mut I,
         depth: &mut usize,
     ) where
-        I: Iterator<Item = coordinate_systems::names::NamespaceIterItem>,
+        I: Iterator<Item = NamespaceIterItem>,
     {
-        use coordinate_systems::names::NamespaceIterItem::*;
+        use NamespaceIterItem::*;
 
         let mut ignore_depth = 0_usize;
 

@@ -36,7 +36,7 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use crate::names::Namespace;
+use ecs_namespace::NamespaceTag;
 use crate::*;
 
 //=================================================================================================|

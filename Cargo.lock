@@ -743,6 +743,7 @@ dependencies = [
  "anyhow",
  "cgmath",
  "derive_more",
+ "ecs-namespace",
  "enumflags2",
  "hecs",
  "hecs-hierarchy",
@@ -925,6 +926,17 @@ source = "git+https://github.com/marshray/surban.egui.git?rev=baf6e8ba316b8e5edf
 dependencies = [
  "bytemuck",
  "serde",
+]
+
+[[package]]
+name = "ecs-namespace"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "derive_more",
+ "hecs",
+ "hecs-hierarchy",
+ "insta",
 ]
 
 [[package]]
@@ -2692,6 +2704,7 @@ dependencies = [
  "chrono-tz",
  "coordinate-systems",
  "derive_more",
+ "ecs-namespace",
  "eframe",
  "egui",
  "egui-winit",

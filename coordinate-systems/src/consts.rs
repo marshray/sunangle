@@ -35,7 +35,7 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use crate::names::Namespace;
+use ecs_namespace::NamespaceTag;
 use crate::*;
 
 //=================================================================================================|
@@ -92,14 +92,14 @@ fn ecs_add_const(
     };
 
     world
-        .attach_new::<Namespace, _>(e_ns_parent, dc)
+        .attach_new::<NamespaceTag, _>(e_ns_parent, dc)
         .context("ecs_add_const")
 }
 
 pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
     let ns_root = RootNamespace::find_or_create(world)?;
 
-    let ns_consts = world.attach_new::<Namespace, _>(ns_root, (Name::from("consts"),))?;
+    let ns_consts = world.attach_new::<NamespaceTag, _>(ns_root, (Name::from("consts"),))?;
 
     ecs_add_const(world, ns_consts, "pi", APPROX_PI_TIMES_2_62, 1_u64 << 62)?;
     ecs_add_const(
