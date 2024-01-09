@@ -193,5 +193,53 @@ pub(crate) fn ecs_add_stuff(world: &mut World) -> Result<()> {
     let earth_geodetic_crs = ecs_add_datum(world, ns_gl, "Earth")?;
     */
 
+    //? TODO: Perspective projection (<https://en.wikipedia.org/wiki/Transformation_matrix#Perspective_projection>)
+
+    //? TODO: normalized device coordinates (<https://en.wikipedia.org/wiki/Clip_coordinates>)
+    // [](<https://gpuweb.github.io/gpuweb/#coordinate-systems>)
+    //w3c Normalized device coordinates (or NDC) have three dimensions, where:
+    //w3c -1.0 ≤ x ≤ 1.0
+    //w3c -1.0 ≤ y ≤ 1.0
+    //w3c 0.0 ≤ z ≤ 1.0
+    //w3c The bottom-left corner is at (-1.0, -1.0, z).
+    
+    //? TODO: clip coordinates (<https://en.wikipedia.org/wiki/Clip_coordinates>)
+    // [](<https://gpuweb.github.io/gpuweb/#coordinate-systems>)
+    //w3c Clip space coordinates have four dimensions: (x, y, z, w)
+    //w3c Clip space coordinates are used for the the clip position of a vertex
+    //w3c (i.e. the position output of a vertex shader), and for the clip volume.
+    // Vertex shaders use clip space for @builtin(position).
+    
+    //w3c Normalized device coordinates and clip space coordinates are related as follows:
+    //w3c If point p = (p.x, p.y, p.z, p.w) is in the clip volume, then the
+    //w3c NDC are (p.x ÷ p.w, p.y ÷ p.w, p.z ÷ p.w).
+    
+    // [](<https://gpuweb.github.io/gpuweb/#coordinate-systems>)
+    //w3c Framebuffer coordinates address the pixels in the framebuffer
+    //w3c They have two dimensions.
+    //w3c Each pixel extends 1 unit in x and y dimensions.
+    //w3c The top-left corner is at (0.0, 0.0).
+    //w3c x increases to the right.
+    //w3c y increases down.
+    // Fragment shaders use framebuffer coordinates space for @builtin(position).
+    
+    // [](<https://gpuweb.github.io/gpuweb/#coordinate-systems>)
+    //w3c Viewport coordinates combine framebuffer coordinates in x and y dimensions, with depth in z.
+    //w3c Normally 0.0 ≤ z ≤ 1.0, but this can be modified by setting [[viewport]].minDepth and maxDepth via setViewport()
+    
+    // [](<https://gpuweb.github.io/gpuweb/#coordinate-systems>)
+    //w3c Fragment coordinates match viewport coordinates.
+    
+    // [](<https://gpuweb.github.io/gpuweb/#coordinate-systems>)
+    //w3c UV coordinates are used to sample textures, and have two dimensions:
+    //w3c 0 ≤ u ≤ 1.0
+    //w3c 0 ≤ v ≤ 1.0
+    //w3c (0.0, 0.0) is in the first texel in texture memory address order.
+    //w3c (1.0, 1.0) is in the last texel texture memory address order.
+    
+    // [](<https://gpuweb.github.io/gpuweb/#coordinate-systems>)
+    //w3c Window coordinates, or present coordinates, match framebuffer coordinates, and are
+    //w3c used when interacting with an external display or conceptually similar interface.
+
     Ok(())
 }
