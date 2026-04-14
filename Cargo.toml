@@ -32,7 +32,7 @@ anyhow = "1.0.75"
 derive_more = { version = "1.0.0-beta.6", default-features = false, features = [
         "deref", "deref_mut", "display", "from", "into"
     ] }
-hecs = { version = "0.10.4", features = ["macros", "column-serialize", "row-serialize"] }
+hecs = { version = "0.10.5", features = ["macros", "column-serialize", "row-serialize"] }
 hecs-hierarchy = "0.12"
 hecs-schedule = "0.7"
 insta = { version = "1.34.0", features = ["glob", "redactions", "ron"] }
@@ -92,12 +92,12 @@ rev = "baf6e8ba316b8e5edff9fbeab2a9a5134856a21c"
 version = "=0.24.1"
 git = "https://github.com/marshray/surban.egui.git"
 rev = "baf6e8ba316b8e5edff9fbeab2a9a5134856a21c"
- 
+
 [patch.crates-io.eframe]
 version = "=0.24.1"
 git = "https://github.com/marshray/surban.egui.git"
 rev = "baf6e8ba316b8e5edff9fbeab2a9a5134856a21c"
- 
+
 [patch.crates-io.egui-winit]
 version = "=0.24.1"
 git = "https://github.com/marshray/surban.egui.git"

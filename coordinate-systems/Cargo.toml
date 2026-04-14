@@ -19,3 +19,6 @@ ecs-namespace.workspace = true
 
 [dev-dependencies]
 insta.workspace = true
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(debug_print)'] }

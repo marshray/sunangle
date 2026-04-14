@@ -170,7 +170,7 @@ fn ecs_add_derived_unit_si_prefixes(
     for pfx in si_prefixes
     {
         let (pfx_name, pfx_abbr, exp10) = pfx;
-        
+
         if      which.contains(ExcludePosExp) && 0 < exp10
            ||   which.contains(ExcludePosExpGt3) && 3 < exp10
            || ! which.contains(  IncludeDeci) && exp10 == -1
@@ -194,7 +194,7 @@ fn ecs_add_derived_unit_si_prefixes(
             {
                 let r_f: f64 = (*r.numer() as f64)/(*r.denom() as f64);
                 let ratio = r_f/10.0_f64.powi(exp10);
-                
+
                 #[cfg(all(debug_print, debug_assertions))]
                 eprintln!("{name} exp10 = {exp10}, r = {r}, r_f = {r_f}, ratio = {ratio}");
 
@@ -353,10 +353,10 @@ mod t {
         crate::ecs_add_stuff(world);
 
         {
-            let mut n = 0_usize;
+            //let mut n = 0_usize;
             let q = world.query_mut::<With<(), (&Name, &DimensionKind)>>();
             for (e, _) in q {
-                n += 1;
+                //n += 1;
             }
         }
 
