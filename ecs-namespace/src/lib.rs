@@ -87,7 +87,7 @@ impl RootNamespace {
         );
 
         world
-            .query::<&RootNamespace>()
+            .query::<(Entity, &RootNamespace)>()
             .iter()
             .next()
             .map(|(e, _)| e)
@@ -106,7 +106,7 @@ impl RootNamespace {
             "World has multiple `RootNamespace`s."
         );
 
-        let opt_pr = world.query_mut::<&RootNamespace>().into_iter().next();
+        let opt_pr = world.query_mut::<(Entity, &RootNamespace)>().into_iter().next();
         let e = if let Some(pr) = opt_pr {
             pr.0
         } else {
@@ -237,9 +237,7 @@ where
 //=================================================================================================|
 
 pub fn ecs_ns_entity_has_name(world: &World, entity: Entity) -> Result<bool> {
-    world
-        .satisfies::<&Name>(entity)
-        .map_err(|e| anyhow!("World satisfies entity {entity:?} has a Name component: {e}"))
+    Ok(world.satisfies::<&Name>(entity))
 }
 
 //-------------------------------------------------------------------------------------------------|
@@ -276,7 +274,7 @@ pub fn ecs_ns_iter(world: &World) -> impl std::iter::IntoIterator<Item = Namespa
             e_parent: Entity,
             v_out: &mut Vec<NamespaceIterItem>,
         ) {
-            for e_child in world.children::<NamespaceTag>(e_parent) {
+            for e_child in world.children::<(Entity, NamespaceTag)>(e_parent) {
                 let s_child = Name::entity_to_name_string(world, e_child);
                 //eprintln!("Child: {e_child:?} {s_child}");
 

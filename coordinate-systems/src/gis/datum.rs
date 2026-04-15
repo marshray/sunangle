@@ -72,7 +72,7 @@ pub struct DatumRef(Entity);
 impl DatumRef {
     pub fn new(e: Entity, world: &World) -> Self {
         debug_assert!(
-            world.satisfies::<&Datum>(e).unwrap_or_default(),
+            world.satisfies::<&Datum>(e),
             "Although this newtype can't prevent the Datum Entity from being removed from the World, it should probably at least start out that way."
         );
         DatumRef(e)

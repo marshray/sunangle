@@ -28,23 +28,23 @@ ecs-namespace = { path = "./ecs-namespace" }
 world-model = { path = "./world-model" }
 
 #--- common dependencies
-anyhow = "1.0.75"
-derive_more = { version = "1.0.0-beta.6", default-features = false, features = [
+anyhow = "1.0.102"
+derive_more = { version = "2.1.1", default-features = false, features = [
         "deref", "deref_mut", "display", "from", "into"
     ] }
-hecs = { version = "0.10.5", features = ["macros", "column-serialize", "row-serialize"] }
-hecs-hierarchy = "0.12"
-hecs-schedule = "0.7"
-insta = { version = "1.34.0", features = ["glob", "redactions", "ron"] }
-log = "0.4"
+hecs = { version = "0.11.0", features = ["macros", "column-serialize", "row-serialize"] }
+hecs-hierarchy = "0.13.0"
+hecs-schedule = "0.8.0"
+insta = { version = "1.47.2", features = ["glob", "redactions", "ron"] }
+log = "0.4.29"
 num_enum = "0.6" # Unwanted dependency "android-activity" uses 0.6.1
-num-integer = { version = "0.1.45", features = [] }
-num-rational = { version = "0.4.1", default-features = false, features = ["num-bigint", "serde", "std"] }
-num-traits = { version = "0.2.17", features = [] }
-once_cell = "1.19.0"
-ron = "0.8.1"
-serde = { version = "1", features = ["derive"] }
-strum = { version = "0.25.0", features = ["derive"] }
+num-integer = { version = "0.1.46", features = [] }
+num-rational = { version = "0.4.2", default-features = false, features = ["num-bigint", "serde", "std"] }
+num-traits = { version = "0.2.19", features = [] }
+once_cell = "1.21.4"
+ron = "0.12.1"
+serde = { version = "1.0.228", features = ["derive"] }
+strum = { version = "0.28.0", features = ["derive"] }
 
 #--- keep these synced with whatever the `three-d` crate is using
 thiserror = "1"
@@ -52,6 +52,20 @@ glow = "=0.13.0"
 cgmath = "0.18"
 
 #========================================== patches ================================================
+
+#------------------------------------------- hecs-hierarchy, hecs-schedule
+
+[patch.crates-io.hecs-schedule]
+version = "=0.8.0"
+git = "https://github.com/marshray/hecs-schedule.git"
+rev = "6a69a7a65fe46cdc0f3545d6e7680376b2ac32f0"
+#path = "../marshray/forked-hecs-heirarchy-schedule/hecs-hierarchy"
+
+[patch.crates-io.hecs-hierarchy]
+version = "=0.13.0"
+git = "https://github.com/marshray/hecs-hierarchy.git"
+rev = "27cff704e91a2e8c514f3a04be3a482df0e94efa"
+#path = "../marshray/forked-hecs-heirarchy-schedule/hecs-hierarchy"
 
 #------------------------------------------- glow
 

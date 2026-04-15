@@ -113,7 +113,7 @@ pub struct OblateSpheroidRef(Entity);
 impl OblateSpheroidRef {
     pub fn new(e: Entity, world: &World) -> Self {
         debug_assert!(
-            world.satisfies::<&OblateSpheroid>(e).unwrap_or_default(),
+            world.satisfies::<&OblateSpheroid>(e),
             "Although this newtype can't prevent the OblateSpheroidRef Entity from being removed from the World, it should probably at least start out that way."
         );
         OblateSpheroidRef(e)

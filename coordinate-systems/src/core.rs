@@ -114,7 +114,7 @@ pub struct EcsNumRef(Entity);
 impl EcsNumRef {
     pub fn new(e: Entity, world: &World) -> Self {
         debug_assert!(
-            world.satisfies::<&EcsNum>(e).unwrap_or_default(),
+            world.satisfies::<&EcsNum>(e),
             "Although this newtype can't prevent the EcsNumRef Entity from being removed from the World, it should probably at least start out that way."
         );
         Self(e)

@@ -53,7 +53,7 @@ impl DimensionedConstant {
     pub fn look_up(world: &World, dimension_kind: DimensionKind, name: &str) -> Option<Entity> {
         //#[cfg(debug_assertions)] eprintln!("debug: Searching for DimensionedConstant of {dimension_kind} named {name:?}");
 
-        for (e, (&dk, na)) in world.query::<(&DimensionKind, &Name)>().iter() {
+        for (e, &dk, na) in world.query::<(Entity, &DimensionKind, &Name)>().iter() {
             //#[cfg(debug_assertions)] eprintln!("trace: Checking {e:?} {dk} {na}");
 
             if dk == dimension_kind && na.as_str() == name {

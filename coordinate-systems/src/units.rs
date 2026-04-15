@@ -64,11 +64,11 @@ impl Unit {
         #[cfg(all(debug_print, debug_assertions))]
         eprintln!("debug: Searching for Unit of {dimension_kind} named {name:?}");
 
-        for (e, (&dk, na)) in world.query::<(&DimensionKind, &Name)>().iter() {
+        for (e, dk, na) in world.query::<(Entity, &DimensionKind, &Name)>().iter() {
             #[cfg(all(debug_print, debug_assertions))]
             eprintln!("trace: Checking {e:?} {dk} {na}");
 
-            if dk == dimension_kind && na.as_str() == name {
+            if dk == &dimension_kind && na.as_str() == name {
                 #[cfg(all(debug_print, debug_assertions))]
                 eprintln!("debug: {e:?} {name:?} is Unit of {dk} kind.");
 
@@ -354,8 +354,8 @@ mod t {
 
         {
             //let mut n = 0_usize;
-            let q = world.query_mut::<With<(), (&Name, &DimensionKind)>>();
-            for (e, _) in q {
+            let q = world.query_mut::<(Entity, &Name, &DimensionKind)>();
+            for (e, name, dimension_kind) in q {
                 //n += 1;
             }
         }
