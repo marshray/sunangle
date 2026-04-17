@@ -41,45 +41,57 @@ chrono-tz = "0.8.4"
 
 #------------------------------------------ Graphics and UI
 
-glow = { version = "0.13", default-features = false }
+egui.workspace = true
 
-egui = { version = "=0.24.1", default-features = false }
+glow.workspace = true
+egui_glow.workspace = true
 
-egui_glow = { version = "=0.24.1", default-features = false }
-
-eframe = { version = "=0.24.1", default-features = false, features = [
+# https://github.com/emilk/egui/blob/main/crates/eframe/Cargo.toml
+eframe = { workspace = true, default-features = false, features = [
     "accesskit",     # Make egui comptaible with screen readers
     "default_fonts", # Embed the default egui fonts
     "glow",          # Use the 'glow' rendering backend rather than 'wgpu'
     "persistence",   # Persist app state (window positions, etc)
 ] }
 
-# egui_extras = { version = "*", features = ["chrono", "datepicker"] }
-
-three-d-asset = { version = "0.6", default-features = false, features = [] } # "obj", "png", "http"
-
-three-d = { version = "=0.16.3", default-features = false }
-#three-d = { version = "=0.16.3", default-features = false, features = ["egui-gui"] }
-
-#image = { version = "0.24", features = ["jpeg", "png"] }
+three-d = { workspace = true }
+three-d-asset = { workspace = true }
 
 #================================ dependencies (native app) ========================================
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 
-env_logger = "0.10"
-egui-winit = { version = "=0.24.1", default-features = false }
+env_logger = "0.11.10"
+
+egui-winit = {
+    version = "0.34.1",
+    default-features = false,
+    features = [
+        "wayland",       # Wayland
+    ]
+}
+
+eframe = {
+    workspace = true,
+    default-features = false,
+    features = [
+        "wayland",       # Wayland
+    ]
+}
 
 #============================== dependencies (wasm32 web app) ======================================
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-wasm-bindgen = "=0.2.89"
-wasm-bindgen-futures = "0.4"
-web-sys = "0.3"
+
+wasm-bindgen = "0.2.118"
+
+wasm-bindgen-futures = "0.4.68"
+
+web-sys = "0.3.95"
 # features = [ "HtmlCanvasElement", "WebGl2RenderingContext", "Window"]
 
 #================================== dev-dependencies ===============================================
 
 [dev-dependencies]
-insta = { version = "1.34.0", features = ["ron"] }
+insta = { version = "1.47.2", features = ["ron"] }
 

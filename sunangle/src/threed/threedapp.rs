@@ -1,4 +1,4 @@
-// Copyright 2023 Marsh J. Ray
+// Copyright 2023,2026 Marsh J. Ray
 //
 // Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or
 // http://apache.org/licenses/LICENSE-2.0> or the MIT license <LICENSE-MIT or
@@ -159,7 +159,7 @@ impl ThreeDApp {
         let mut cpu_mesh = CpuMesh::sphere(6);
 
         // Transform from radius 1.0 to diameter 1.0.
-        let _ = cpu_mesh.transform(&Matrix4::from_scale(0.5));
+        let _ = cpu_mesh.transform(Matrix4::from_scale(0.5));
 
         // Assign colors.
         cpu_mesh.colors = Some(if let Positions::F32(ref mut ps) = cpu_mesh.positions {
@@ -296,7 +296,7 @@ impl ThreeDApp {
         */
         let mut thin_cube = CpuMesh::cube(); //?xxx
         thin_cube //?xxx
-            .transform(&Mat4::from_nonuniform_scale(1.0, 1.0, 0.04)) //?xxx
+            .transform(Mat4::from_nonuniform_scale(1.0, 1.0, 0.04)) //?xxx
             .unwrap(); //?xxx
 
         /*

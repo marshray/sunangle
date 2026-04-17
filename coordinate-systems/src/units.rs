@@ -1,4 +1,4 @@
-// Copyright 2023 Marsh J. Ray
+// Copyright 2023,2026 Marsh J. Ray
 //
 // Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or
 // http://apache.org/licenses/LICENSE-2.0> or the MIT license <LICENSE-MIT or

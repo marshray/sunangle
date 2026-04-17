@@ -1,4 +1,4 @@
-// Copyright 2023 Marsh J. Ray
+// Copyright 2023,2026 Marsh J. Ray
 //
 // Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or
 // http://apache.org/licenses/LICENSE-2.0> or the MIT license <LICENSE-MIT or
@@ -48,6 +48,8 @@ pub struct SunangleApp {
 
     // UI stuff
     //
+    #[serde(skip)]
+    opt_ctx: Option<egui::Context>,
     ui_settings_checkbox: bool,
     current_time_checkbx: bool,
     animation_checkbx: bool,
@@ -76,6 +78,7 @@ impl Default for SunangleApp {
         Self {
             world: World::new(),
             draw_frame_info: DrawFrameInfo::new(),
+            opt_ctx: None,
             ui_settings_checkbox: false,
             current_time_checkbx: true,
             animation_checkbx: true,
@@ -97,7 +100,9 @@ impl SunangleApp {
 
     /// Called once before the first frame.
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        cc.egui_ctx.style_mut(|style| {
+        let ctx = cc.egui_ctx.clone();
+
+        ctx.global_style_mut(|style| {
             let prev_animation_time = style.animation_time;
             debug!("prev_animation_time: {prev_animation_time}");
             style.animation_time = style.animation_time.min(Self::MAX_ANIMATION_TIME);
@@ -106,11 +111,27 @@ impl SunangleApp {
         // Load previous app state
         let mut self_ = Self::load_from_storage(cc).unwrap_or_default();
 
+        self_.opt_ctx = Some(ctx);
+
         // Initialize the world.
         coordinate_systems::ecs_add_stuff(&mut self_.world);
 
         self_
     }
+
+    fn ctx(&self) -> &egui::Context {
+        // `unwrap()` is Ok because we always have a context handle.
+        #[allow(clippy::unwrap_used)]
+        self.opt_ctx.as_ref().unwrap()
+    }
+
+    /*
+    fn clone_egui_context_handle(&self) -> egui::Context {
+        // `unwrap()` is Ok because we always have a context handle.
+        #[allow(clippy::unwrap_used)]
+        self.opt_ctx.as_ref().unwrap().clone()
+    }
+    // */
 
     fn load_from_storage(cc: &eframe::CreationContext<'_>) -> Option<Self> {
         let Some(storage) = cc.storage else {
@@ -146,24 +167,27 @@ impl SunangleApp {
 }
 
 impl eframe::App for SunangleApp {
-    /// Called each time the UI needs repainting, which may be many times per second.
-    fn update(&mut self, ctx: &egui::Context, eframe_frame: &mut eframe::Frame) {
-        if let Err(e) = self.draw_frame_info.start_ui_update(ctx.frame_nr()) {
+    /// "Called each time the UI needs repainting, which may be many times per second."
+    fn ui(&mut self, ui: &mut eframe::egui::Ui, eframe_frame: &mut eframe::Frame) {
+
+        if let Err(e) = self.draw_frame_info.start_ui_update(
+            //? ctx.frame_nr()
+        ) {
             error!("eframe::App::update error start_ui_update {e}");
         }
 
-        if let Err(e) = self.update_impl(ctx, eframe_frame) {
+        if let Err(e) = self.update_impl(ui, eframe_frame) {
             error!("eframe::App::update error {e}");
         }
 
-        self.consider_requesting_new_frame(ctx);
+        self.consider_requesting_new_frame(ui);
 
         if let Err(e) = self.draw_frame_info.finish_ui_update() {
             error!("eframe::App::update error finish_ui_update {e}");
         }
     }
 
-    /// Called occasionally, and before shutdown, to persist state.
+    /// "Called occasionally, and before shutdown, to persist state."
     fn save(&mut self, storage: &mut dyn eframe::Storage) {
         debug!("Saving SunagleApp:\n{}", self.to_string(true));
 
@@ -178,14 +202,16 @@ impl eframe::App for SunangleApp {
 }
 
 impl SunangleApp {
-    fn update_impl(&mut self, ctx: &egui::Context, eframe_frame: &mut eframe::Frame) -> Result<()> {
-        self.top_panel(ctx);
-        self.central_panel(ctx);
+    fn update_impl(&mut self, ui: &mut eframe::egui::Ui, eframe_frame: &mut eframe::Frame) -> Result<()> {
+        let ctx = self.ctx().clone();
+
+        self.top_panel(ui);
+        self.central_panel(ui);
 
         if self.ui_settings_checkbox {
             egui::Window::new("UI Settings")
                 .vscroll(true)
-                .show(ctx, |ui| {
+                .show(ui, |ui| {
                     ctx.settings_ui(ui);
                 });
         }
@@ -195,7 +221,7 @@ impl SunangleApp {
                 .get_or_insert_with(|| {
                     ui::CurrentTimeCtrlWindow::new(self.arcrwl_world_state.clone())
                 })
-                .show(ctx, &mut self.world);
+                .show(&ctx, &mut self.world);
         }
 
         if self.animation_checkbx {
@@ -203,20 +229,20 @@ impl SunangleApp {
                 .get_or_insert_with(|| {
                     ui::AnimationCtrlWindow::new(self.arcrwl_animation_state.clone())
                 })
-                .show(ctx, &mut self.world);
+                .show(&ctx, &mut self.world);
         }
 
         if self.ecs_explore_checkbx {
             self.opt_ecs_explore_window
                 .get_or_insert_with(|| ui::EcsExploreWindow::new())
-                .show(ctx, &mut self.world);
+                .show(&ctx, &mut self.world);
         }
         Ok(())
     }
 
-    fn top_panel(&mut self, ctx: &egui::Context) {
-        let tp = egui::TopBottomPanel::top("top_panel");
-        tp.show(ctx, |ui| self.top_panel_add_contents(ui));
+    fn top_panel(&mut self, ui: &mut eframe::egui::Ui) {
+        let tp = egui::containers::panel::Panel::top("top_panel");
+        tp.show_inside(ui, |ui| self.top_panel_add_contents(ui));
     }
 
     fn top_panel_add_contents(&mut self, ui: &mut Ui) {
@@ -245,12 +271,12 @@ impl SunangleApp {
         });
     }
 
-    fn central_panel(&mut self, ctx: &egui::Context) {
-        let central_panel_frame_settings = Frame::none().fill(egui::Color32::BLACK);
+    fn central_panel(&mut self, ui: &mut eframe::egui::Ui) {
+        let central_panel_frame_settings = Frame::new().fill(egui::Color32::BLACK);
 
         let cp = egui::CentralPanel::default().frame(central_panel_frame_settings);
 
-        cp.show(ctx, |ui| self.central_panel_add_contents(ui));
+        cp.show_inside(ui, |ui| self.central_panel_add_contents(ui));
     }
 
     fn central_panel_add_contents(&mut self, ui: &mut Ui) {
@@ -327,7 +353,7 @@ impl SunangleApp {
         painter.add(shape);
     }
 
-    fn consider_requesting_new_frame(&mut self, ctx: &egui::Context) {
+    fn consider_requesting_new_frame(&mut self, ui: &mut eframe::egui::Ui) {
         let is_animating = {
             let ani_state = self.arcrwl_animation_state.read().unwrap();
             ani_state.is_animating()
@@ -338,7 +364,7 @@ impl SunangleApp {
             const MIN_FRAMEDURATION: f64 = 1.0 / MAX_FRAMERATE;
             //? TODO: we should take into account how long the current frame took to draw and subtract that
             // from MAX_FRAMERATE.
-            ctx.request_repaint_after(std::time::Duration::from_secs_f64(MIN_FRAMEDURATION));
+            self.ctx().request_repaint_after(std::time::Duration::from_secs_f64(MIN_FRAMEDURATION));
         }
     }
 }

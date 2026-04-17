@@ -1,4 +1,4 @@
-// Copyright 2023 Marsh J. Ray
+// Copyright 2023,2026 Marsh J. Ray
 //
 // Licensed under the Apache License, Version 2.0, <LICENSE-APACHE or
 // http://apache.org/licenses/LICENSE-2.0> or the MIT license <LICENSE-MIT or
@@ -139,7 +139,10 @@ impl DrawFrameInfo {
     }
 
     /// Indicates that the ui update function is being started.
-    pub fn start_ui_update(&mut self, frame_nr: u64) -> Result<()> {
+    pub fn start_ui_update(
+            &mut self
+            //? , frame_nr: u64
+        ) -> Result<()> {
         let tai = if !self.is_state(DrawFrameState::Initial) {
             *self = DrawFrameInfo::new();
             self.v_state_entry_times[0]
@@ -147,7 +150,7 @@ impl DrawFrameInfo {
             DateTimeTai::now()
         };
 
-        self.opt_frame_nr = Some(frame_nr);
+        //? self.opt_frame_nr = Some(frame_nr);
         self.v_state_entry_times.push(tai);
         debug_assert!(self.is_state(DrawFrameState::UiUpdateStarted));
 
@@ -193,7 +196,8 @@ mod t {
 
         dfi.set_timecode(Timecode::new(&video::TIMECODEKIND_60_FPS));
 
-        dfi.start_ui_update(123)?;
+        dfi.start_ui_update(//? 123
+        )?;
         assert_ron_snapshot!(dfi.state(), @"UiUpdateStarted");
 
         dfi.finish_ui_update()?;
