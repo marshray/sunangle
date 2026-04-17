@@ -3,20 +3,25 @@
   "short_name": "sunangle-pwa",
   "icons": [
     {
-      "src": "./icon-256.png",
-      "sizes": "256x256",
+        "src": "./assets/favicon-16x16.png",
+        "sizes": "16x16",
+        "type": "image/png"
+    },
+    {
+        "src": "./assets/favicon-32x32.png",
+        "sizes": "32x32",
+        "type": "image/png"
+    },
+    {
+      "src": "./assets/favicon-192x192.png",
+      "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "./maskable_icon_x512.png",
+      "src": "./assets/favicon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "./icon-1024.png",
-      "sizes": "1024x1024",
-      "type": "image/png"
     }
   ],
   "lang": "en-US",

@@ -1,4 +1,4 @@
-var cacheName = 'sunangle--pwa';
+var cacheName = 'sunangle-pwa';
 var filesToCache = [
   './',
   './index.html',

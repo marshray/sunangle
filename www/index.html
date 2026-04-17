@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<!-- Disable zooming: -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!-- Disable zooming: -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
     <title>Sunangle</title>
 
     <!-- Config for our Rust WASM binary. See https://trunkrs.dev/assets/#rust for more
@@ -19,16 +19,16 @@
 
     <link data-trunk rel="icon" href="assets/favicon.ico">
 
-    <link data-trunk rel="copy-file" href="assets/icon_ios_touch_192.png" />
-    <link data-trunk rel="copy-file" href="assets/icon-256.png" />
-    <link data-trunk rel="copy-file" href="assets/icon-1024.png" />
-    <link data-trunk rel="copy-file" href="assets/manifest.json" />
-    <link data-trunk rel="copy-file" href="assets/maskable_icon_x512.png" />
-    <link data-trunk rel="copy-file" href="assets/sw.js" />
-
+    <link data-trunk rel="copy-file" href="assets/sw.js"/>
+    <link data-trunk rel="copy-file" href="assets/manifest.json"/>
+    <link data-trunk rel="copy-file" href="assets/favicon-16x16.png" data-target-path="assets"/>
+    <link data-trunk rel="copy-file" href="assets/favicon-32x32.png" data-target-path="assets"/>
+    <link data-trunk rel="copy-file" href="assets/favicon-192x192.png" data-target-path="assets"/>
+    <link data-trunk rel="copy-file" href="assets/favicon-512x512.png" data-target-path="assets"/>
+    <link data-trunk rel="copy-file" href="assets/apple-touch-icon.png" data-target-path="assets"/>
 
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon_ios_touch_192.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#404040">
 
@@ -62,15 +62,16 @@
             width: 100%;
         }
 
-        /* Position canvas in center-top: */
+        /* Make canvas fill entire document: */
         canvas {
             margin-right: auto;
             margin-left: auto;
             display: block;
             position: absolute;
-            top: 0%;
-            left: 50%;
-            transform: translate(-50%, 0%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
 
         .centered {
@@ -118,14 +119,22 @@
         }
     </style>
 </head>
-
 <body>
-    <!-- The WASM code will resize the canvas dynamically -->
-    <!-- Make sure this canvas id matches the value in main.rs. -->
+    <!-- The WASM code will resize the canvas dynamically
+    Make sure this canvas id matches the value in main.rs. -->
     <canvas id="sunangle_canvas_id"></canvas>
 
-    <!-- Register a service worker to cache the wasm/js scripts for offline use (for PWA functionality). -->
-    <!-- Force refresh (Ctrl + F5) to load the latest files instead of cached files.  -->
+    <!-- the loading spinner will be removed in main.rs -->
+    <div class="centered" id="loading_text">
+        <noscript>You need javascript to use this website</noscript>
+        <p style="font-size:16px">
+            Loading…
+        </p>
+        <div class="lds-dual-ring"></div>
+    </div>
+
+    <!-- Register a service worker to cache the wasm/js scripts for offline use (for PWA functionality).
+    Force refresh (Ctrl + F5) to load the latest files instead of cached files. -->
     <script>
         // We disable caching during development so that we always view the latest version.
         if ('serviceWorker' in navigator && window.location.hash !== "#dev") {
@@ -135,7 +144,6 @@
         }
     </script>
 </body>
-
 </html>
 
 <!-- Powered by egui: https://github.com/emilk/egui/ -->
