@@ -6,6 +6,7 @@ authors = [
     # With thanks to Emil Ernerfeldt for eframe and eframe_template!
 ]
 edition.workspace = true
+rust-version.workspace = true
 
 #==================================== dependencies (all targets) ===================================
 

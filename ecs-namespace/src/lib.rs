@@ -263,7 +263,7 @@ pub enum NamespaceIterItem {
     Leave,
 }
 
-pub fn ecs_ns_iter(world: &World) -> impl std::iter::IntoIterator<Item = NamespaceIterItem> {
+pub fn ecs_ns_iter(world: &World) -> impl std::iter::IntoIterator<Item = NamespaceIterItem> + use<> {
     use NamespaceIterItem::*;
 
     let mut v_out = vec![];
