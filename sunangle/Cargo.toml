@@ -77,8 +77,14 @@ eframe = {
     default-features = false,
     features = [
         "wayland",       # Wayland
+        "__screenshot",  # Puffin __screenshot is so we can dump a screenshot using EFRAME_SCREENSHOT_TO
     ]
 }
+
+puffin.workspace = true
+puffin_egui.workspace = true
+#puffin_http.workspace = true
+profiling = { workspace = true, features = ["profile-with-puffin"] }
 
 #============================== dependencies (wasm32 web app) ======================================
 

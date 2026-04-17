@@ -94,7 +94,31 @@ half = { version = "2", features = ["std", "num-traits", "zerocopy"] }
 
 eframe = { version = "0.34.1", default-features = false }
 
+#------- puffin dependencies
+
+# https://github.com/EmbarkStudios/puffin/blob/7e08a533f9debfb7d051547263d2ab84c666314f/Cargo.toml
+# https://github.com/EmbarkStudios/puffin/blob/7e08a533f9debfb7d051547263d2ab84c666314f/puffin/Cargo.toml
+# https://github.com/EmbarkStudios/puffin/blob/7e08a533f9debfb7d051547263d2ab84c666314f/puffin_egui/Cargo.toml
+puffin = "0.20.0"
+puffin_egui = "0.30.0"
+
+#puffin_http = "0.16.1"
+
+profiling = { version = "1.0.17", default-features = false }
+
 #========================================== patches ================================================
+
+#------------------------------------------- puffin
+
+[patch.crates-io.puffin]
+version = "=0.20.0"
+git = "https://github.com/EmbarkStudios/puffin"
+rev = "7e08a533f9debfb7d051547263d2ab84c666314f"
+
+[patch.crates-io.puffin_egui]
+version = "=0.30.0"
+git = "https://github.com/EmbarkStudios/puffin"
+rev = "7e08a533f9debfb7d051547263d2ab84c666314f"
 
 #------------------------------------------- three-d
 

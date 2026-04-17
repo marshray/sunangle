@@ -236,7 +236,10 @@ impl SunangleApp {
             self.opt_ecs_explore_window
                 .get_or_insert_with(|| ui::EcsExploreWindow::new())
                 .show(&ctx, &mut self.world);
+
+            puffin_egui::profiler_window(&ctx); //??
         }
+
         Ok(())
     }
 
@@ -268,6 +271,11 @@ impl SunangleApp {
             ui.checkbox(&mut self.ui_settings_checkbox, "UI Settings");
             ui.checkbox(&mut self.current_time_checkbx, "Time");
             ui.checkbox(&mut self.animation_checkbx, "Animation");
+
+            #[cfg(not(any(target_arch = "wasm32")))]
+            if ui.button("Start Profiler").clicked() {
+                Self::start_puffin_server();
+            }
         });
     }
 
@@ -366,5 +374,32 @@ impl SunangleApp {
             // from MAX_FRAMERATE.
             self.ctx().request_repaint_after(std::time::Duration::from_secs_f64(MIN_FRAMEDURATION));
         }
+    }
+
+    #[cfg(not(any(target_arch = "wasm32")))]
+    fn start_puffin_server() {
+        puffin::set_scopes_on(true); // Tell Puffin to collect data
+
+        /*
+        match puffin_http::Server::new("127.0.0.1:8585") {
+            Ok(puffin_server) => {
+                log::info!("Run:  cargo install puffin_viewer && puffin_viewer --url 127.0.0.1:8585");
+
+                std::process::Command::new("puffin_viewer")
+                    .arg("--url")
+                    .arg("127.0.0.1:8585")
+                    .spawn()
+                    .ok();
+
+                // We can store the server if we want, but in this case we just want
+                // it to keep running. Dropping it closes the server, so let's not drop it!
+                #[expect(clippy::mem_forget)]
+                std::mem::forget(puffin_server);
+            }
+            Err(err) => {
+                log::error!("Failed to start puffin server: {err}");
+            }
+        }
+        // */
     }
 }
