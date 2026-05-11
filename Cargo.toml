@@ -45,7 +45,8 @@ three-d-asset = {
     # rev = "8f18012480a9ed6f78e9d26d0ee260310a9ddeb7",
     # [three-d 0.19.0 unconditionally depends on three-d-asset 0.10 with default features] default-features = false
     features = [
-        
+        "reqwest",
+        "jpeg",
     ]
 }
 
@@ -90,6 +91,7 @@ num-integer = { version = "0.1.46", features = [] }
 num-rational = { version = "0.4.2", default-features = false, features = ["num-bigint", "serde", "std"] }
 num-traits = { version = "0.2.19", features = [] }
 once_cell = "1.21.4"
+# ratelimit = "2.0"
 ron = "0.12.1"
 strum = { version = "0.28.0", features = ["derive"] }
 
@@ -105,7 +107,7 @@ async-global-executor = { version = "3.1.0", default-features = false, }
 
 # https://github.com/emilk/egui/blob/main/crates/eframe/Cargo.toml
 eframe = {
-    version = "0.34.2", 
+    version = "0.34.2",
     default-features = false,
     features = [
         "accesskit",     # Make egui comptaible with screen readers

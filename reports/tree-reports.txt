@@ -7,7 +7,9 @@
 ++=================================================================================================|
 ++=================================================================================================|
 
-coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems) 
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems) 
 ├── anyhow v1.0.102 default,std
 ├── cgmath v0.18.0 
 │   ├── approx v0.4.0 default,std
@@ -27,7 +29,7 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 │       │   ├── quote v1.0.45 default,proc-macro (*)
 │       │   └── unicode-ident v1.0.24 
 │       └── unicode-xid v0.2.6 default
-├── ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace) 
+├── ecs-namespace v0.1.0 (/workspaces/sunangle/ecs-namespace) 
 │   ├── anyhow v1.0.102 default,std
 │   ├── derive_more v2.1.1 deref,deref_mut,display,from,into (*)
 │   ├── hecs v0.11.0 column-serialize,default,hecs-macros,macros,row-serialize,serde,std
@@ -78,9 +80,9 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 └── once_cell v1.21.4 alloc,default,race,std
 
-ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace)  (*)
+ecs-namespace v0.1.0 (/workspaces/sunangle/ecs-namespace)  (*)
 
-sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 ├── anyhow v1.0.102 default,std
 ├── async-global-executor v3.1.0 
 │   ├── async-channel v2.5.0 default,std
@@ -129,9 +131,9 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   └── phf v0.11.3 
 │       └── phf_shared v0.11.3 
 │           └── siphasher v1.0.3 default,std
-├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
+├── coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems)  (*)
 ├── derive_more v2.1.1 deref,deref_mut,display,from,into (*)
-├── ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace)  (*)
+├── ecs-namespace v0.1.0 (/workspaces/sunangle/ecs-namespace)  (*)
 ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland
 │   ├── ahash v0.8.12 default,getrandom,no-rng,runtime-rng,serde,std
 │   │   ├── cfg-if v1.0.4 
@@ -528,25 +530,28 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │           ├── once_cell v1.21.4 alloc,default,race,std
 │   │   │           └── xkeysym v0.2.1 
 │   │   ├── arboard v3.6.1 core-graphics,image,image-data,windows-sys
-│   │   │   ├── image v0.25.9 png
+│   │   │   ├── image v0.25.9 jpeg,png
 │   │   │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
 │   │   │   │   ├── byteorder-lite v0.1.0 default,std
 │   │   │   │   ├── moxcms v0.7.11 avx,default,neon,sse
 │   │   │   │   │   ├── num-traits v0.2.19 default,i128,libm,std (*)
 │   │   │   │   │   └── pxfm v0.1.29 
 │   │   │   │   ├── num-traits v0.2.19 default,i128,libm,std (*)
-│   │   │   │   └── png v0.18.1 
-│   │   │   │       ├── bitflags v2.11.1 serde,serde_core,std (*)
-│   │   │   │       ├── crc32fast v1.5.0 default,std
-│   │   │   │       │   └── cfg-if v1.0.4 
-│   │   │   │       ├── fdeflate v0.3.7 
-│   │   │   │       │   └── simd-adler32 v0.3.9 const-generics,default,std
-│   │   │   │       ├── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend
-│   │   │   │       │   ├── crc32fast v1.5.0 default,std (*)
-│   │   │   │       │   └── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc
-│   │   │   │       │       ├── adler2 v2.0.1 
-│   │   │   │       │       └── simd-adler32 v0.3.9 const-generics,default,std
-│   │   │   │       └── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc (*)
+│   │   │   │   ├── png v0.18.1 
+│   │   │   │   │   ├── bitflags v2.11.1 serde,serde_core,std (*)
+│   │   │   │   │   ├── crc32fast v1.5.0 default,std
+│   │   │   │   │   │   └── cfg-if v1.0.4 
+│   │   │   │   │   ├── fdeflate v0.3.7 
+│   │   │   │   │   │   └── simd-adler32 v0.3.9 const-generics,default,std
+│   │   │   │   │   ├── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend
+│   │   │   │   │   │   ├── crc32fast v1.5.0 default,std (*)
+│   │   │   │   │   │   └── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc
+│   │   │   │   │   │       ├── adler2 v2.0.1 
+│   │   │   │   │   │       └── simd-adler32 v0.3.9 const-generics,default,std
+│   │   │   │   │   └── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc (*)
+│   │   │   │   ├── zune-core v0.5.1 std
+│   │   │   │   └── zune-jpeg v0.5.15 default,neon,std,x86
+│   │   │   │       └── zune-core v0.5.1 std
 │   │   │   ├── log v0.4.29 std
 │   │   │   ├── parking_lot v0.12.5 default (*)
 │   │   │   ├── percent-encoding v2.3.2 alloc,default,std
@@ -602,8 +607,8 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   ├── web-time v1.1.0 
 │   │   ├── webbrowser v1.2.1 
 │   │   │   ├── log v0.4.29 std
-│   │   │   └── url v2.5.8 std
-│   │   │       ├── form_urlencoded v1.2.2 alloc,std
+│   │   │   └── url v2.5.8 default,std
+│   │   │       ├── form_urlencoded v1.2.2 alloc,default,std
 │   │   │       │   └── percent-encoding v2.3.2 alloc,default,std
 │   │   │       ├── idna v1.1.0 alloc,compiled_data,std
 │   │   │       │   ├── idna_adapter v1.2.1 compiled_data
@@ -691,7 +696,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   ├── raw-window-handle v0.6.2 alloc,std
 │   │   └── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb (*)
 │   ├── home v0.5.11 
-│   ├── image v0.25.9 png (*)
+│   ├── image v0.25.9 jpeg,png (*)
 │   ├── log v0.4.29 std
 │   ├── parking_lot v0.12.5 default (*)
 │   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
@@ -777,6 +782,8 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │       └── time-core v0.1.8 
 │   ├── vec1 v1.12.1 default,std
 │   └── web-time v1.1.0 
+├── ratelimit v2.0.0 default,std
+│   └── thiserror v2.0.18 default,std (*)
 ├── ron v0.12.1 default,integer128,std (*)
 ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 ├── strum v0.28.0 default,derive,std,strum_macros
@@ -795,15 +802,102 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │       ├── quote v1.0.45 default,proc-macro (*)
 │   │       └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   ├── thiserror v2.0.18 default,std (*)
-│   └── three-d-asset v0.10.0 
+│   └── three-d-asset v0.10.0 image,jpeg,reqwest
 │       ├── cgmath v0.18.0  (*)
 │       ├── half v2.7.1 alloc,default,num-traits,std,zerocopy
 │       │   ├── cfg-if v1.0.4 
 │       │   ├── num-traits v0.2.19 default,i128,libm,std (*)
 │       │   └── zerocopy v0.8.48 derive,simd,zerocopy-derive (*)
+│       ├── image v0.25.9 jpeg,png (*)
+│       ├── reqwest v0.12.28 
+│       │   ├── base64 v0.22.1 alloc,default,std
+│       │   ├── bytes v1.11.1 default,std
+│       │   ├── futures-core v0.3.32 alloc,default,std
+│       │   ├── http v1.4.0 default,std
+│       │   │   ├── bytes v1.11.1 default,std
+│       │   │   └── itoa v1.0.18 
+│       │   ├── http-body v1.0.1 
+│       │   │   ├── bytes v1.11.1 default,std
+│       │   │   └── http v1.4.0 default,std (*)
+│       │   ├── http-body-util v0.1.3 default
+│       │   │   ├── bytes v1.11.1 default,std
+│       │   │   ├── futures-core v0.3.32 alloc,default,std
+│       │   │   ├── http v1.4.0 default,std (*)
+│       │   │   ├── http-body v1.0.1  (*)
+│       │   │   └── pin-project-lite v0.2.17 
+│       │   ├── hyper v1.9.0 client,default,http1
+│       │   │   ├── atomic-waker v1.1.2 
+│       │   │   ├── bytes v1.11.1 default,std
+│       │   │   ├── futures-channel v0.3.32 alloc,default,std
+│       │   │   │   └── futures-core v0.3.32 alloc,default,std
+│       │   │   ├── futures-core v0.3.32 alloc,default,std
+│       │   │   ├── http v1.4.0 default,std (*)
+│       │   │   ├── http-body v1.0.1  (*)
+│       │   │   ├── httparse v1.10.1 default,std
+│       │   │   ├── itoa v1.0.18 
+│       │   │   ├── pin-project-lite v0.2.17 
+│       │   │   ├── smallvec v1.15.1 const_generics,const_new,serde,union (*)
+│       │   │   ├── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time
+│       │   │   │   ├── libc v0.2.186 default,std
+│       │   │   │   ├── mio v1.2.0 net,os-ext,os-poll
+│       │   │   │   │   └── libc v0.2.186 default,std
+│       │   │   │   ├── pin-project-lite v0.2.17 
+│       │   │   │   └── socket2 v0.6.3 all
+│       │   │   │       └── libc v0.2.186 default,std
+│       │   │   └── want v0.3.1 
+│       │   │       └── try-lock v0.2.5 
+│       │   ├── hyper-util v0.1.20 client,client-legacy,client-proxy,default,http1,tokio
+│       │   │   ├── base64 v0.22.1 alloc,default,std
+│       │   │   ├── bytes v1.11.1 default,std
+│       │   │   ├── futures-channel v0.3.32 alloc,default,std (*)
+│       │   │   ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
+│       │   │   ├── http v1.4.0 default,std (*)
+│       │   │   ├── http-body v1.0.1  (*)
+│       │   │   ├── hyper v1.9.0 client,default,http1 (*)
+│       │   │   ├── ipnet v2.12.0 default,std
+│       │   │   ├── libc v0.2.186 default,std
+│       │   │   ├── percent-encoding v2.3.2 alloc,default,std
+│       │   │   ├── pin-project-lite v0.2.17 
+│       │   │   ├── socket2 v0.6.3 all (*)
+│       │   │   ├── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│       │   │   ├── tower-service v0.3.3 
+│       │   │   └── tracing v0.1.44 attributes,default,log,std,tracing-attributes (*)
+│       │   ├── log v0.4.29 std
+│       │   ├── percent-encoding v2.3.2 alloc,default,std
+│       │   ├── pin-project-lite v0.2.17 
+│       │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
+│       │   ├── serde_urlencoded v0.7.1 
+│       │   │   ├── form_urlencoded v1.2.2 alloc,default,std (*)
+│       │   │   ├── itoa v1.0.18 
+│       │   │   ├── ryu v1.0.23 
+│       │   │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
+│       │   ├── sync_wrapper v1.0.2 futures,futures-core
+│       │   │   └── futures-core v0.3.32 alloc,default,std
+│       │   ├── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│       │   ├── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util
+│       │   │   ├── futures-core v0.3.32 alloc,default,std
+│       │   │   ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
+│       │   │   ├── pin-project-lite v0.2.17 
+│       │   │   ├── sync_wrapper v1.0.2 futures,futures-core (*)
+│       │   │   ├── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│       │   │   ├── tower-layer v0.3.3 
+│       │   │   └── tower-service v0.3.3 
+│       │   ├── tower-http v0.6.10 follow-redirect,futures-util,tower
+│       │   │   ├── bitflags v2.11.1 serde,serde_core,std (*)
+│       │   │   ├── bytes v1.11.1 default,std
+│       │   │   ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
+│       │   │   ├── http v1.4.0 default,std (*)
+│       │   │   ├── http-body v1.0.1  (*)
+│       │   │   ├── pin-project-lite v0.2.17 
+│       │   │   ├── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util (*)
+│       │   │   ├── tower-layer v0.3.3 
+│       │   │   ├── tower-service v0.3.3 
+│       │   │   └── url v2.5.8 default,std (*)
+│       │   ├── tower-service v0.3.3 
+│       │   └── url v2.5.8 default,std (*)
 │       └── thiserror v2.0.18 default,std (*)
-├── three-d-asset v0.10.0  (*)
-└── video v0.1.0 (/home/marsh/gh/sunangle/video) 
+├── three-d-asset v0.10.0 image,jpeg,reqwest (*)
+└── video v0.1.0 (/workspaces/sunangle/video) 
     ├── anyhow v1.0.102 default,std
     ├── num-integer v0.1.46 default,i128,std (*)
     ├── num-rational v0.4.2 num-bigint,serde,std (*)
@@ -811,10 +905,10 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
     ├── once_cell v1.21.4 alloc,default,race,std
     └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 
-video v0.1.0 (/home/marsh/gh/sunangle/video)  (*)
+video v0.1.0 (/workspaces/sunangle/video)  (*)
 
-world-model v0.1.0 (/home/marsh/gh/sunangle/world-model) 
-├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
+world-model v0.1.0 (/workspaces/sunangle/world-model) 
+├── coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems)  (*)
 ├── petgraph v0.6.5 serde,serde-1,serde_derive
 │   ├── fixedbitset v0.4.2 
 │   ├── indexmap v2.14.0 default,serde,std (*)
@@ -832,7 +926,7 @@ exit code: 0
 ++=================================================================================================|
 ++=================================================================================================|
 
-coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems) 
+coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems) 
 ├── anyhow feature "default"
 │   ├── anyhow v1.0.102 default,std
 │   └── anyhow feature "std"
@@ -926,7 +1020,7 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 │       └── syn feature "visit-mut"
 │           └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 ├── ecs-namespace feature "default" (command-line)
-│   └── ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace) 
+│   └── ecs-namespace v0.1.0 (/workspaces/sunangle/ecs-namespace) 
 │       ├── anyhow feature "default" (*)
 │       ├── derive_more feature "deref" (*)
 │       ├── derive_more feature "deref_mut" (*)
@@ -1292,9 +1386,9 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 ├── insta feature "redactions" (*)
 └── insta feature "ron" (*)
 
-ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace)  (*)
+ecs-namespace v0.1.0 (/workspaces/sunangle/ecs-namespace)  (*)
 
-sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 ├── async-global-executor v3.1.0 
 │   ├── async-channel feature "default"
 │   │   ├── async-channel v2.5.0 default,std
@@ -1414,7 +1508,466 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │               └── syn feature "full"
 │   │                   └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   └── three-d-asset feature "default"
-│       └── three-d-asset v0.10.0 
+│       └── three-d-asset v0.10.0 image,jpeg,reqwest
+│           ├── image v0.25.9 jpeg,png
+│           │   ├── zune-core v0.5.1 std
+│           │   ├── num-traits feature "default" (*)
+│           │   ├── bytemuck feature "default"
+│           │   │   └── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics
+│           │   │       └── bytemuck_derive feature "default"
+│           │   │           └── bytemuck_derive v1.10.2 (proc-macro) 
+│           │   │               ├── proc-macro2 feature "default" (*)
+│           │   │               ├── quote feature "default" (*)
+│           │   │               └── syn feature "default" (*)
+│           │   ├── bytemuck feature "extern_crate_alloc"
+│           │   │   └── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
+│           │   ├── byteorder-lite feature "default"
+│           │   │   ├── byteorder-lite v0.1.0 default,std
+│           │   │   └── byteorder-lite feature "std"
+│           │   │       └── byteorder-lite v0.1.0 default,std
+│           │   ├── moxcms feature "default"
+│           │   │   ├── moxcms v0.7.11 avx,default,neon,sse
+│           │   │   │   ├── num-traits feature "default" (*)
+│           │   │   │   └── pxfm feature "default"
+│           │   │   │       └── pxfm v0.1.29 
+│           │   │   ├── moxcms feature "avx"
+│           │   │   │   └── moxcms v0.7.11 avx,default,neon,sse (*)
+│           │   │   ├── moxcms feature "neon"
+│           │   │   │   └── moxcms v0.7.11 avx,default,neon,sse (*)
+│           │   │   └── moxcms feature "sse"
+│           │   │       └── moxcms v0.7.11 avx,default,neon,sse (*)
+│           │   ├── png feature "default"
+│           │   │   └── png v0.18.1 
+│           │   │       ├── bitflags feature "default"
+│           │   │       │   └── bitflags v2.11.1 serde,serde_core,std (*)
+│           │   │       ├── crc32fast feature "default"
+│           │   │       │   ├── crc32fast v1.5.0 default,std
+│           │   │       │   │   └── cfg-if feature "default" (*)
+│           │   │       │   └── crc32fast feature "std"
+│           │   │       │       └── crc32fast v1.5.0 default,std (*)
+│           │   │       ├── fdeflate feature "default"
+│           │   │       │   └── fdeflate v0.3.7 
+│           │   │       │       └── simd-adler32 feature "default"
+│           │   │       │           ├── simd-adler32 v0.3.9 const-generics,default,std
+│           │   │       │           ├── simd-adler32 feature "const-generics"
+│           │   │       │           │   └── simd-adler32 v0.3.9 const-generics,default,std
+│           │   │       │           └── simd-adler32 feature "std"
+│           │   │       │               └── simd-adler32 v0.3.9 const-generics,default,std
+│           │   │       ├── flate2 feature "default"
+│           │   │       │   ├── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend
+│           │   │       │   │   ├── crc32fast feature "default" (*)
+│           │   │       │   │   ├── miniz_oxide feature "simd"
+│           │   │       │   │   │   ├── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc
+│           │   │       │   │   │   │   ├── adler2 v2.0.1 
+│           │   │       │   │   │   │   └── simd-adler32 v0.3.9 const-generics,default,std
+│           │   │       │   │   │   └── miniz_oxide feature "simd-adler32"
+│           │   │       │   │   │       └── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc (*)
+│           │   │       │   │   └── miniz_oxide feature "with-alloc"
+│           │   │       │   │       └── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc (*)
+│           │   │       │   └── flate2 feature "rust_backend"
+│           │   │       │       ├── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend (*)
+│           │   │       │       ├── flate2 feature "any_impl"
+│           │   │       │       │   └── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend (*)
+│           │   │       │       └── flate2 feature "miniz_oxide"
+│           │   │       │           ├── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend (*)
+│           │   │       │           └── flate2 feature "any_impl" (*)
+│           │   │       ├── miniz_oxide feature "default"
+│           │   │       │   ├── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc (*)
+│           │   │       │   └── miniz_oxide feature "with-alloc" (*)
+│           │   │       └── miniz_oxide feature "simd" (*)
+│           │   └── zune-jpeg feature "default"
+│           │       ├── zune-jpeg v0.5.15 default,neon,std,x86
+│           │       │   └── zune-core feature "default"
+│           │       │       └── zune-core v0.5.1 std
+│           │       ├── zune-jpeg feature "neon"
+│           │       │   └── zune-jpeg v0.5.15 default,neon,std,x86 (*)
+│           │       ├── zune-jpeg feature "std"
+│           │       │   ├── zune-jpeg v0.5.15 default,neon,std,x86 (*)
+│           │       │   └── zune-core feature "std"
+│           │       │       └── zune-core v0.5.1 std
+│           │       └── zune-jpeg feature "x86"
+│           │           └── zune-jpeg v0.5.15 default,neon,std,x86 (*)
+│           ├── reqwest v0.12.28 
+│           │   ├── futures-core v0.3.32 alloc,default,std
+│           │   ├── serde feature "default" (*)
+│           │   ├── log feature "default" (*)
+│           │   ├── pin-project-lite feature "default" (*)
+│           │   ├── percent-encoding feature "default"
+│           │   │   ├── percent-encoding v2.3.2 alloc,default,std
+│           │   │   └── percent-encoding feature "std"
+│           │   │       ├── percent-encoding v2.3.2 alloc,default,std
+│           │   │       └── percent-encoding feature "alloc"
+│           │   │           └── percent-encoding v2.3.2 alloc,default,std
+│           │   ├── url feature "default"
+│           │   │   ├── url v2.5.8 default,std
+│           │   │   │   ├── percent-encoding feature "alloc" (*)
+│           │   │   │   ├── form_urlencoded feature "alloc"
+│           │   │   │   │   ├── form_urlencoded v1.2.2 alloc,default,std
+│           │   │   │   │   │   └── percent-encoding v2.3.2 alloc,default,std
+│           │   │   │   │   └── percent-encoding feature "alloc" (*)
+│           │   │   │   ├── idna feature "alloc"
+│           │   │   │   │   └── idna v1.1.0 alloc,compiled_data,std
+│           │   │   │   │       ├── smallvec feature "const_generics"
+│           │   │   │   │       │   └── smallvec v1.15.1 const_generics,const_new,serde,union (*)
+│           │   │   │   │       ├── smallvec feature "default" (*)
+│           │   │   │   │       ├── idna_adapter feature "default"
+│           │   │   │   │       │   └── idna_adapter v1.2.1 compiled_data
+│           │   │   │   │       │       ├── icu_normalizer v2.1.1 compiled_data
+│           │   │   │   │       │       │   ├── icu_collections v2.1.1 
+│           │   │   │   │       │       │   │   ├── displaydoc v0.2.5 (proc-macro) 
+│           │   │   │   │       │       │   │   │   ├── proc-macro2 feature "default" (*)
+│           │   │   │   │       │       │   │   │   ├── quote feature "default" (*)
+│           │   │   │   │       │       │   │   │   └── syn feature "default" (*)
+│           │   │   │   │       │       │   │   ├── potential_utf feature "zerovec"
+│           │   │   │   │       │       │   │   │   └── potential_utf v0.1.5 zerovec
+│           │   │   │   │       │       │   │   │       └── zerovec v0.11.6 derive,yoke
+│           │   │   │   │       │       │   │   │           ├── yoke v0.8.2 derive,zerofrom
+│           │   │   │   │       │       │   │   │           │   ├── stable_deref_trait v1.2.1 
+│           │   │   │   │       │       │   │   │           │   ├── yoke-derive v0.8.2 (proc-macro) 
+│           │   │   │   │       │       │   │   │           │   │   ├── proc-macro2 feature "default" (*)
+│           │   │   │   │       │       │   │   │           │   │   ├── quote feature "default" (*)
+│           │   │   │   │       │       │   │   │           │   │   ├── syn feature "default" (*)
+│           │   │   │   │       │       │   │   │           │   │   ├── syn feature "fold"
+│           │   │   │   │       │       │   │   │           │   │   │   └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
+│           │   │   │   │       │       │   │   │           │   │   └── synstructure feature "default"
+│           │   │   │   │       │       │   │   │           │   │       ├── synstructure v0.13.2 default,proc-macro
+│           │   │   │   │       │       │   │   │           │   │       │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
+│           │   │   │   │       │       │   │   │           │   │       │   ├── quote v1.0.45 default,proc-macro (*)
+│           │   │   │   │       │       │   │   │           │   │       │   ├── syn feature "clone-impls" (*)
+│           │   │   │   │       │       │   │   │           │   │       │   ├── syn feature "derive" (*)
+│           │   │   │   │       │       │   │   │           │   │       │   ├── syn feature "extra-traits" (*)
+│           │   │   │   │       │       │   │   │           │   │       │   ├── syn feature "parsing" (*)
+│           │   │   │   │       │       │   │   │           │   │       │   ├── syn feature "printing" (*)
+│           │   │   │   │       │       │   │   │           │   │       │   └── syn feature "visit"
+│           │   │   │   │       │       │   │   │           │   │       │       └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
+│           │   │   │   │       │       │   │   │           │   │       └── synstructure feature "proc-macro"
+│           │   │   │   │       │       │   │   │           │   │           ├── synstructure v0.13.2 default,proc-macro (*)
+│           │   │   │   │       │       │   │   │           │   │           ├── proc-macro2 feature "proc-macro" (*)
+│           │   │   │   │       │       │   │   │           │   │           ├── quote feature "proc-macro" (*)
+│           │   │   │   │       │       │   │   │           │   │           └── syn feature "proc-macro" (*)
+│           │   │   │   │       │       │   │   │           │   └── zerofrom v0.1.7 derive
+│           │   │   │   │       │       │   │   │           │       └── zerofrom-derive v0.1.7 (proc-macro) 
+│           │   │   │   │       │       │   │   │           │           ├── proc-macro2 feature "default" (*)
+│           │   │   │   │       │       │   │   │           │           ├── quote feature "default" (*)
+│           │   │   │   │       │       │   │   │           │           ├── syn feature "default" (*)
+│           │   │   │   │       │       │   │   │           │           ├── syn feature "fold" (*)
+│           │   │   │   │       │       │   │   │           │           └── synstructure feature "default" (*)
+│           │   │   │   │       │       │   │   │           ├── zerofrom v0.1.7 derive (*)
+│           │   │   │   │       │       │   │   │           └── zerovec-derive v0.11.3 (proc-macro) 
+│           │   │   │   │       │       │   │   │               ├── proc-macro2 feature "default" (*)
+│           │   │   │   │       │       │   │   │               ├── quote feature "default" (*)
+│           │   │   │   │       │       │   │   │               ├── syn feature "default" (*)
+│           │   │   │   │       │       │   │   │               └── syn feature "extra-traits" (*)
+│           │   │   │   │       │       │   │   ├── zerovec feature "derive"
+│           │   │   │   │       │       │   │   │   └── zerovec v0.11.6 derive,yoke (*)
+│           │   │   │   │       │       │   │   ├── zerovec feature "yoke"
+│           │   │   │   │       │       │   │   │   └── zerovec v0.11.6 derive,yoke (*)
+│           │   │   │   │       │       │   │   ├── yoke feature "derive"
+│           │   │   │   │       │       │   │   │   ├── yoke v0.8.2 derive,zerofrom (*)
+│           │   │   │   │       │       │   │   │   ├── yoke feature "zerofrom"
+│           │   │   │   │       │       │   │   │   │   └── yoke v0.8.2 derive,zerofrom (*)
+│           │   │   │   │       │       │   │   │   └── zerofrom feature "derive"
+│           │   │   │   │       │       │   │   │       └── zerofrom v0.1.7 derive (*)
+│           │   │   │   │       │       │   │   └── zerofrom feature "derive" (*)
+│           │   │   │   │       │       │   ├── icu_normalizer_data v2.1.1 
+│           │   │   │   │       │       │   ├── icu_provider v2.1.1 baked
+│           │   │   │   │       │       │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
+│           │   │   │   │       │       │   │   ├── icu_locale_core v2.1.1 zerovec
+│           │   │   │   │       │       │   │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
+│           │   │   │   │       │       │   │   │   ├── litemap v0.8.2 
+│           │   │   │   │       │       │   │   │   ├── tinystr v0.8.3 zerovec
+│           │   │   │   │       │       │   │   │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
+│           │   │   │   │       │       │   │   │   │   └── zerovec v0.11.6 derive,yoke (*)
+│           │   │   │   │       │       │   │   │   ├── writeable v0.6.3 
+│           │   │   │   │       │       │   │   │   └── zerovec v0.11.6 derive,yoke (*)
+│           │   │   │   │       │       │   │   ├── writeable v0.6.3 
+│           │   │   │   │       │       │   │   ├── zerotrie v0.2.4 yoke,zerofrom
+│           │   │   │   │       │       │   │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
+│           │   │   │   │       │       │   │   │   ├── zerofrom v0.1.7 derive (*)
+│           │   │   │   │       │       │   │   │   └── yoke feature "derive" (*)
+│           │   │   │   │       │       │   │   ├── zerovec feature "derive" (*)
+│           │   │   │   │       │       │   │   ├── yoke feature "derive" (*)
+│           │   │   │   │       │       │   │   └── zerofrom feature "derive" (*)
+│           │   │   │   │       │       │   ├── smallvec v1.15.1 const_generics,const_new,serde,union (*)
+│           │   │   │   │       │       │   └── zerovec v0.11.6 derive,yoke (*)
+│           │   │   │   │       │       └── icu_properties v2.1.2 compiled_data
+│           │   │   │   │       │           ├── icu_collections v2.1.1  (*)
+│           │   │   │   │       │           ├── icu_properties_data v2.1.2 
+│           │   │   │   │       │           ├── icu_provider v2.1.1 baked (*)
+│           │   │   │   │       │           ├── zerovec feature "derive" (*)
+│           │   │   │   │       │           ├── zerovec feature "yoke" (*)
+│           │   │   │   │       │           ├── icu_locale_core feature "zerovec"
+│           │   │   │   │       │           │   ├── icu_locale_core v2.1.1 zerovec (*)
+│           │   │   │   │       │           │   └── tinystr feature "zerovec"
+│           │   │   │   │       │           │       └── tinystr v0.8.3 zerovec (*)
+│           │   │   │   │       │           ├── zerotrie feature "yoke"
+│           │   │   │   │       │           │   └── zerotrie v0.2.4 yoke,zerofrom (*)
+│           │   │   │   │       │           └── zerotrie feature "zerofrom"
+│           │   │   │   │       │               └── zerotrie v0.2.4 yoke,zerofrom (*)
+│           │   │   │   │       └── utf8_iter feature "default"
+│           │   │   │   │           └── utf8_iter v1.0.4 
+│           │   │   │   └── idna feature "compiled_data"
+│           │   │   │       ├── idna v1.1.0 alloc,compiled_data,std (*)
+│           │   │   │       └── idna_adapter feature "compiled_data"
+│           │   │   │           ├── idna_adapter v1.2.1 compiled_data (*)
+│           │   │   │           ├── icu_normalizer feature "compiled_data"
+│           │   │   │           │   ├── icu_normalizer v2.1.1 compiled_data (*)
+│           │   │   │           │   └── icu_provider feature "baked"
+│           │   │   │           │       └── icu_provider v2.1.1 baked (*)
+│           │   │   │           └── icu_properties feature "compiled_data"
+│           │   │   │               ├── icu_properties v2.1.2 compiled_data (*)
+│           │   │   │               └── icu_provider feature "baked" (*)
+│           │   │   └── url feature "std"
+│           │   │       ├── url v2.5.8 default,std (*)
+│           │   │       ├── percent-encoding feature "std" (*)
+│           │   │       ├── form_urlencoded feature "std"
+│           │   │       │   ├── form_urlencoded v1.2.2 alloc,default,std (*)
+│           │   │       │   ├── percent-encoding feature "std" (*)
+│           │   │       │   └── form_urlencoded feature "alloc" (*)
+│           │   │       └── idna feature "std"
+│           │   │           ├── idna v1.1.0 alloc,compiled_data,std (*)
+│           │   │           └── idna feature "alloc" (*)
+│           │   ├── base64 feature "default"
+│           │   │   ├── base64 v0.22.1 alloc,default,std
+│           │   │   └── base64 feature "std"
+│           │   │       ├── base64 v0.22.1 alloc,default,std
+│           │   │       └── base64 feature "alloc"
+│           │   │           └── base64 v0.22.1 alloc,default,std
+│           │   ├── bytes feature "default"
+│           │   │   ├── bytes v1.11.1 default,std
+│           │   │   └── bytes feature "std"
+│           │   │       └── bytes v1.11.1 default,std
+│           │   ├── http feature "default"
+│           │   │   ├── http v1.4.0 default,std
+│           │   │   │   ├── itoa feature "default"
+│           │   │   │   │   └── itoa v1.0.18 
+│           │   │   │   └── bytes feature "default" (*)
+│           │   │   └── http feature "std"
+│           │   │       └── http v1.4.0 default,std (*)
+│           │   ├── http-body feature "default"
+│           │   │   └── http-body v1.0.1 
+│           │   │       ├── bytes feature "default" (*)
+│           │   │       └── http feature "default" (*)
+│           │   ├── http-body-util feature "default"
+│           │   │   └── http-body-util v0.1.3 default
+│           │   │       ├── futures-core v0.3.32 alloc,default,std
+│           │   │       ├── pin-project-lite feature "default" (*)
+│           │   │       ├── bytes feature "default" (*)
+│           │   │       ├── http feature "default" (*)
+│           │   │       └── http-body feature "default" (*)
+│           │   ├── hyper feature "client"
+│           │   │   └── hyper v1.9.0 client,default,http1
+│           │   │       ├── smallvec feature "const_generics" (*)
+│           │   │       ├── smallvec feature "const_new"
+│           │   │       │   ├── smallvec v1.15.1 const_generics,const_new,serde,union (*)
+│           │   │       │   └── smallvec feature "const_generics" (*)
+│           │   │       ├── smallvec feature "default" (*)
+│           │   │       ├── pin-project-lite feature "default" (*)
+│           │   │       ├── futures-core feature "default"
+│           │   │       │   ├── futures-core v0.3.32 alloc,default,std
+│           │   │       │   └── futures-core feature "std"
+│           │   │       │       ├── futures-core v0.3.32 alloc,default,std
+│           │   │       │       └── futures-core feature "alloc"
+│           │   │       │           └── futures-core v0.3.32 alloc,default,std
+│           │   │       ├── atomic-waker feature "default" (*)
+│           │   │       ├── itoa feature "default" (*)
+│           │   │       ├── bytes feature "default" (*)
+│           │   │       ├── http feature "default" (*)
+│           │   │       ├── http-body feature "default" (*)
+│           │   │       ├── futures-channel feature "default"
+│           │   │       │   ├── futures-channel v0.3.32 alloc,default,std
+│           │   │       │   │   └── futures-core v0.3.32 alloc,default,std
+│           │   │       │   └── futures-channel feature "std"
+│           │   │       │       ├── futures-channel v0.3.32 alloc,default,std (*)
+│           │   │       │       ├── futures-core feature "std" (*)
+│           │   │       │       └── futures-channel feature "alloc"
+│           │   │       │           ├── futures-channel v0.3.32 alloc,default,std (*)
+│           │   │       │           └── futures-core feature "alloc" (*)
+│           │   │       ├── httparse feature "default"
+│           │   │       │   ├── httparse v1.10.1 default,std
+│           │   │       │   └── httparse feature "std"
+│           │   │       │       └── httparse v1.10.1 default,std
+│           │   │       ├── tokio feature "default"
+│           │   │       │   └── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time
+│           │   │       │       ├── mio v1.2.0 net,os-ext,os-poll
+│           │   │       │       │   └── libc feature "default" (*)
+│           │   │       │       ├── libc feature "default" (*)
+│           │   │       │       ├── pin-project-lite feature "default" (*)
+│           │   │       │       ├── socket2 feature "all"
+│           │   │       │       │   └── socket2 v0.6.3 all
+│           │   │       │       │       └── libc feature "default" (*)
+│           │   │       │       └── socket2 feature "default"
+│           │   │       │           └── socket2 v0.6.3 all (*)
+│           │   │       ├── tokio feature "sync"
+│           │   │       │   └── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│           │   │       └── want feature "default"
+│           │   │           └── want v0.3.1 
+│           │   │               └── try-lock feature "default"
+│           │   │                   └── try-lock v0.2.5 
+│           │   ├── hyper feature "default"
+│           │   │   └── hyper v1.9.0 client,default,http1 (*)
+│           │   ├── hyper feature "http1"
+│           │   │   └── hyper v1.9.0 client,default,http1 (*)
+│           │   ├── tokio feature "net"
+│           │   │   ├── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│           │   │   ├── tokio feature "libc"
+│           │   │   │   └── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│           │   │   ├── tokio feature "mio"
+│           │   │   │   └── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│           │   │   ├── tokio feature "socket2"
+│           │   │   │   └── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│           │   │   ├── mio feature "net"
+│           │   │   │   └── mio v1.2.0 net,os-ext,os-poll (*)
+│           │   │   ├── mio feature "os-ext"
+│           │   │   │   ├── mio v1.2.0 net,os-ext,os-poll (*)
+│           │   │   │   └── mio feature "os-poll"
+│           │   │   │       └── mio v1.2.0 net,os-ext,os-poll (*)
+│           │   │   └── mio feature "os-poll" (*)
+│           │   ├── tokio feature "time"
+│           │   │   └── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│           │   ├── hyper-util feature "client"
+│           │   │   ├── hyper-util v0.1.20 client,client-legacy,client-proxy,default,http1,tokio
+│           │   │   │   ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std
+│           │   │   │   │   ├── futures-core v0.3.32 alloc,default,std
+│           │   │   │   │   ├── futures-macro v0.3.32 (proc-macro) 
+│           │   │   │   │   │   ├── proc-macro2 feature "default" (*)
+│           │   │   │   │   │   ├── quote feature "default" (*)
+│           │   │   │   │   │   ├── syn feature "default" (*)
+│           │   │   │   │   │   └── syn feature "full" (*)
+│           │   │   │   │   ├── futures-task v0.3.32 alloc,std
+│           │   │   │   │   ├── slab v0.4.12 default,std
+│           │   │   │   │   └── pin-project-lite feature "default" (*)
+│           │   │   │   ├── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│           │   │   │   ├── libc feature "default" (*)
+│           │   │   │   ├── pin-project-lite feature "default" (*)
+│           │   │   │   ├── tracing feature "std"
+│           │   │   │   │   ├── tracing v0.1.44 attributes,default,log,std,tracing-attributes
+│           │   │   │   │   │   ├── tracing-core v0.1.36 once_cell,std
+│           │   │   │   │   │   │   └── once_cell feature "default" (*)
+│           │   │   │   │   │   ├── log feature "default" (*)
+│           │   │   │   │   │   ├── pin-project-lite feature "default" (*)
+│           │   │   │   │   │   └── tracing-attributes feature "default"
+│           │   │   │   │   │       └── tracing-attributes v0.1.31 (proc-macro) 
+│           │   │   │   │   │           ├── proc-macro2 feature "default" (*)
+│           │   │   │   │   │           ├── quote feature "default" (*)
+│           │   │   │   │   │           ├── syn feature "clone-impls" (*)
+│           │   │   │   │   │           ├── syn feature "extra-traits" (*)
+│           │   │   │   │   │           ├── syn feature "full" (*)
+│           │   │   │   │   │           ├── syn feature "parsing" (*)
+│           │   │   │   │   │           ├── syn feature "printing" (*)
+│           │   │   │   │   │           ├── syn feature "proc-macro" (*)
+│           │   │   │   │   │           └── syn feature "visit-mut" (*)
+│           │   │   │   │   └── tracing-core feature "std"
+│           │   │   │   │       ├── tracing-core v0.1.36 once_cell,std (*)
+│           │   │   │   │       └── tracing-core feature "once_cell"
+│           │   │   │   │           └── tracing-core v0.1.36 once_cell,std (*)
+│           │   │   │   ├── percent-encoding feature "default" (*)
+│           │   │   │   ├── base64 feature "default" (*)
+│           │   │   │   ├── bytes feature "default" (*)
+│           │   │   │   ├── http feature "default" (*)
+│           │   │   │   ├── http-body feature "default" (*)
+│           │   │   │   ├── hyper feature "default" (*)
+│           │   │   │   ├── futures-channel feature "default" (*)
+│           │   │   │   ├── socket2 feature "all" (*)
+│           │   │   │   ├── socket2 feature "default" (*)
+│           │   │   │   ├── ipnet feature "default"
+│           │   │   │   │   ├── ipnet v2.12.0 default,std
+│           │   │   │   │   └── ipnet feature "std"
+│           │   │   │   │       └── ipnet v2.12.0 default,std
+│           │   │   │   └── tower-service feature "default"
+│           │   │   │       └── tower-service v0.3.3 
+│           │   │   ├── hyper feature "client" (*)
+│           │   │   ├── tokio feature "net" (*)
+│           │   │   └── hyper-util feature "tokio"
+│           │   │       ├── hyper-util v0.1.20 client,client-legacy,client-proxy,default,http1,tokio (*)
+│           │   │       ├── tokio feature "rt"
+│           │   │       │   └── tokio v1.52.3 default,libc,mio,net,rt,socket2,sync,time (*)
+│           │   │       ├── tokio feature "time" (*)
+│           │   │       └── hyper-util feature "tokio" (*)
+│           │   ├── hyper-util feature "client-legacy"
+│           │   │   ├── hyper-util v0.1.20 client,client-legacy,client-proxy,default,http1,tokio (*)
+│           │   │   ├── tokio feature "sync" (*)
+│           │   │   ├── hyper-util feature "client" (*)
+│           │   │   └── hyper-util feature "tokio" (*)
+│           │   ├── hyper-util feature "client-proxy"
+│           │   │   ├── hyper-util v0.1.20 client,client-legacy,client-proxy,default,http1,tokio (*)
+│           │   │   └── hyper-util feature "client" (*)
+│           │   ├── hyper-util feature "default"
+│           │   │   └── hyper-util v0.1.20 client,client-legacy,client-proxy,default,http1,tokio (*)
+│           │   ├── hyper-util feature "http1"
+│           │   │   ├── hyper-util v0.1.20 client,client-legacy,client-proxy,default,http1,tokio (*)
+│           │   │   └── hyper feature "http1" (*)
+│           │   ├── hyper-util feature "tokio" (*)
+│           │   ├── tower-service feature "default" (*)
+│           │   ├── serde_urlencoded feature "default"
+│           │   │   └── serde_urlencoded v0.7.1 
+│           │   │       ├── serde feature "default" (*)
+│           │   │       ├── form_urlencoded feature "default"
+│           │   │       │   ├── form_urlencoded v1.2.2 alloc,default,std (*)
+│           │   │       │   └── form_urlencoded feature "std" (*)
+│           │   │       ├── itoa feature "default" (*)
+│           │   │       └── ryu feature "default"
+│           │   │           └── ryu v1.0.23 
+│           │   ├── sync_wrapper feature "default"
+│           │   │   └── sync_wrapper v1.0.2 futures,futures-core
+│           │   │       └── futures-core v0.3.32 alloc,default,std
+│           │   ├── sync_wrapper feature "futures"
+│           │   │   ├── sync_wrapper v1.0.2 futures,futures-core (*)
+│           │   │   └── sync_wrapper feature "futures-core"
+│           │   │       └── sync_wrapper v1.0.2 futures,futures-core (*)
+│           │   ├── tower feature "retry"
+│           │   │   ├── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util
+│           │   │   │   ├── pin-project-lite feature "default" (*)
+│           │   │   │   ├── futures-core feature "default" (*)
+│           │   │   │   ├── futures-util feature "alloc"
+│           │   │   │   │   ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
+│           │   │   │   │   ├── futures-core feature "alloc" (*)
+│           │   │   │   │   ├── futures-util feature "slab"
+│           │   │   │   │   │   └── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
+│           │   │   │   │   └── futures-task feature "alloc"
+│           │   │   │   │       └── futures-task v0.3.32 alloc,std
+│           │   │   │   ├── tokio feature "default" (*)
+│           │   │   │   ├── tower-service feature "default" (*)
+│           │   │   │   ├── sync_wrapper feature "default" (*)
+│           │   │   │   └── tower-layer feature "default"
+│           │   │   │       └── tower-layer v0.3.3 
+│           │   │   ├── tokio feature "time" (*)
+│           │   │   ├── tower feature "tokio"
+│           │   │   │   └── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util (*)
+│           │   │   └── tower feature "util"
+│           │   │       ├── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util (*)
+│           │   │       ├── tower feature "futures-core"
+│           │   │       │   └── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util (*)
+│           │   │       ├── tower feature "futures-util"
+│           │   │       │   └── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util (*)
+│           │   │       ├── tower feature "pin-project-lite"
+│           │   │       │   └── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util (*)
+│           │   │       └── tower feature "sync_wrapper"
+│           │   │           └── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util (*)
+│           │   ├── tower feature "timeout"
+│           │   │   ├── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util (*)
+│           │   │   ├── tokio feature "time" (*)
+│           │   │   ├── tower feature "pin-project-lite" (*)
+│           │   │   └── tower feature "tokio" (*)
+│           │   ├── tower feature "util" (*)
+│           │   └── tower-http feature "follow-redirect"
+│           │       ├── tower-http v0.6.10 follow-redirect,futures-util,tower
+│           │       │   ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
+│           │       │   ├── bitflags feature "default" (*)
+│           │       │   ├── pin-project-lite feature "default" (*)
+│           │       │   ├── url feature "default" (*)
+│           │       │   ├── bytes feature "default" (*)
+│           │       │   ├── http feature "default" (*)
+│           │       │   ├── http-body feature "default" (*)
+│           │       │   ├── tower-service feature "default" (*)
+│           │       │   ├── tower feature "default"
+│           │       │   │   └── tower v0.5.3 futures-core,futures-util,pin-project-lite,retry,sync_wrapper,timeout,tokio,util (*)
+│           │       │   └── tower-layer feature "default" (*)
+│           │       ├── tower feature "util" (*)
+│           │       ├── tower-http feature "futures-util"
+│           │       │   └── tower-http v0.6.10 follow-redirect,futures-util,tower (*)
+│           │       └── tower-http feature "tower"
+│           │           └── tower-http v0.6.10 follow-redirect,futures-util,tower (*)
 │           ├── cgmath feature "default" (*)
 │           ├── thiserror feature "default" (*)
 │           ├── half feature "default"
@@ -1444,7 +1997,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │           └── half feature "zerocopy"
 │               └── half v2.7.1 alloc,default,num-traits,std,zerocopy (*)
 ├── coordinate-systems feature "default" (command-line)
-│   └── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
+│   └── coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems)  (*)
 ├── anyhow feature "default" (*)
 ├── num-traits feature "default" (*)
 ├── derive_more feature "deref" (*)
@@ -1616,13 +2169,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   ├── emath v0.34.2 bytemuck,serde
 │       │   │   │   │   ├── serde feature "default" (*)
 │       │   │   │   │   ├── serde feature "derive" (*)
-│       │   │   │   │   ├── bytemuck feature "default"
-│       │   │   │   │   │   └── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics
-│       │   │   │   │   │       └── bytemuck_derive feature "default"
-│       │   │   │   │   │           └── bytemuck_derive v1.10.2 (proc-macro) 
-│       │   │   │   │   │               ├── proc-macro2 feature "default" (*)
-│       │   │   │   │   │               ├── quote feature "default" (*)
-│       │   │   │   │   │               └── syn feature "default" (*)
+│       │   │   │   │   ├── bytemuck feature "default" (*)
 │       │   │   │   │   └── bytemuck feature "derive"
 │       │   │   │   │       ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
 │       │   │   │   │       └── bytemuck feature "bytemuck_derive"
@@ -1741,8 +2288,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   ├── log feature "default" (*)
 │       │   │   │   ├── log feature "std" (*)
 │       │   │   │   ├── ron feature "default" (*)
-│       │   │   │   ├── bitflags feature "default"
-│       │   │   │   │   └── bitflags v2.11.1 serde,serde_core,std (*)
+│       │   │   │   ├── bitflags feature "default" (*)
 │       │   │   │   ├── ahash feature "no-rng" (*)
 │       │   │   │   ├── ahash feature "std" (*)
 │       │   │   │   ├── accesskit feature "default"
@@ -1791,22 +2337,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │       │   │   ├── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb
 │       │   │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
-│       │   │   │   ├── tracing v0.1.44 attributes,default,log,std,tracing-attributes
-│       │   │   │   │   ├── tracing-core v0.1.36 once_cell,std
-│       │   │   │   │   │   └── once_cell feature "default" (*)
-│       │   │   │   │   ├── log feature "default" (*)
-│       │   │   │   │   ├── pin-project-lite feature "default" (*)
-│       │   │   │   │   └── tracing-attributes feature "default"
-│       │   │   │   │       └── tracing-attributes v0.1.31 (proc-macro) 
-│       │   │   │   │           ├── proc-macro2 feature "default" (*)
-│       │   │   │   │           ├── quote feature "default" (*)
-│       │   │   │   │           ├── syn feature "clone-impls" (*)
-│       │   │   │   │           ├── syn feature "extra-traits" (*)
-│       │   │   │   │           ├── syn feature "full" (*)
-│       │   │   │   │           ├── syn feature "parsing" (*)
-│       │   │   │   │           ├── syn feature "printing" (*)
-│       │   │   │   │           ├── syn feature "proc-macro" (*)
-│       │   │   │   │           └── syn feature "visit-mut" (*)
+│       │   │   │   ├── tracing v0.1.44 attributes,default,log,std,tracing-attributes (*)
 │       │   │   │   ├── libc feature "default" (*)
 │       │   │   │   ├── bitflags feature "default" (*)
 │       │   │   │   ├── ahash feature "default"
@@ -1899,12 +2430,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   ├── memmap2 feature "default"
 │       │   │   │   │   └── memmap2 v0.9.10 
 │       │   │   │   │       └── libc feature "default" (*)
-│       │   │   │   ├── percent-encoding feature "default"
-│       │   │   │   │   ├── percent-encoding v2.3.2 alloc,default,std
-│       │   │   │   │   └── percent-encoding feature "std"
-│       │   │   │   │       ├── percent-encoding v2.3.2 alloc,default,std
-│       │   │   │   │       └── percent-encoding feature "alloc"
-│       │   │   │   │           └── percent-encoding v2.3.2 alloc,default,std
+│       │   │   │   ├── percent-encoding feature "default" (*)
 │       │   │   │   ├── smithay-client-toolkit feature "calloop"
 │       │   │   │   │   ├── smithay-client-toolkit v0.19.2 calloop,calloop-wayland-source
 │       │   │   │   │   │   ├── libc feature "default" (*)
@@ -1930,11 +2456,8 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       ├── rustix feature "std" (*)
 │       │   │   │   │   │   │       ├── wayland-backend feature "default"
 │       │   │   │   │   │   │       │   └── wayland-backend v0.3.15 client_system,dlopen
-│       │   │   │   │   │   │       │       ├── smallvec feature "const_generics"
-│       │   │   │   │   │   │       │       │   └── smallvec v1.15.1 const_generics,const_new,serde,union (*)
-│       │   │   │   │   │   │       │       ├── smallvec feature "const_new"
-│       │   │   │   │   │   │       │       │   ├── smallvec v1.15.1 const_generics,const_new,serde,union (*)
-│       │   │   │   │   │   │       │       │   └── smallvec feature "const_generics" (*)
+│       │   │   │   │   │   │       │       ├── smallvec feature "const_generics" (*)
+│       │   │   │   │   │   │       │       ├── smallvec feature "const_new" (*)
 │       │   │   │   │   │   │       │       ├── smallvec feature "default" (*)
 │       │   │   │   │   │   │       │       ├── smallvec feature "union"
 │       │   │   │   │   │   │       │       │   └── smallvec v1.15.1 const_generics,const_new,serde,union (*)
@@ -2261,12 +2784,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   ├── event-listener feature "default"
 │       │   │   │   │   │   │       │   │   │   │   ├── event-listener v5.4.1 default,parking,std (*)
 │       │   │   │   │   │   │       │   │   │   │   └── event-listener feature "std" (*)
-│       │   │   │   │   │   │       │   │   │   ├── futures-core feature "default"
-│       │   │   │   │   │   │       │   │   │   │   ├── futures-core v0.3.32 alloc,default,std
-│       │   │   │   │   │   │       │   │   │   │   └── futures-core feature "std"
-│       │   │   │   │   │   │       │   │   │   │       ├── futures-core v0.3.32 alloc,default,std
-│       │   │   │   │   │   │       │   │   │   │       └── futures-core feature "alloc"
-│       │   │   │   │   │   │       │   │   │   │           └── futures-core v0.3.32 alloc,default,std
+│       │   │   │   │   │   │       │   │   │   ├── futures-core feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── async-executor feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── async-task feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── futures-lite feature "std" (*)
@@ -2360,12 +2878,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   │   │   ├── tracing v0.1.44 attributes,default,log,std,tracing-attributes (*)
 │       │   │   │   │   │   │       │   │   │   │   │   └── tracing feature "tracing-attributes"
 │       │   │   │   │   │   │       │   │   │   │   │       └── tracing v0.1.44 attributes,default,log,std,tracing-attributes (*)
-│       │   │   │   │   │   │       │   │   │   │   └── tracing feature "std"
-│       │   │   │   │   │   │       │   │   │   │       ├── tracing v0.1.44 attributes,default,log,std,tracing-attributes (*)
-│       │   │   │   │   │   │       │   │   │   │       └── tracing-core feature "std"
-│       │   │   │   │   │   │       │   │   │   │           ├── tracing-core v0.1.36 once_cell,std (*)
-│       │   │   │   │   │   │       │   │   │   │           └── tracing-core feature "once_cell"
-│       │   │   │   │   │   │       │   │   │   │               └── tracing-core v0.1.36 once_cell,std (*)
+│       │   │   │   │   │   │       │   │   │   │   └── tracing feature "std" (*)
 │       │   │   │   │   │   │       │   │   │   ├── winnow feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── zbus_macros feature "default"
 │       │   │   │   │   │   │       │   │   │   │   └── zbus_macros v5.13.2 (proc-macro) default
@@ -2373,8 +2886,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   │       ├── quote feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── syn feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── syn feature "extra-traits" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── syn feature "fold"
-│       │   │   │   │   │   │       │   │   │   │       │   └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
+│       │   │   │   │   │   │       │   │   │   │       ├── syn feature "fold" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── syn feature "full" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── proc-macro-crate feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── zbus_names feature "default"
@@ -2479,16 +2991,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │           └── atspi-proxies feature "wrappers"
 │       │   │   │   │   │   │               └── atspi-proxies v0.13.0 default,wrappers (*)
 │       │   │   │   │   │   └── futures-util feature "default"
-│       │   │   │   │   │       ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std
-│       │   │   │   │   │       │   ├── futures-core v0.3.32 alloc,default,std
-│       │   │   │   │   │       │   ├── futures-macro v0.3.32 (proc-macro) 
-│       │   │   │   │   │       │   │   ├── proc-macro2 feature "default" (*)
-│       │   │   │   │   │       │   │   ├── quote feature "default" (*)
-│       │   │   │   │   │       │   │   ├── syn feature "default" (*)
-│       │   │   │   │   │       │   │   └── syn feature "full" (*)
-│       │   │   │   │   │       │   ├── futures-task v0.3.32 alloc,std
-│       │   │   │   │   │       │   ├── slab v0.4.12 default,std
-│       │   │   │   │   │       │   └── pin-project-lite feature "default" (*)
+│       │   │   │   │   │       ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
 │       │   │   │   │   │       ├── futures-util feature "async-await"
 │       │   │   │   │   │       │   └── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
 │       │   │   │   │   │       ├── futures-util feature "async-await-macro"
@@ -2500,13 +3003,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │           ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
 │       │   │   │   │   │           ├── futures-core feature "std" (*)
 │       │   │   │   │   │           ├── slab feature "std" (*)
-│       │   │   │   │   │           ├── futures-util feature "alloc"
-│       │   │   │   │   │           │   ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
-│       │   │   │   │   │           │   ├── futures-core feature "alloc" (*)
-│       │   │   │   │   │           │   ├── futures-util feature "slab"
-│       │   │   │   │   │           │   │   └── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std (*)
-│       │   │   │   │   │           │   └── futures-task feature "alloc"
-│       │   │   │   │   │           │       └── futures-task v0.3.32 alloc,std
+│       │   │   │   │   │           ├── futures-util feature "alloc" (*)
 │       │   │   │   │   │           ├── futures-util feature "slab" (*)
 │       │   │   │   │   │           └── futures-task feature "std"
 │       │   │   │   │   │               ├── futures-task v0.3.32 alloc,std
@@ -2563,64 +3060,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   ├── x11rb feature "default"
 │       │   │   │   │   │   └── x11rb v0.13.2 allow-unsafe-code,as-raw-xcb-connection,dl-libxcb,libc,libloading,once_cell,randr,render,resource_manager,shape,xfixes,xinput,xkb (*)
 │       │   │   │   │   └── image feature "png"
-│       │   │   │   │       └── image v0.25.9 png
-│       │   │   │   │           ├── num-traits feature "default" (*)
-│       │   │   │   │           ├── bytemuck feature "default" (*)
-│       │   │   │   │           ├── bytemuck feature "extern_crate_alloc"
-│       │   │   │   │           │   └── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
-│       │   │   │   │           ├── byteorder-lite feature "default"
-│       │   │   │   │           │   ├── byteorder-lite v0.1.0 default,std
-│       │   │   │   │           │   └── byteorder-lite feature "std"
-│       │   │   │   │           │       └── byteorder-lite v0.1.0 default,std
-│       │   │   │   │           ├── moxcms feature "default"
-│       │   │   │   │           │   ├── moxcms v0.7.11 avx,default,neon,sse
-│       │   │   │   │           │   │   ├── num-traits feature "default" (*)
-│       │   │   │   │           │   │   └── pxfm feature "default"
-│       │   │   │   │           │   │       └── pxfm v0.1.29 
-│       │   │   │   │           │   ├── moxcms feature "avx"
-│       │   │   │   │           │   │   └── moxcms v0.7.11 avx,default,neon,sse (*)
-│       │   │   │   │           │   ├── moxcms feature "neon"
-│       │   │   │   │           │   │   └── moxcms v0.7.11 avx,default,neon,sse (*)
-│       │   │   │   │           │   └── moxcms feature "sse"
-│       │   │   │   │           │       └── moxcms v0.7.11 avx,default,neon,sse (*)
-│       │   │   │   │           └── png feature "default"
-│       │   │   │   │               └── png v0.18.1 
-│       │   │   │   │                   ├── bitflags feature "default" (*)
-│       │   │   │   │                   ├── crc32fast feature "default"
-│       │   │   │   │                   │   ├── crc32fast v1.5.0 default,std
-│       │   │   │   │                   │   │   └── cfg-if feature "default" (*)
-│       │   │   │   │                   │   └── crc32fast feature "std"
-│       │   │   │   │                   │       └── crc32fast v1.5.0 default,std (*)
-│       │   │   │   │                   ├── fdeflate feature "default"
-│       │   │   │   │                   │   └── fdeflate v0.3.7 
-│       │   │   │   │                   │       └── simd-adler32 feature "default"
-│       │   │   │   │                   │           ├── simd-adler32 v0.3.9 const-generics,default,std
-│       │   │   │   │                   │           ├── simd-adler32 feature "const-generics"
-│       │   │   │   │                   │           │   └── simd-adler32 v0.3.9 const-generics,default,std
-│       │   │   │   │                   │           └── simd-adler32 feature "std"
-│       │   │   │   │                   │               └── simd-adler32 v0.3.9 const-generics,default,std
-│       │   │   │   │                   ├── flate2 feature "default"
-│       │   │   │   │                   │   ├── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend
-│       │   │   │   │                   │   │   ├── crc32fast feature "default" (*)
-│       │   │   │   │                   │   │   ├── miniz_oxide feature "simd"
-│       │   │   │   │                   │   │   │   ├── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc
-│       │   │   │   │                   │   │   │   │   ├── adler2 v2.0.1 
-│       │   │   │   │                   │   │   │   │   └── simd-adler32 v0.3.9 const-generics,default,std
-│       │   │   │   │                   │   │   │   └── miniz_oxide feature "simd-adler32"
-│       │   │   │   │                   │   │   │       └── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc (*)
-│       │   │   │   │                   │   │   └── miniz_oxide feature "with-alloc"
-│       │   │   │   │                   │   │       └── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc (*)
-│       │   │   │   │                   │   └── flate2 feature "rust_backend"
-│       │   │   │   │                   │       ├── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend (*)
-│       │   │   │   │                   │       ├── flate2 feature "any_impl"
-│       │   │   │   │                   │       │   └── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend (*)
-│       │   │   │   │                   │       └── flate2 feature "miniz_oxide"
-│       │   │   │   │                   │           ├── flate2 v1.1.9 any_impl,default,miniz_oxide,rust_backend (*)
-│       │   │   │   │                   │           └── flate2 feature "any_impl" (*)
-│       │   │   │   │                   ├── miniz_oxide feature "default"
-│       │   │   │   │                   │   ├── miniz_oxide v0.8.9 default,simd,simd-adler32,with-alloc (*)
-│       │   │   │   │                   │   └── miniz_oxide feature "with-alloc" (*)
-│       │   │   │   │                   └── miniz_oxide feature "simd" (*)
+│       │   │   │   │       └── image v0.25.9 jpeg,png (*)
 │       │   │   │   ├── arboard feature "core-graphics"
 │       │   │   │   │   └── arboard v3.6.1 core-graphics,image,image-data,windows-sys (*)
 │       │   │   │   ├── arboard feature "image"
@@ -2713,131 +3153,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   └── webbrowser feature "default"
 │       │   │       └── webbrowser v1.2.1 
 │       │   │           ├── log v0.4.29 std
-│       │   │           └── url feature "std"
-│       │   │               ├── url v2.5.8 std
-│       │   │               │   ├── percent-encoding feature "alloc" (*)
-│       │   │               │   ├── form_urlencoded feature "alloc"
-│       │   │               │   │   ├── form_urlencoded v1.2.2 alloc,std
-│       │   │               │   │   │   └── percent-encoding v2.3.2 alloc,default,std
-│       │   │               │   │   └── percent-encoding feature "alloc" (*)
-│       │   │               │   ├── idna feature "alloc"
-│       │   │               │   │   └── idna v1.1.0 alloc,compiled_data,std
-│       │   │               │   │       ├── smallvec feature "const_generics" (*)
-│       │   │               │   │       ├── smallvec feature "default" (*)
-│       │   │               │   │       ├── idna_adapter feature "default"
-│       │   │               │   │       │   └── idna_adapter v1.2.1 compiled_data
-│       │   │               │   │       │       ├── icu_normalizer v2.1.1 compiled_data
-│       │   │               │   │       │       │   ├── icu_collections v2.1.1 
-│       │   │               │   │       │       │   │   ├── displaydoc v0.2.5 (proc-macro) 
-│       │   │               │   │       │       │   │   │   ├── proc-macro2 feature "default" (*)
-│       │   │               │   │       │       │   │   │   ├── quote feature "default" (*)
-│       │   │               │   │       │       │   │   │   └── syn feature "default" (*)
-│       │   │               │   │       │       │   │   ├── potential_utf feature "zerovec"
-│       │   │               │   │       │       │   │   │   └── potential_utf v0.1.5 zerovec
-│       │   │               │   │       │       │   │   │       └── zerovec v0.11.6 derive,yoke
-│       │   │               │   │       │       │   │   │           ├── yoke v0.8.2 derive,zerofrom
-│       │   │               │   │       │       │   │   │           │   ├── stable_deref_trait v1.2.1 
-│       │   │               │   │       │       │   │   │           │   ├── yoke-derive v0.8.2 (proc-macro) 
-│       │   │               │   │       │       │   │   │           │   │   ├── proc-macro2 feature "default" (*)
-│       │   │               │   │       │       │   │   │           │   │   ├── quote feature "default" (*)
-│       │   │               │   │       │       │   │   │           │   │   ├── syn feature "default" (*)
-│       │   │               │   │       │       │   │   │           │   │   ├── syn feature "fold" (*)
-│       │   │               │   │       │       │   │   │           │   │   └── synstructure feature "default"
-│       │   │               │   │       │       │   │   │           │   │       ├── synstructure v0.13.2 default,proc-macro
-│       │   │               │   │       │       │   │   │           │   │       │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
-│       │   │               │   │       │       │   │   │           │   │       │   ├── quote v1.0.45 default,proc-macro (*)
-│       │   │               │   │       │       │   │   │           │   │       │   ├── syn feature "clone-impls" (*)
-│       │   │               │   │       │       │   │   │           │   │       │   ├── syn feature "derive" (*)
-│       │   │               │   │       │       │   │   │           │   │       │   ├── syn feature "extra-traits" (*)
-│       │   │               │   │       │       │   │   │           │   │       │   ├── syn feature "parsing" (*)
-│       │   │               │   │       │       │   │   │           │   │       │   ├── syn feature "printing" (*)
-│       │   │               │   │       │       │   │   │           │   │       │   └── syn feature "visit"
-│       │   │               │   │       │       │   │   │           │   │       │       └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
-│       │   │               │   │       │       │   │   │           │   │       └── synstructure feature "proc-macro"
-│       │   │               │   │       │       │   │   │           │   │           ├── synstructure v0.13.2 default,proc-macro (*)
-│       │   │               │   │       │       │   │   │           │   │           ├── proc-macro2 feature "proc-macro" (*)
-│       │   │               │   │       │       │   │   │           │   │           ├── quote feature "proc-macro" (*)
-│       │   │               │   │       │       │   │   │           │   │           └── syn feature "proc-macro" (*)
-│       │   │               │   │       │       │   │   │           │   └── zerofrom v0.1.7 derive
-│       │   │               │   │       │       │   │   │           │       └── zerofrom-derive v0.1.7 (proc-macro) 
-│       │   │               │   │       │       │   │   │           │           ├── proc-macro2 feature "default" (*)
-│       │   │               │   │       │       │   │   │           │           ├── quote feature "default" (*)
-│       │   │               │   │       │       │   │   │           │           ├── syn feature "default" (*)
-│       │   │               │   │       │       │   │   │           │           ├── syn feature "fold" (*)
-│       │   │               │   │       │       │   │   │           │           └── synstructure feature "default" (*)
-│       │   │               │   │       │       │   │   │           ├── zerofrom v0.1.7 derive (*)
-│       │   │               │   │       │       │   │   │           └── zerovec-derive v0.11.3 (proc-macro) 
-│       │   │               │   │       │       │   │   │               ├── proc-macro2 feature "default" (*)
-│       │   │               │   │       │       │   │   │               ├── quote feature "default" (*)
-│       │   │               │   │       │       │   │   │               ├── syn feature "default" (*)
-│       │   │               │   │       │       │   │   │               └── syn feature "extra-traits" (*)
-│       │   │               │   │       │       │   │   ├── zerovec feature "derive"
-│       │   │               │   │       │       │   │   │   └── zerovec v0.11.6 derive,yoke (*)
-│       │   │               │   │       │       │   │   ├── zerovec feature "yoke"
-│       │   │               │   │       │       │   │   │   └── zerovec v0.11.6 derive,yoke (*)
-│       │   │               │   │       │       │   │   ├── yoke feature "derive"
-│       │   │               │   │       │       │   │   │   ├── yoke v0.8.2 derive,zerofrom (*)
-│       │   │               │   │       │       │   │   │   ├── yoke feature "zerofrom"
-│       │   │               │   │       │       │   │   │   │   └── yoke v0.8.2 derive,zerofrom (*)
-│       │   │               │   │       │       │   │   │   └── zerofrom feature "derive"
-│       │   │               │   │       │       │   │   │       └── zerofrom v0.1.7 derive (*)
-│       │   │               │   │       │       │   │   └── zerofrom feature "derive" (*)
-│       │   │               │   │       │       │   ├── icu_normalizer_data v2.1.1 
-│       │   │               │   │       │       │   ├── icu_provider v2.1.1 baked
-│       │   │               │   │       │       │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
-│       │   │               │   │       │       │   │   ├── icu_locale_core v2.1.1 zerovec
-│       │   │               │   │       │       │   │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
-│       │   │               │   │       │       │   │   │   ├── litemap v0.8.2 
-│       │   │               │   │       │       │   │   │   ├── tinystr v0.8.3 zerovec
-│       │   │               │   │       │       │   │   │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
-│       │   │               │   │       │       │   │   │   │   └── zerovec v0.11.6 derive,yoke (*)
-│       │   │               │   │       │       │   │   │   ├── writeable v0.6.3 
-│       │   │               │   │       │       │   │   │   └── zerovec v0.11.6 derive,yoke (*)
-│       │   │               │   │       │       │   │   ├── writeable v0.6.3 
-│       │   │               │   │       │       │   │   ├── zerotrie v0.2.4 yoke,zerofrom
-│       │   │               │   │       │       │   │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
-│       │   │               │   │       │       │   │   │   ├── zerofrom v0.1.7 derive (*)
-│       │   │               │   │       │       │   │   │   └── yoke feature "derive" (*)
-│       │   │               │   │       │       │   │   ├── zerovec feature "derive" (*)
-│       │   │               │   │       │       │   │   ├── yoke feature "derive" (*)
-│       │   │               │   │       │       │   │   └── zerofrom feature "derive" (*)
-│       │   │               │   │       │       │   ├── smallvec v1.15.1 const_generics,const_new,serde,union (*)
-│       │   │               │   │       │       │   └── zerovec v0.11.6 derive,yoke (*)
-│       │   │               │   │       │       └── icu_properties v2.1.2 compiled_data
-│       │   │               │   │       │           ├── icu_collections v2.1.1  (*)
-│       │   │               │   │       │           ├── icu_properties_data v2.1.2 
-│       │   │               │   │       │           ├── icu_provider v2.1.1 baked (*)
-│       │   │               │   │       │           ├── zerovec feature "derive" (*)
-│       │   │               │   │       │           ├── zerovec feature "yoke" (*)
-│       │   │               │   │       │           ├── icu_locale_core feature "zerovec"
-│       │   │               │   │       │           │   ├── icu_locale_core v2.1.1 zerovec (*)
-│       │   │               │   │       │           │   └── tinystr feature "zerovec"
-│       │   │               │   │       │           │       └── tinystr v0.8.3 zerovec (*)
-│       │   │               │   │       │           ├── zerotrie feature "yoke"
-│       │   │               │   │       │           │   └── zerotrie v0.2.4 yoke,zerofrom (*)
-│       │   │               │   │       │           └── zerotrie feature "zerofrom"
-│       │   │               │   │       │               └── zerotrie v0.2.4 yoke,zerofrom (*)
-│       │   │               │   │       └── utf8_iter feature "default"
-│       │   │               │   │           └── utf8_iter v1.0.4 
-│       │   │               │   └── idna feature "compiled_data"
-│       │   │               │       ├── idna v1.1.0 alloc,compiled_data,std (*)
-│       │   │               │       └── idna_adapter feature "compiled_data"
-│       │   │               │           ├── idna_adapter v1.2.1 compiled_data (*)
-│       │   │               │           ├── icu_normalizer feature "compiled_data"
-│       │   │               │           │   ├── icu_normalizer v2.1.1 compiled_data (*)
-│       │   │               │           │   └── icu_provider feature "baked"
-│       │   │               │           │       └── icu_provider v2.1.1 baked (*)
-│       │   │               │           └── icu_properties feature "compiled_data"
-│       │   │               │               ├── icu_properties v2.1.2 compiled_data (*)
-│       │   │               │               └── icu_provider feature "baked" (*)
-│       │   │               ├── percent-encoding feature "std" (*)
-│       │   │               ├── form_urlencoded feature "std"
-│       │   │               │   ├── form_urlencoded v1.2.2 alloc,std (*)
-│       │   │               │   ├── percent-encoding feature "std" (*)
-│       │   │               │   └── form_urlencoded feature "alloc" (*)
-│       │   │               └── idna feature "std"
-│       │   │                   ├── idna v1.1.0 alloc,compiled_data,std (*)
-│       │   │                   └── idna feature "alloc" (*)
+│       │   │           └── url feature "std" (*)
 │       │   ├── egui-winit feature "arboard"
 │       │   │   └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │       │   ├── egui-winit feature "bytemuck"
@@ -3116,8 +3432,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │       └── powerfmt v0.2.0 
 │       │   │   ├── deranged feature "powerfmt"
 │       │   │   │   └── deranged v0.5.8 default,powerfmt (*)
-│       │   │   ├── itoa feature "default"
-│       │   │   │   └── itoa v1.0.18 
+│       │   │   ├── itoa feature "default" (*)
 │       │   │   ├── num-conv feature "default"
 │       │   │   │   └── num-conv v0.2.1 
 │       │   │   ├── time-core feature "default"
@@ -3138,6 +3453,11 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │           ├── vec1 v1.12.1 default,std
 │           └── vec1 feature "std"
 │               └── vec1 v1.12.1 default,std
+├── ratelimit feature "default"
+│   ├── ratelimit v2.0.0 default,std
+│   │   └── thiserror v2.0.18 default,std (*)
+│   └── ratelimit feature "std"
+│       └── ratelimit v2.0.0 default,std (*)
 ├── strum feature "default"
 │   ├── strum v0.28.0 default,derive,std,strum_macros
 │   │   └── strum_macros feature "default"
@@ -3155,8 +3475,16 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   └── strum feature "strum_macros"
 │       └── strum v0.28.0 default,derive,std,strum_macros (*)
 ├── three-d-asset feature "default" (*)
+├── three-d-asset feature "jpeg"
+│   ├── three-d-asset v0.10.0 image,jpeg,reqwest (*)
+│   ├── image feature "jpeg"
+│   │   └── image v0.25.9 jpeg,png (*)
+│   └── three-d-asset feature "image"
+│       └── three-d-asset v0.10.0 image,jpeg,reqwest (*)
+├── three-d-asset feature "reqwest"
+│   └── three-d-asset v0.10.0 image,jpeg,reqwest (*)
 └── video feature "default" (command-line)
-    └── video v0.1.0 (/home/marsh/gh/sunangle/video) 
+    └── video v0.1.0 (/workspaces/sunangle/video) 
         ├── anyhow feature "default" (*)
         ├── num-traits feature "default" (*)
         ├── serde feature "default" (*)
@@ -3179,9 +3507,9 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 ├── insta feature "default" (*)
 └── insta feature "ron" (*)
 
-video v0.1.0 (/home/marsh/gh/sunangle/video)  (*)
+video v0.1.0 (/workspaces/sunangle/video)  (*)
 
-world-model v0.1.0 (/home/marsh/gh/sunangle/world-model) 
+world-model v0.1.0 (/workspaces/sunangle/world-model) 
 ├── coordinate-systems feature "default" (command-line) (*)
 ├── serde feature "default" (*)
 ├── serde feature "derive" (*)
@@ -3212,6 +3540,7 @@ exit code: 0
 ++=================================================================================================|
 ++=================================================================================================|
 
+    Blocking waiting for file lock on package cache
 calloop v0.13.0 
 ├── calloop-wayland-source v0.3.0 
 │   └── smithay-client-toolkit v0.19.2 calloop,calloop-wayland-source
@@ -3219,8 +3548,8 @@ calloop v0.13.0
 │           ├── accesskit_winit v0.32.2 accesskit_unix,async-io,default,rwh_06
 │           │   └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser
 │           │       ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland
-│           │       │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-│           │       └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│           │       │   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
+│           │       └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 │           ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │           ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │           └── glutin-winit v0.5.0 egl,wayland,wgl
@@ -3251,7 +3580,7 @@ fastrand v2.4.1 alloc,default,std
 ├── async-executor v1.14.0 static
 │   ├── accesskit_unix v0.21.1 async-io (*)
 │   ├── async-global-executor v3.1.0 
-│   │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│   │   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking
 │       ├── accesskit_unix v0.21.1 async-io (*)
 │       ├── atspi-common v0.13.0 default,wrappers,zbus
@@ -3283,19 +3612,19 @@ hashbrown v0.16.1 default-hasher,inline-more,raw-entry
 ├── accesskit_consumer v0.36.0 
 │   └── accesskit_atspi_common v0.18.1  (*)
 ├── hecs v0.11.0 column-serialize,default,hecs-macros,macros,row-serialize,serde,std
-│   ├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems) 
-│   │   ├── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-│   │   └── world-model v0.1.0 (/home/marsh/gh/sunangle/world-model) 
-│   ├── ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace) 
-│   │   ├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
-│   │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│   ├── coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems) 
+│   │   ├── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
+│   │   └── world-model v0.1.0 (/workspaces/sunangle/world-model) 
+│   ├── ecs-namespace v0.1.0 (/workspaces/sunangle/ecs-namespace) 
+│   │   ├── coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems)  (*)
+│   │   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 │   ├── hecs-hierarchy v0.13.0 (https://github.com/marshray/hecs-hierarchy.git?rev=27cff704e91a2e8c514f3a04be3a482df0e94efa#27cff704) 
-│   │   ├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
-│   │   ├── ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace)  (*)
-│   │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│   │   ├── coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems)  (*)
+│   │   ├── ecs-namespace v0.1.0 (/workspaces/sunangle/ecs-namespace)  (*)
+│   │   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 │   ├── hecs-schedule v0.8.0 (https://github.com/marshray/hecs-schedule.git?rev=6a69a7a65fe46cdc0f3545d6e7680376b2ac32f0#6a69a7a6) 
 │   │   └── hecs-hierarchy v0.13.0 (https://github.com/marshray/hecs-hierarchy.git?rev=27cff704e91a2e8c514f3a04be3a482df0e94efa#27cff704)  (*)
-│   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 ├── vello_common v0.0.6 std
 │   └── vello_cpu v0.0.6 f32_pipeline,std,u8_pipeline
 │       └── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde
@@ -3304,18 +3633,18 @@ hashbrown v0.16.1 default-hasher,inline-more,raw-entry
 │               ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │               ├── egui_extras v0.34.2 serde
 │               │   └── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) 
-│               │       └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│               │       └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 │               ├── egui_glow v0.34.2 default,wayland
 │               │   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
-│               │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│               │   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 │               ├── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533)  (*)
-│               └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│               └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 └── vello_cpu v0.0.6 f32_pipeline,std,u8_pipeline (*)
 
 hashbrown v0.17.1 
 ├── indexmap v2.14.0 default,serde,std
 │   ├── petgraph v0.6.5 serde,serde-1,serde_derive
-│   │   └── world-model v0.1.0 (/home/marsh/gh/sunangle/world-model) 
+│   │   └── world-model v0.1.0 (/workspaces/sunangle/world-model) 
 │   └── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533)  (*)
 └── indexmap v2.14.0 default,std
     └── toml_edit v0.25.11+spec-1.1.0 parse
@@ -3418,7 +3747,7 @@ linux-raw-sys v0.12.1 auxvec,elf,errno,general,if_ether,ioctl,net,netlink,no_std
 
 phf v0.11.3 
 └── chrono-tz v0.8.6 default,std
-    └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+    └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 
 phf v0.13.1 default,macros,phf_macros,std (*)
 
@@ -3476,12 +3805,12 @@ serde v1.0.228 alloc,default,derive,rc,serde_derive,std
 │       │   ├── egui_extras v0.34.2 serde (*)
 │       │   ├── egui_glow v0.34.2 default,wayland (*)
 │       │   ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
-│       │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│       │   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 │       ├── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533)  (*)
-│       └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│       └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 ├── chrono v0.4.44 alloc,clock,default,iana-time-zone,js-sys,now,oldtime,serde,std,wasm-bindgen,wasmbind,winapi,windows-link
 │   ├── chrono-tz v0.8.6 default,std (*)
-│   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 ├── ecolor v0.34.2 bytemuck,serde
 │   └── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
@@ -3496,7 +3825,7 @@ serde v1.0.228 alloc,default,derive,rc,serde_derive,std
 │   └── egui_extras v0.34.2 serde (*)
 ├── enumflags2 v0.7.12 serde
 │   ├── atspi-common v0.13.0 default,wrappers,zbus (*)
-│   ├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
+│   ├── coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems)  (*)
 │   ├── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │   └── zvariant v5.9.2 default,enumflags2 (*)
 ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
@@ -3507,25 +3836,39 @@ serde v1.0.228 alloc,default,derive,rc,serde_derive,std
 │           └── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 ├── hecs v0.11.0 column-serialize,default,hecs-macros,macros,row-serialize,serde,std (*)
 ├── num-rational v0.4.2 num-bigint,serde,std
-│   ├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
-│   └── video v0.1.0 (/home/marsh/gh/sunangle/video) 
-│       └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│   ├── coordinate-systems v0.1.0 (/workspaces/sunangle/coordinate-systems)  (*)
+│   └── video v0.1.0 (/workspaces/sunangle/video) 
+│       └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 ├── petgraph v0.6.5 serde,serde-1,serde_derive (*)
 ├── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde (*)
 ├── quick-xml v0.38.4 default,overlapped-lists,serde,serialize (*)
+├── reqwest v0.12.28 
+│   └── three-d-asset v0.10.0 image,jpeg,reqwest
+│       ├── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
+│       └── three-d v0.19.0 
+│           └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 ├── ron v0.12.1 default,integer128,std
 │   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
-│   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
+├── serde_urlencoded v0.7.1 
+│   └── reqwest v0.12.28  (*)
 ├── smallvec v1.15.1 const_generics,const_new,serde,union
 │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 │   ├── hecs-hierarchy v0.13.0 (https://github.com/marshray/hecs-hierarchy.git?rev=27cff704e91a2e8c514f3a04be3a482df0e94efa#27cff704)  (*)
 │   ├── hecs-schedule v0.8.0 (https://github.com/marshray/hecs-schedule.git?rev=6a69a7a65fe46cdc0f3545d6e7680376b2ac32f0#6a69a7a6)  (*)
+│   ├── hyper v1.9.0 client,default,http1
+│   │   ├── hyper-util v0.1.20 client,client-legacy,client-proxy,default,http1,tokio
+│   │   │   └── reqwest v0.12.28  (*)
+│   │   └── reqwest v0.12.28  (*)
 │   ├── icu_normalizer v2.1.1 compiled_data
 │   │   └── idna_adapter v1.2.1 compiled_data
 │   │       └── idna v1.1.0 alloc,compiled_data,std
-│   │           └── url v2.5.8 std
+│   │           └── url v2.5.8 default,std
+│   │               ├── reqwest v0.12.28  (*)
+│   │               ├── tower-http v0.6.10 follow-redirect,futures-util,tower
+│   │               │   └── reqwest v0.12.28  (*)
 │   │               └── webbrowser v1.2.1 
 │   │                   └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │   ├── idna v1.1.0 alloc,compiled_data,std (*)
@@ -3542,9 +3885,9 @@ serde v1.0.228 alloc,default,derive,rc,serde_derive,std
 │   ├── peniko v0.6.0 bytemuck,std (*)
 │   ├── vello_common v0.0.6 std (*)
 │   └── wayland-backend v0.3.15 client_system,dlopen (*)
-├── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-├── video v0.1.0 (/home/marsh/gh/sunangle/video)  (*)
-├── world-model v0.1.0 (/home/marsh/gh/sunangle/world-model) 
+├── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
+├── video v0.1.0 (/workspaces/sunangle/video)  (*)
+├── world-model v0.1.0 (/workspaces/sunangle/world-model) 
 ├── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 └── zbus_xml v5.1.0  (*)
 
@@ -3565,14 +3908,16 @@ serde_core v1.0.228 alloc,rc,result,std
 │   │   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   │   └── glutin-winit v0.5.0 egl,wayland,wgl (*)
 │   ├── png v0.18.1 
-│   │   └── image v0.25.9 png
+│   │   └── image v0.25.9 jpeg,png
 │   │       ├── arboard v3.6.1 core-graphics,image,image-data,windows-sys (*)
-│   │       └── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   │       ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   │       └── three-d-asset v0.10.0 image,jpeg,reqwest (*)
 │   ├── ron v0.12.1 default,integer128,std (*)
 │   ├── rustix v0.38.44 alloc,default,event,fs,libc-extra-traits,pipe,process,shm,std,system,thread,use-libc-auxv (*)
 │   ├── rustix v1.1.4 alloc,default,event,fs,net,pipe,process,shm,std,system,time (*)
 │   ├── smithay-client-toolkit v0.19.2 calloop,calloop-wayland-source (*)
 │   ├── smithay-client-toolkit v0.20.0 calloop,calloop-wayland-source (*)
+│   ├── tower-http v0.6.10 follow-redirect,futures-util,tower (*)
 │   ├── wayland-client v0.31.14  (*)
 │   ├── wayland-csd-frame v0.3.0  (*)
 │   ├── wayland-protocols v0.32.12 client,staging,unstable,wayland-client (*)
@@ -3602,13 +3947,12 @@ thiserror v1.0.69
 
 thiserror v2.0.18 default,std
 ├── hecs-schedule v0.8.0 (https://github.com/marshray/hecs-schedule.git?rev=6a69a7a65fe46cdc0f3545d6e7680376b2ac32f0#6a69a7a6)  (*)
+├── ratelimit v2.0.0 default,std
+│   └── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
 ├── smithay-client-toolkit v0.20.0 calloop,calloop-wayland-source (*)
-├── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-├── three-d v0.19.0 
-│   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-└── three-d-asset v0.10.0 
-    ├── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-    └── three-d v0.19.0  (*)
+├── sunangle v0.1.0 (/workspaces/sunangle/sunangle) 
+├── three-d v0.19.0  (*)
+└── three-d-asset v0.10.0 image,jpeg,reqwest (*)
 
 thiserror-impl v1.0.69 (proc-macro) 
 └── thiserror v1.0.69  (*)

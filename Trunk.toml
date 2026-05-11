@@ -5,5 +5,6 @@ public_url = "/sunangle/"
 
 # Watch functionality on Windows fixed in 0.18.0 https://github.com/trunk-rs/trunk/issues/597
 [watch]
-watch = [ ".." ]
+#watch = [ ".." ]
+watch = [ "." ]
 ignore = [ "target" ]
