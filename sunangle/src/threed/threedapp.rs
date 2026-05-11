@@ -20,7 +20,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::{Arc, RwLock};
 
-use anyhow::{anyhow, bail, ensure, Result};
+use anyhow::{anyhow, bail, Context as AnyhowContext, ensure, Result};
 use log::{debug, error, info, trace, warn};
 //? use serde::{Deserialize, Serialize};
 
@@ -30,17 +30,43 @@ use egui::epaint;
 use three_d::material::ColorMaterial;
 use three_d::renderer::{Camera, Gm, Mesh};
 use three_d::{
-    degrees, radians, vec3, ClearState, Context, CpuMaterial, CpuMesh, Deg, Geometry,
+    degrees, radians, vec3, ClearState, CpuMaterial, CpuMesh, Deg, Geometry, CpuTexture,
     InstancedMesh, Mat4, Object, PhysicalMaterial, Positions, RenderTarget, ScissorBox, Srgba,
-    Viewport,
+    Viewport, Texture2DRef
 };
-use three_d_asset::{Matrix4, PbrMaterial};
+use three_d::core::Context as ThreedCoreContext;
+use three_d::context::Context as ThreedContextContext;
+use three_d_asset::{Matrix4, PbrMaterial, io::RawAssets};
 
 use crate::tai::DateTimeTai;
 use crate::view_state::{AnimationState, ViewState};
 use crate::world_state::WorldState;
 
+pub struct ThreeDAppPreloaded {
+    loaded_assets: RawAssets,
+    world_map_cpu_texture: CpuTexture,
+}
+
+impl ThreeDAppPreloaded {
+    pub async fn new() -> anyhow::Result<Arc<Self>> {
+        let mut loaded_assets = three_d_asset::io::load_async(&[
+            "/workspaces/haikus-for-codespaces/sunangle/www/assets/world_map.jpg",
+        ]).await
+        .context("ThreeDAppPreloaded new")?;
+
+        let mut world_map_cpu_texture: CpuTexture = loaded_assets.deserialize("world_map")
+            .context("deserialize world_map")?;
+        world_map_cpu_texture.data.to_linear_srgb();
+
+        Ok(Arc::new(Self {
+            loaded_assets,
+            world_map_cpu_texture,
+        }))
+    }
+}
+
 pub fn with_three_d_app<R>(
+    arc_threedapp_preloaded: &Arc<ThreeDAppPreloaded>,
     arc_glow_context: &Arc<glow::Context>,
     f: impl Fn(&mut ThreeDApp) -> R,
 ) -> R {
@@ -51,8 +77,9 @@ pub fn with_three_d_app<R>(
     REFCELL_OPT_THREEDAPP.with(|refcell_opt_threedapp| {
         let mut opt_threedapp = refcell_opt_threedapp.borrow_mut();
 
-        let threedapp =
-            opt_threedapp.get_or_insert_with(|| ThreeDApp::new(arc_glow_context.clone()));
+        let mut threedapp =
+            opt_threedapp.get_or_insert_with(|| ThreeDApp::new(arc_threedapp_preloaded));
+        threedapp.provide_glow_context(arc_glow_context);
 
         f(threedapp)
     })
@@ -68,22 +95,26 @@ where
 { } */
 
 pub struct ThreeDApp {
-    core_context: three_d::core::Context,
+    arc_threedapp_preloaded: Arc<ThreeDAppPreloaded>,
     camera: Camera,
-    opt_object_triangle: Option<Gm<Mesh, ColorMaterial>>,
-    opt_gm_mesh_color: Option<Gm<Mesh, ColorMaterial>>,
-    opt_gm_mesh_phys: Option<Gm<Mesh, PhysicalMaterial>>,
     triangle_rotate: Deg<f32>,
+
+    opt_threed_core_context: Option<ThreedCoreContext>,
+
+    opt_gm_mesh_color_triangle: Option<Gm<Mesh, ColorMaterial>>,
+    opt_gm_mesh_color_sphere_model: Option<Gm<Mesh, ColorMaterial>>,
+    opt_gm_physmat_opaque_model: Option<Gm<Mesh, PhysicalMaterial>>,
 }
 
 impl ThreeDApp {
-    pub fn new(arc_glow_context: Arc<glow::Context>) -> Self {
+    pub fn new(arc_threedapp_preloaded: &Arc<ThreeDAppPreloaded>) -> ThreeDApp {
+        //let Some(loaded_assets) = self.opt_loaded_assets.as_mut_ref() else { bail!("make_basic_triangle_model needs loaded assets"); };
+        //self.opt_loaded_assets = Some(loaded_assets);
+
         debug!("ThreeDApp::new(...)");
 
         // Construct a `three_d::GUI` from the `glow::Context`
         //let gui = three_d::GUI::new(&arc_glow_context);
-
-        let core_context = three_d::core::Context::from_gl_context(arc_glow_context).unwrap();
 
         let viewport = Viewport::new_at_origo(1, 1);
 
@@ -118,21 +149,52 @@ impl ThreeDApp {
             z_far,
         );
 
-        let opt_object_triangle = Some(Self::make_basic_triangle_model(&core_context));
-        let opt_gm_mesh_color = Some(Self::make_sphere_model(&core_context));
-        let opt_gm_mesh_phys = Some(Self::make_opaque_model(&core_context));
-
         Self {
-            core_context,
+            arc_threedapp_preloaded: arc_threedapp_preloaded.clone(),
             camera,
-            opt_object_triangle,
-            opt_gm_mesh_color,
-            opt_gm_mesh_phys,
             triangle_rotate: degrees(123.0),
+            opt_threed_core_context: None,
+            opt_gm_mesh_color_triangle: None,
+            opt_gm_mesh_color_sphere_model: None,
+            opt_gm_physmat_opaque_model: None,
         }
     }
 
-    fn make_basic_triangle_model(context: &Context) -> Gm<Mesh, ColorMaterial> {
+    pub fn provide_glow_context(&mut self, arc_glow_context: &Arc<glow::Context>) {
+        self.opt_threed_core_context.get_or_insert_with(|| {
+            ThreedCoreContext::from_gl_context(arc_glow_context.clone()).unwrap()
+        });
+    }
+    
+    fn threed_core_context(&self) -> anyhow::Result<&ThreedCoreContext> {
+        self.opt_threed_core_context.as_ref().ok_or_else(|| {
+            anyhow!("make_basic_triangle_model needs threed_core_context")
+        })
+    }
+    
+    fn cpu_texture(&self) -> &CpuTexture {
+        &self.arc_threedapp_preloaded.world_map_cpu_texture
+    }
+    
+    fn make_models(&mut self) {        
+        if self.opt_gm_mesh_color_triangle.is_none() {
+            self.opt_gm_mesh_color_triangle = self.make_basic_triangle_model().ok();
+        }
+
+        if self.opt_gm_mesh_color_sphere_model.is_none() {
+            self.opt_gm_mesh_color_sphere_model = self.make_sphere_model().ok();
+        }
+
+        if self.opt_gm_physmat_opaque_model.is_none() {
+            self.opt_gm_physmat_opaque_model = self.make_physmat_opaque_model().ok();
+        }
+    }
+
+    fn make_basic_triangle_model(&self) -> anyhow::Result<Gm<Mesh, ColorMaterial>> {
+        let Some(threed_core_context) = self.opt_threed_core_context.as_ref() else {
+            bail!("make_basic_triangle_model needs threed_core_context");
+        };
+
         // Create a CPU-side mesh consisting of a single colored triangle //x ????
         let positions = vec![
             vec3(0.5, -0.5, 0.0),  // bottom right //x ????
@@ -152,10 +214,20 @@ impl ThreeDApp {
             ..Default::default()                  //x ????
         };
 
-        Gm::new(Mesh::new(context, &cpu_mesh), ColorMaterial::default())
+        let texture = Some(Texture2DRef::from_cpu_texture(threed_core_context, self.cpu_texture()));
+
+        //? XXX Gm::new(Mesh::new(context, &cpu_mesh), ColorMaterial::default())
+        let gm = Gm::new(Mesh::new(threed_core_context, &cpu_mesh), ColorMaterial {
+            texture,
+            ..Default::default()
+        });
+
+        Ok(gm)
     }
 
-    fn make_sphere_model(context: &Context) -> Gm<Mesh, ColorMaterial> {
+    fn make_sphere_model(&self) -> anyhow::Result<Gm<Mesh, ColorMaterial>> {
+        let threed_core_context = self.threed_core_context()?;
+
         let mut cpu_mesh = CpuMesh::sphere(6);
 
         // Transform from radius 1.0 to diameter 1.0.
@@ -168,6 +240,8 @@ impl ThreeDApp {
 
             for (v_ix, pos) in ps.iter().enumerate() {
                 // 0.0 <= RGB <= 1.0
+                //swap with mesh here
+              
                 let r = 0.5 + pos.y;
                 let g = 0.5 + pos.y;
                 let b = 0.5 + pos.y;
@@ -200,7 +274,7 @@ impl ThreeDApp {
                 let r = r * 2.0 - 1.0;
                 let g = g * 2.0 - 1.0;
                 let b = b * 2.0 - 1.0;
-                */
+                // */
 
                 //let r = r/4.0;
 
@@ -215,7 +289,7 @@ impl ThreeDApp {
                 //let r = r * invert_z;
                 //let g = g * invert_x;
                 //let b = b * invert_y;
-                 */
+                // */
 
                 let r = ((r * 256.0) as u8).min(255);
                 let g = ((g * 256.0) as u8).min(255);
@@ -230,14 +304,16 @@ impl ThreeDApp {
             vec![Srgba::new_opaque(0, 255, 0); cpu_mesh.positions.len()]
         });
 
-        let geometry = Mesh::new(context, &cpu_mesh);
+        let geometry = Mesh::new(threed_core_context, &cpu_mesh);
 
         let color_material = ColorMaterial::default();
 
-        Gm::new(geometry, color_material)
+        Ok(Gm::new(geometry, color_material))
     }
 
-    fn make_opaque_model(context: &Context) -> Gm<Mesh, PhysicalMaterial> {
+    fn make_physmat_opaque_model(&self) -> anyhow::Result<Gm<Mesh, PhysicalMaterial>> {
+        let threed_core_context = self.threed_core_context()?;
+
         /*
                 let rot_z90 = Mat4::from_angle_z(Deg(90.0)); //?xxx
 
@@ -293,7 +369,7 @@ impl ThreeDApp {
                     ), //?xxx
                     ..Default::default()                                    //?xxx
                 }; //?xxx
-        */
+        // */
         let mut thin_cube = CpuMesh::cube(); //?xxx
         thin_cube //?xxx
             .transform(Mat4::from_nonuniform_scale(1.0, 1.0, 0.04)) //?xxx
@@ -315,14 +391,15 @@ impl ThreeDApp {
         ); //?xxx
 
         //opaque_models.set_transformation(Mat4::from_translation(vec3(-6.0, 0.0, 0.0))); //?xxx
-        */
+        // */
 
         let mut opaque_model = Gm::new(
             //?xxx
-            Mesh::new(context, &thin_cube), //?xxx
+            Mesh::new(threed_core_context, &thin_cube), //?xxx
+
             PhysicalMaterial::new_opaque(
                 //?xxx
-                context, //?xxx
+                threed_core_context, //?xxx
                 &CpuMaterial {
                     //?xxx
                     albedo: Srgba::new(128, 128, 128, 255), //?xxx
@@ -333,7 +410,7 @@ impl ThreeDApp {
 
         //opaque_model.set_transformation(Mat4::from_translation(vec3(0.0, -0.4, -3.0))); //?xxx
 
-        opaque_model
+        Ok(opaque_model)
     }
 
     fn viewport_from_paint_info(paint_info: &epaint::PaintCallbackInfo) -> three_d::Viewport {
@@ -363,13 +440,15 @@ impl ThreeDApp {
         paint_callback_info: &epaint::PaintCallbackInfo,
         egui_glow_painter: &egui_glow::Painter,
     ) -> three_d::RenderTarget<'a> {
+        let threed_core_context = self.threed_core_context().unwrap();
+
         let w: u32 = paint_callback_info.viewport.width().round() as _;
         let h: u32 = paint_callback_info.viewport.height().round() as _;
 
         if let Some(fbo) = egui_glow_painter.intermediate_fbo() {
-            RenderTarget::from_framebuffer(&self.core_context, w, h, fbo)
+            RenderTarget::from_framebuffer(threed_core_context, w, h, fbo)
         } else {
-            RenderTarget::screen(&self.core_context, w, h)
+            RenderTarget::screen(threed_core_context, w, h)
         }
     }
 
@@ -386,7 +465,8 @@ impl ThreeDApp {
         #[cfg(not(target_arch = "wasm32"))]
         unsafe {
             use glow::HasContext as _;
-            self.core_context.disable(glow::FRAMEBUFFER_SRGB);
+            let thcctx = self.threed_core_context().unwrap();
+            thcctx.disable(glow::FRAMEBUFFER_SRGB);
         }
 
         let tri_rot_y = self.triangle_rotate;
@@ -415,15 +495,27 @@ impl ThreeDApp {
         //render_target.clear_partially(scissor_box, ClearState::depth(1.0));
         render_target.clear(ClearState::depth(1.0));
 
+        // Ensure the models are made
+        self.make_models();
+
         // /*
-        if let Some(object) = self.opt_object_triangle.as_mut() {
+        if let Some(object) = self.opt_gm_mesh_color_triangle.as_mut() {
             object.set_transformation(Mat4::from_angle_y(tri_rot_y));
 
             render_target.render_partially(scissor_box, &self.camera, [&object], &[]);
         }
         // */
+
         // /*
-        if let Some(object) = self.opt_gm_mesh_color.as_mut() {
+        if let Some(object) = self.opt_gm_mesh_color_sphere_model.as_mut() {
+            object.set_transformation(Mat4::from_angle_y(tri_rot_y));
+
+            render_target.render_partially(scissor_box, &self.camera, [&object], &[]);
+        }
+        // */
+
+        // /*
+        if let Some(object) = self.opt_gm_physmat_opaque_model.as_mut() {
             object.set_transformation(Mat4::from_angle_y(tri_rot_y));
 
             render_target.render_partially(scissor_box, &self.camera, [&object], &[]);

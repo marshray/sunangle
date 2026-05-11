@@ -2,17 +2,52 @@
 name = "sunangle"
 version = "0.1.0"
 authors = [
-    "Marsh Ray <marshray@live.com>"
+    "Marsh Ray <marshray@live.com>",
+    "GenericCoding <124840475+GenericCoding@users.noreply.github.com>" 
     # With thanks to Emil Ernerfeldt for eframe and eframe_template!
 ]
 edition.workspace = true
 rust-version.workspace = true
 
-#==================================== dependencies (all targets) ===================================
+[dependencies] #========================= dependencies (all targets) ===============================
 
-[dependencies]
+#------------------------------------------ Defined in this workspace
 
-#------------------------------------------ General purpose
+coordinate-systems.workspace = true
+ecs-namespace.workspace = true
+video.workspace = true
+
+#------------------------------------------ `three-d` and `three-d-asset`
+
+three-d.workspace = true
+three-d-asset.workspace = true
+
+#---- Keep these in sync with whatever the `three-d` crate is using
+glow.workspace = true
+# cgmath.workspace = true
+thiserror.workspace = true
+# open-enum.workspace = true
+# winit.workspace = true
+egui.workspace = true
+egui_glow.workspace = true
+# swash
+# lyon
+
+#---- Keep these in sync with whatever the `three-d-asset` crate is using
+# half.workspace = true
+# thiserror.workspace = true
+# reqwest
+# gltf
+# wavefront_obj
+# stl_io
+# lib3mf
+# image
+# resvg
+# pcd-rs
+# data-url
+serde.workspace = true
+
+#------------------------------------------ Common dependencies
 
 anyhow.workspace = true
 derive_more.workspace = true
@@ -23,15 +58,11 @@ num_enum.workspace = true
 num-traits.workspace = true
 once_cell.workspace = true
 ron.workspace = true
-serde.workspace = true
 strum.workspace = true
-thiserror.workspace = true
 
-#------------------------------------------ Defined in this workspace
+#------------------------------------------ Futures, async
 
-coordinate-systems.workspace = true
-ecs-namespace.workspace = true
-video.workspace = true
+async-global-executor.workspace = true
 
 #------------------------------------------ Time
 
@@ -40,23 +71,6 @@ chrono-tz = "0.8.4"
 # tzfile = "0.1.3"
 # humantime = "2.1.0" # A parser and formatter for std::time::{Duration, SystemTime}
 
-#------------------------------------------ Graphics and UI
-
-egui.workspace = true
-
-glow.workspace = true
-egui_glow.workspace = true
-
-# https://github.com/emilk/egui/blob/main/crates/eframe/Cargo.toml
-eframe = { workspace = true, default-features = false, features = [
-    "accesskit",     # Make egui comptaible with screen readers
-    "default_fonts", # Embed the default egui fonts
-    "glow",          # Use the 'glow' rendering backend rather than 'wgpu'
-    "persistence",   # Persist app state (window positions, etc)
-] }
-
-three-d = { workspace = true }
-three-d-asset = { workspace = true }
 
 #================================ dependencies (native app) ========================================
 

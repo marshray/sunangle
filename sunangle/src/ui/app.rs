@@ -30,6 +30,7 @@ use crate::draw_frame_info::DrawFrameInfo;
 use crate::tai::DateTimeTai;
 use crate::ui;
 use crate::ui::showable::ShowableEguiWindow;
+use crate::threed::threedapp::ThreeDAppPreloaded;
 use crate::view_state::{AnimationState, ViewState};
 use crate::world_state::{TimeState, WorldState};
 
@@ -66,6 +67,10 @@ pub struct SunangleApp {
 
     arcrwl_animation_state: Arc<RwLock<AnimationState>>,
     arcrwl_world_state: Arc<RwLock<WorldState>>,
+
+    #[serde(skip)]
+    opt_arc_threedapp_preloaded: Option<Arc<ThreeDAppPreloaded>>,
+
     //next_frame_number: u64,
     //#[serde(skip)]
 
@@ -88,6 +93,7 @@ impl Default for SunangleApp {
             opt_ecs_explore_window: None,
             arcrwl_animation_state: Arc::new(RwLock::new(AnimationState::default())),
             arcrwl_world_state: Arc::new(RwLock::new(WorldState::default())),
+            opt_arc_threedapp_preloaded: None,
             //next_frame_number: 0,
 
             //tai: TimeState::default_tai(),
@@ -151,9 +157,31 @@ impl SunangleApp {
             }
             Ok(mut self_) => {
                 debug!("Loaded SunagleApp:\n{}", self_.to_string(true));
-                Some(self_)
+                match self_.load_assets() {
+                    Err(e) => {
+                        warn!("Loading SunagleApp: decode err: {e}");
+                        None
+                    }
+                    Ok(_) => {
+                        Some(self_)
+                    }
+                }
             }
         }
+    }
+
+    fn load_assets(&mut self) -> Result<()> {
+        if self.opt_arc_threedapp_preloaded.is_some() {
+            return Ok(());
+        }
+
+        let arc_threedapp_preloaded = async_global_executor::block_on(async {
+            ThreeDAppPreloaded::new().await
+        })?;
+
+        self.opt_arc_threedapp_preloaded = Some(arc_threedapp_preloaded);
+
+        Ok(())
     }
 
     fn to_string(&self, pretty: bool) -> String {
@@ -322,27 +350,33 @@ impl SunangleApp {
     fn central_panel_set_up_paint_callback(&mut self, ui: &mut Ui) {
         let arcrwl_animation_state = self.arcrwl_animation_state.clone();
         let arcrwl_world_state = self.arcrwl_world_state.clone();
+        let arc_threedapp_preloaded: Arc<ThreeDAppPreloaded> = self.opt_arc_threedapp_preloaded.as_ref().unwrap().clone();
 
         let egui_glow_callbackfn = egui_glow::CallbackFn::new(
             move |paint_callback_info: epaint::PaintCallbackInfo,
                   egui_glow_painter: &egui_glow::Painter| {
+                let arc_threedapp_preloaded: Arc<ThreeDAppPreloaded> = arc_threedapp_preloaded.clone();
                 let glow_context = egui_glow_painter.gl();
                 let arcrwl_animation_state = arcrwl_animation_state.clone();
                 let arcrwl_world_state = arcrwl_world_state.clone();
 
                 //self.draw_frame_info.start_paint();
 
-                crate::threed::threedapp::with_three_d_app(glow_context, move |threedapp| {
-                    let arcrwl_animation_state = arcrwl_animation_state.clone();
-                    let arcrwl_world_state = arcrwl_world_state.clone();
+                crate::threed::threedapp::with_three_d_app(
+                    &arc_threedapp_preloaded,
+                    glow_context,
+                    move |threedapp| {
+                        let arcrwl_animation_state = arcrwl_animation_state.clone();
+                        let arcrwl_world_state = arcrwl_world_state.clone();
 
-                    threedapp.paint_callback(
-                        &paint_callback_info,
-                        egui_glow_painter,
-                        arcrwl_animation_state,
-                        arcrwl_world_state,
-                    )
-                });
+                        threedapp.paint_callback(
+                            &paint_callback_info,
+                            egui_glow_painter,
+                            arcrwl_animation_state,
+                            arcrwl_world_state,
+                        )
+                    }
+                );
 
                 //self.draw_frame_info.finish_paint();
             },

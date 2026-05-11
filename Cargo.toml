@@ -1,5 +1,5 @@
 [workspace]
-resolver = "2"
+resolver = "3"
 members = [
     "sunangle",
     "coordinate-systems",
@@ -19,15 +19,63 @@ default-members = [
 edition = "2024"
 rust-version = "1.85"
 
-[workspace.dependencies]
+[workspace.dependencies] #===================== dependencies (all targets) =========================
 
-#--- crates defined in the workspace
+#------------------------------------------ Defined in this workspace
+
 coordinate-systems = { path = "./coordinate-systems" }
 video = { path = "./video" }
 ecs-namespace = { path = "./ecs-namespace" }
 world-model = { path = "./world-model" }
 
-#--- common dependencies
+#------------------------------------------ `three-d` and `three-d-asset`
+
+# https://github.com/asny/three-d/blob/0.19.0/Cargo.toml
+three-d = {
+    version = "0.19.0",
+    # git = "https://github.com/asny/three-d",
+    # rev = "b6b0963bc0cee707671e877c42040cb8c4147991",
+    default-features = false
+}
+
+# https://github.com/asny/three-d-asset/blob/0.10.0/Cargo.toml
+three-d-asset = {
+    version = "0.10",
+    # git = "https://github.com/asny/three-d-asset",
+    # rev = "8f18012480a9ed6f78e9d26d0ee260310a9ddeb7",
+    # [three-d 0.19.0 unconditionally depends on three-d-asset 0.10 with default features] default-features = false
+    features = [
+        
+    ]
+}
+
+#---- Keep these in sync with whatever the `three-d` crate is using
+glow = "0.17"
+cgmath = "0.18"
+thiserror = "2"
+# open-enum = "0.5"
+# winit
+egui = "0.34"
+egui_glow = "0.34"
+# swash = "0.2"
+# lyon = "1"
+
+#---- Keep these in sync with whatever the `three-d-asset` crate is using
+# half = { version = "2", features = [ "std", "num-traits", "zerocopy" ] }
+# thiserror
+# reqwest
+# gltf
+# wavefront_obj
+# stl_io
+# lib3buibmf
+# image
+# resvg
+# pcd-rs
+# data-url
+serde = {version= "1", features = ["derive", "rc"] }
+
+#------------------------------------------ Common dependencies
+
 anyhow = "1.0.102"
 derive_more = { version = "2.1.1", default-features = false, features = [
         "deref", "deref_mut", "display", "from", "into"
@@ -43,56 +91,29 @@ num-rational = { version = "0.4.2", default-features = false, features = ["num-b
 num-traits = { version = "0.2.19", features = [] }
 once_cell = "1.21.4"
 ron = "0.12.1"
-serde = { version = "1.0.228", features = ["derive", "rc"] }
 strum = { version = "0.28.0", features = ["derive"] }
 
-#--- keep these synced with whatever the `three-d` crate is using
+#------------------------------------------ Futures, async
 
-# https://github.com/asny/three-d/blob/b6b0963bc0cee707671e877c42040cb8c4147991/Cargo.toml
-three-d = {
-    # version = "0.19.0",
-    git = "https://github.com/asny/three-d",
-    rev = "b6b0963bc0cee707671e877c42040cb8c4147991",
-    default-features = false
-}
-
-# dependencies of three-d
-glow = "0.17"
-cgmath = "0.18"
-thiserror = "2"
-open-enum = "0.5"
-winit = "0.28"
-egui = "0.34"
-egui_glow = "0.34"
-# swash = version = "0.2
-# lyon = "1"
-
-# https://github.com/asny/three-d-asset/blob/8f18012480a9ed6f78e9d26d0ee260310a9ddeb7/Cargo.toml
-three-d-asset = {
-    # version = "0.10.0",
-    git = "https://github.com/asny/three-d-asset",
-    rev = "8f18012480a9ed6f78e9d26d0ee260310a9ddeb7",
-    # [three-d 0.19.0 unconditionally depends on three-d-asset 0.10 with default features] default-features = false
-}
-
-# dependencies of three-d-asset
-
-half = { version = "2", features = ["std", "num-traits", "zerocopy"] }
-# thiserror = "2"
-# reqwest = {version = "0.12", optional = true, default-features = false }
-# gltf = { version = "1", optional = true, features=[] }
-# wavefront_obj = { version = "11.0", optional = true }
-# stl_io = { version = "0.11", optional = true }
-# lib3mf = { version = "0.1", optional = true, default-features = false }
-# image = { version = "0.25", optional = true, default-features = false}
-# resvg = { version = "0.47", optional = true }
-# pcd-rs = { version = "0.13", optional = true, features = ["derive"] }
-# data-url = {version = "0.3", optional = true }
-# serde = {version= "1", optional = true, features = ["derive", "rc"] }
+async-global-executor = { version = "3.1.0", default-features = false, }
+    #features = [
+    #    "async-io",
+    #    "tokio",
+    #]
 
 #------- egui/eframe dependencies
 
-eframe = { version = "0.34.1", default-features = false }
+# https://github.com/emilk/egui/blob/main/crates/eframe/Cargo.toml
+eframe = {
+    version = "0.34.2", 
+    default-features = false,
+    features = [
+        "accesskit",     # Make egui comptaible with screen readers
+        "default_fonts", # Embed the default egui fonts
+        "glow",          # Use the 'glow' rendering backend rather than 'wgpu'
+        "persistence",   # Persist app state (window positions, etc)
+    ]
+}
 
 #------- puffin dependencies
 
@@ -119,18 +140,6 @@ rev = "7e08a533f9debfb7d051547263d2ab84c666314f"
 version = "=0.30.0"
 git = "https://github.com/EmbarkStudios/puffin"
 rev = "7e08a533f9debfb7d051547263d2ab84c666314f"
-
-#------------------------------------------- three-d
-
-[patch.crates-io.three-d]
-version = "=0.19.0"
-git = "https://github.com/asny/three-d"
-rev = "b6b0963bc0cee707671e877c42040cb8c4147991"
-
-[patch.crates-io.three-d-asset]
-version = "=0.10.0"
-git = "https://github.com/asny/three-d-asset"
-rev = "8f18012480a9ed6f78e9d26d0ee260310a9ddeb7"
 
 #------------------------------------------- hecs-hierarchy, hecs-schedule
 
