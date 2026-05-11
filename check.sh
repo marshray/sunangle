@@ -1,4 +1,5 @@
 #!/usr/bin/sh
+# vim: set sw=4 et ai :
 
 # Runs various CI-like checks in a convenient way.
 

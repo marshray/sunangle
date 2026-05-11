@@ -1,7 +1,11 @@
 
-==================================================================================================== 'cargo' 'tree' '--offline' '-e' 'normal' '-f' '{p} {f}'
-
--------------------------------
+++=================================================================================================|
+++=================================================================================================|
+||
+||  'cargo' 'tree' '--offline' '-e' 'normal' '-f' '{p} {f}'
+||
+++=================================================================================================|
+++=================================================================================================|
 
 coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems) 
 ├── anyhow v1.0.102 default,std
@@ -45,7 +49,7 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 │       ├── hecs v0.11.0 column-serialize,default,hecs-macros,macros,row-serialize,serde,std (*)
 │       ├── hecs-schedule v0.8.0 (https://github.com/marshray/hecs-schedule.git?rev=6a69a7a65fe46cdc0f3545d6e7680376b2ac32f0#6a69a7a6) 
 │       │   ├── anyhow v1.0.102 default,std
-│       │   ├── atomic_refcell v0.1.13 default
+│       │   ├── atomic_refcell v0.1.14 default
 │       │   ├── hecs v0.11.0 column-serialize,default,hecs-macros,macros,row-serialize,serde,std (*)
 │       │   ├── smallvec v1.15.1 const_generics,const_new,serde,union
 │       │   │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
@@ -78,6 +82,44 @@ ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace)  (*)
 
 sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
 ├── anyhow v1.0.102 default,std
+├── async-global-executor v3.1.0 
+│   ├── async-channel v2.5.0 default,std
+│   │   ├── concurrent-queue v2.5.0 default,std
+│   │   │   └── crossbeam-utils v0.8.21 
+│   │   ├── event-listener-strategy v0.5.4 default,std
+│   │   │   ├── event-listener v5.4.1 default,parking,std
+│   │   │   │   ├── concurrent-queue v2.5.0 default,std (*)
+│   │   │   │   ├── parking v2.2.1 
+│   │   │   │   └── pin-project-lite v0.2.17 
+│   │   │   └── pin-project-lite v0.2.17 
+│   │   ├── futures-core v0.3.32 alloc,default,std
+│   │   └── pin-project-lite v0.2.17 
+│   ├── async-executor v1.14.0 static
+│   │   ├── async-task v4.7.1 default,std
+│   │   ├── concurrent-queue v2.5.0 default,std (*)
+│   │   ├── fastrand v2.4.1 alloc,default,std
+│   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std
+│   │   │   ├── fastrand v2.4.1 alloc,default,std
+│   │   │   ├── futures-core v0.3.32 alloc,default,std
+│   │   │   ├── futures-io v0.3.32 default,std
+│   │   │   ├── parking v2.2.1 
+│   │   │   └── pin-project-lite v0.2.17 
+│   │   ├── pin-project-lite v0.2.17 
+│   │   └── slab v0.4.12 default,std
+│   ├── async-lock v3.4.2 default,std
+│   │   ├── event-listener v5.4.1 default,parking,std (*)
+│   │   ├── event-listener-strategy v0.5.4 default,std (*)
+│   │   └── pin-project-lite v0.2.17 
+│   ├── blocking v1.6.2 
+│   │   ├── async-channel v2.5.0 default,std (*)
+│   │   ├── async-task v4.7.1 default,std
+│   │   ├── futures-io v0.3.32 default,std
+│   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│   │   └── piper v0.2.5 default,futures-io,std
+│   │       ├── atomic-waker v1.1.2 
+│   │       ├── fastrand v2.4.1 alloc,default,std
+│   │       └── futures-io v0.3.32 default,std
+│   └── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
 ├── chrono v0.4.44 alloc,clock,default,iana-time-zone,js-sys,now,oldtime,serde,std,wasm-bindgen,wasmbind,winapi,windows-link
 │   ├── iana-time-zone v0.1.65 fallback
 │   ├── num-traits v0.2.19 default,i128,libm,std (*)
@@ -86,16 +128,16 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   ├── chrono v0.4.44 alloc,clock,default,iana-time-zone,js-sys,now,oldtime,serde,std,wasm-bindgen,wasmbind,winapi,windows-link (*)
 │   └── phf v0.11.3 
 │       └── phf_shared v0.11.3 
-│           └── siphasher v1.0.2 default,std
+│           └── siphasher v1.0.3 default,std
 ├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
 ├── derive_more v2.1.1 deref,deref_mut,display,from,into (*)
 ├── ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace)  (*)
-├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland
+├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland
 │   ├── ahash v0.8.12 default,getrandom,no-rng,runtime-rng,serde,std
 │   │   ├── cfg-if v1.0.4 
 │   │   ├── getrandom v0.3.4 
 │   │   │   ├── cfg-if v1.0.4 
-│   │   │   └── libc v0.2.185 default,std
+│   │   │   └── libc v0.2.186 default,std
 │   │   ├── once_cell v1.21.4 alloc,default,race,std
 │   │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   └── zerocopy v0.8.48 derive,simd,zerocopy-derive
@@ -105,7 +147,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │           └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   ├── document-features v0.2.12 (proc-macro) default
 │   │   └── litrs v1.0.0 
-│   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde
+│   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde
 │   │   ├── accesskit v0.24.0 enumn,serde
 │   │   │   ├── enumn v0.1.14 (proc-macro) 
 │   │   │   │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
@@ -117,22 +159,22 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   ├── ahash v0.8.12 default,getrandom,no-rng,runtime-rng,serde,std (*)
 │   │   ├── bitflags v2.11.1 serde,serde_core,std
 │   │   │   └── serde_core v1.0.228 alloc,rc,result,std
-│   │   ├── emath v0.34.1 bytemuck,serde
+│   │   ├── emath v0.34.2 bytemuck,serde
 │   │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics
 │   │   │   │   └── bytemuck_derive v1.10.2 (proc-macro) 
 │   │   │   │       ├── proc-macro2 v1.0.106 default,proc-macro (*)
 │   │   │   │       ├── quote v1.0.45 default,proc-macro (*)
 │   │   │   │       └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   │   │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
-│   │   ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde
+│   │   ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde
 │   │   │   ├── ahash v0.8.12 default,getrandom,no-rng,runtime-rng,serde,std (*)
 │   │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
-│   │   │   ├── ecolor v0.34.1 bytemuck,serde
+│   │   │   ├── ecolor v0.34.2 bytemuck,serde
 │   │   │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
-│   │   │   │   ├── emath v0.34.1 bytemuck,serde (*)
+│   │   │   │   ├── emath v0.34.2 bytemuck,serde (*)
 │   │   │   │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
-│   │   │   ├── emath v0.34.1 bytemuck,serde (*)
-│   │   │   ├── epaint_default_fonts v0.34.1 
+│   │   │   ├── emath v0.34.2 bytemuck,serde (*)
+│   │   │   ├── epaint_default_fonts v0.34.2 
 │   │   │   ├── font-types v0.11.3 bytemuck,serde,std
 │   │   │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
 │   │   │   │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
@@ -143,17 +185,20 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   │   └── scopeguard v1.2.0 
 │   │   │   │   └── parking_lot_core v0.9.12 
 │   │   │   │       ├── cfg-if v1.0.4 
-│   │   │   │       ├── libc v0.2.185 default,std
+│   │   │   │       ├── libc v0.2.186 default,std
 │   │   │   │       └── smallvec v1.15.1 const_generics,const_new,serde,union (*)
-│   │   │   ├── profiling v1.0.17 profile-with-puffin,puffin
-│   │   │   │   └── puffin v0.19.1 default
+│   │   │   ├── profiling v1.0.18 profile-with-puffin,puffin
+│   │   │   │   └── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde
 │   │   │   │       ├── anyhow v1.0.102 default,std
+│   │   │   │       ├── bincode v1.3.3 
+│   │   │   │       │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   │   │       ├── byteorder v1.5.0 default,std
 │   │   │   │       ├── cfg-if v1.0.4 
-│   │   │   │       ├── itertools v0.10.5 default,use_alloc,use_std
+│   │   │   │       ├── itertools v0.14.0 default,use_alloc,use_std
 │   │   │   │       │   └── either v1.15.0 std,use_std
-│   │   │   │       ├── once_cell v1.21.4 alloc,default,race,std
-│   │   │   │       └── parking_lot v0.12.5 default (*)
+│   │   │   │       ├── lz4_flex v0.13.1 
+│   │   │   │       ├── parking_lot v0.12.5 default (*)
+│   │   │   │       └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   │   ├── self_cell v1.2.2 
 │   │   │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   │   ├── skrifa v0.40.0 autohint_shaping,std
@@ -173,7 +218,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │           ├── log v0.4.29 std
 │   │   │           ├── peniko v0.6.0 bytemuck,std
 │   │   │           │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
-│   │   │           │   ├── color v0.3.2 bytemuck,std
+│   │   │           │   ├── color v0.3.3 bytemuck,std
 │   │   │           │   │   └── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
 │   │   │           │   ├── kurbo v0.13.0 std
 │   │   │           │   │   ├── arrayvec v0.7.6 
@@ -183,7 +228,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │           └── smallvec v1.15.1 const_generics,const_new,serde,union (*)
 │   │   ├── log v0.4.29 std
 │   │   ├── nohash-hasher v0.2.0 default,std
-│   │   ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│   │   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │   │   ├── ron v0.12.1 default,integer128,std
 │   │   │   ├── bitflags v2.11.1 serde,serde_core,std (*)
 │   │   │   ├── once_cell v1.21.4 alloc,default,race,std
@@ -194,44 +239,27 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   ├── smallvec v1.15.1 const_generics,const_new,serde,union (*)
 │   │   └── unicode-segmentation v1.13.2 
-│   ├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser
+│   ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser
 │   │   ├── accesskit_winit v0.32.2 accesskit_unix,async-io,default,rwh_06
 │   │   │   ├── accesskit v0.24.0 enumn,serde (*)
-│   │   │   ├── accesskit_unix v0.21.0 async-io
+│   │   │   ├── accesskit_unix v0.21.1 async-io
 │   │   │   │   ├── accesskit v0.24.0 enumn,serde (*)
-│   │   │   │   ├── accesskit_atspi_common v0.18.0 
+│   │   │   │   ├── accesskit_atspi_common v0.18.1 
 │   │   │   │   │   ├── accesskit v0.24.0 enumn,serde (*)
-│   │   │   │   │   ├── accesskit_consumer v0.35.0 
+│   │   │   │   │   ├── accesskit_consumer v0.36.0 
 │   │   │   │   │   │   ├── accesskit v0.24.0 enumn,serde (*)
 │   │   │   │   │   │   └── hashbrown v0.16.1 default-hasher,inline-more,raw-entry (*)
 │   │   │   │   │   ├── atspi-common v0.13.0 default,wrappers,zbus
 │   │   │   │   │   │   ├── enumflags2 v0.7.12 serde (*)
 │   │   │   │   │   │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   │   │   │   │   ├── static_assertions v1.1.0 
-│   │   │   │   │   │   ├── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking
+│   │   │   │   │   │   ├── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking
 │   │   │   │   │   │   │   ├── async-broadcast v0.7.2 
-│   │   │   │   │   │   │   │   ├── event-listener v5.4.1 default,parking,std
-│   │   │   │   │   │   │   │   │   ├── concurrent-queue v2.5.0 default,std
-│   │   │   │   │   │   │   │   │   │   └── crossbeam-utils v0.8.21 
-│   │   │   │   │   │   │   │   │   ├── parking v2.2.1 
-│   │   │   │   │   │   │   │   │   └── pin-project-lite v0.2.17 
-│   │   │   │   │   │   │   │   ├── event-listener-strategy v0.5.4 default,std
-│   │   │   │   │   │   │   │   │   ├── event-listener v5.4.1 default,parking,std (*)
-│   │   │   │   │   │   │   │   │   └── pin-project-lite v0.2.17 
+│   │   │   │   │   │   │   │   ├── event-listener v5.4.1 default,parking,std (*)
+│   │   │   │   │   │   │   │   ├── event-listener-strategy v0.5.4 default,std (*)
 │   │   │   │   │   │   │   │   ├── futures-core v0.3.32 alloc,default,std
 │   │   │   │   │   │   │   │   └── pin-project-lite v0.2.17 
-│   │   │   │   │   │   │   ├── async-executor v1.14.0 
-│   │   │   │   │   │   │   │   ├── async-task v4.7.1 default,std
-│   │   │   │   │   │   │   │   ├── concurrent-queue v2.5.0 default,std (*)
-│   │   │   │   │   │   │   │   ├── fastrand v2.4.1 alloc,default,std
-│   │   │   │   │   │   │   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std
-│   │   │   │   │   │   │   │   │   ├── fastrand v2.4.1 alloc,default,std
-│   │   │   │   │   │   │   │   │   ├── futures-core v0.3.32 alloc,default,std
-│   │   │   │   │   │   │   │   │   ├── futures-io v0.3.32 default,std
-│   │   │   │   │   │   │   │   │   ├── parking v2.2.1 
-│   │   │   │   │   │   │   │   │   └── pin-project-lite v0.2.17 
-│   │   │   │   │   │   │   │   ├── pin-project-lite v0.2.17 
-│   │   │   │   │   │   │   │   └── slab v0.4.12 default,std
+│   │   │   │   │   │   │   ├── async-executor v1.14.0 static (*)
 │   │   │   │   │   │   │   ├── async-io v2.6.0 
 │   │   │   │   │   │   │   │   ├── cfg-if v1.0.4 
 │   │   │   │   │   │   │   │   ├── concurrent-queue v2.5.0 default,std (*)
@@ -245,16 +273,9 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   │   │   │   │   │       └── linux-raw-sys v0.12.1 auxvec,elf,errno,general,if_ether,ioctl,net,netlink,no_std,prctl,system,xdp
 │   │   │   │   │   │   │   │   ├── rustix v1.1.4 alloc,default,event,fs,net,pipe,process,shm,std,system,time (*)
 │   │   │   │   │   │   │   │   └── slab v0.4.12 default,std
-│   │   │   │   │   │   │   ├── async-lock v3.4.2 default,std
-│   │   │   │   │   │   │   │   ├── event-listener v5.4.1 default,parking,std (*)
-│   │   │   │   │   │   │   │   ├── event-listener-strategy v0.5.4 default,std (*)
-│   │   │   │   │   │   │   │   └── pin-project-lite v0.2.17 
+│   │   │   │   │   │   │   ├── async-lock v3.4.2 default,std (*)
 │   │   │   │   │   │   │   ├── async-process v2.5.0 
-│   │   │   │   │   │   │   │   ├── async-channel v2.5.0 default,std
-│   │   │   │   │   │   │   │   │   ├── concurrent-queue v2.5.0 default,std (*)
-│   │   │   │   │   │   │   │   │   ├── event-listener-strategy v0.5.4 default,std (*)
-│   │   │   │   │   │   │   │   │   ├── futures-core v0.3.32 alloc,default,std
-│   │   │   │   │   │   │   │   │   └── pin-project-lite v0.2.17 
+│   │   │   │   │   │   │   │   ├── async-channel v2.5.0 default,std (*)
 │   │   │   │   │   │   │   │   ├── async-io v2.6.0  (*)
 │   │   │   │   │   │   │   │   ├── async-lock v3.4.2 default,std (*)
 │   │   │   │   │   │   │   │   ├── async-signal v0.2.14 
@@ -265,37 +286,25 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   │   │   │   │   │   ├── rustix v1.1.4 alloc,default,event,fs,net,pipe,process,shm,std,system,time (*)
 │   │   │   │   │   │   │   │   │   └── signal-hook-registry v1.4.8 
 │   │   │   │   │   │   │   │   │       ├── errno v0.3.14 default,std
-│   │   │   │   │   │   │   │   │       │   └── libc v0.2.185 default,std
-│   │   │   │   │   │   │   │   │       └── libc v0.2.185 default,std
+│   │   │   │   │   │   │   │   │       │   └── libc v0.2.186 default,std
+│   │   │   │   │   │   │   │   │       └── libc v0.2.186 default,std
 │   │   │   │   │   │   │   │   ├── async-task v4.7.1 default,std
 │   │   │   │   │   │   │   │   ├── cfg-if v1.0.4 
 │   │   │   │   │   │   │   │   ├── event-listener v5.4.1 default,parking,std (*)
 │   │   │   │   │   │   │   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
 │   │   │   │   │   │   │   │   └── rustix v1.1.4 alloc,default,event,fs,net,pipe,process,shm,std,system,time (*)
-│   │   │   │   │   │   │   ├── async-recursion v1.1.1 (proc-macro) 
-│   │   │   │   │   │   │   │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
-│   │   │   │   │   │   │   │   ├── quote v1.0.45 default,proc-macro (*)
-│   │   │   │   │   │   │   │   └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   │   │   │   │   │   │   ├── async-task v4.7.1 default,std
 │   │   │   │   │   │   │   ├── async-trait v0.1.89 (proc-macro) 
 │   │   │   │   │   │   │   │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
 │   │   │   │   │   │   │   │   ├── quote v1.0.45 default,proc-macro (*)
 │   │   │   │   │   │   │   │   └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
-│   │   │   │   │   │   │   ├── blocking v1.6.2 
-│   │   │   │   │   │   │   │   ├── async-channel v2.5.0 default,std (*)
-│   │   │   │   │   │   │   │   ├── async-task v4.7.1 default,std
-│   │   │   │   │   │   │   │   ├── futures-io v0.3.32 default,std
-│   │   │   │   │   │   │   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
-│   │   │   │   │   │   │   │   └── piper v0.2.5 default,futures-io,std
-│   │   │   │   │   │   │   │       ├── atomic-waker v1.1.2 
-│   │   │   │   │   │   │   │       ├── fastrand v2.4.1 alloc,default,std
-│   │   │   │   │   │   │   │       └── futures-io v0.3.32 default,std
+│   │   │   │   │   │   │   ├── blocking v1.6.2  (*)
 │   │   │   │   │   │   │   ├── enumflags2 v0.7.12 serde (*)
 │   │   │   │   │   │   │   ├── event-listener v5.4.1 default,parking,std (*)
 │   │   │   │   │   │   │   ├── futures-core v0.3.32 alloc,default,std
 │   │   │   │   │   │   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
 │   │   │   │   │   │   │   ├── hex v0.4.3 alloc,default,std
-│   │   │   │   │   │   │   ├── libc v0.2.185 default,std
+│   │   │   │   │   │   │   ├── libc v0.2.186 default,std
 │   │   │   │   │   │   │   ├── ordered-stream v0.2.0 
 │   │   │   │   │   │   │   │   ├── futures-core v0.3.32 alloc,default,std
 │   │   │   │   │   │   │   │   └── pin-project-lite v0.2.17 
@@ -316,16 +325,16 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   │   │   │   │       └── once_cell v1.21.4 alloc,default,race,std
 │   │   │   │   │   │   │   ├── uuid v1.23.1 default,serde,std (*)
 │   │   │   │   │   │   │   ├── winnow v0.7.15 alloc,default,std
-│   │   │   │   │   │   │   ├── zbus_macros v5.14.0 (proc-macro) default
+│   │   │   │   │   │   │   ├── zbus_macros v5.13.2 (proc-macro) default
 │   │   │   │   │   │   │   │   ├── proc-macro-crate v3.5.0 
 │   │   │   │   │   │   │   │   │   └── toml_edit v0.25.11+spec-1.1.0 parse
 │   │   │   │   │   │   │   │   │       ├── indexmap v2.14.0 default,std
 │   │   │   │   │   │   │   │   │       │   ├── equivalent v1.0.2 
-│   │   │   │   │   │   │   │   │       │   └── hashbrown v0.17.0 
+│   │   │   │   │   │   │   │   │       │   └── hashbrown v0.17.1 
 │   │   │   │   │   │   │   │   │       ├── toml_datetime v1.1.1+spec-1.1.0 alloc,default,std
 │   │   │   │   │   │   │   │   │       ├── toml_parser v1.1.2+spec-1.1.0 alloc,default,std
-│   │   │   │   │   │   │   │   │       │   └── winnow v1.0.1 alloc,ascii,binary,default,parser,std
-│   │   │   │   │   │   │   │   │       └── winnow v1.0.1 alloc,ascii,binary,default,parser,std
+│   │   │   │   │   │   │   │   │       │   └── winnow v1.0.2 alloc,ascii,binary,default,parser,std
+│   │   │   │   │   │   │   │   │       └── winnow v1.0.2 alloc,ascii,binary,default,parser,std
 │   │   │   │   │   │   │   │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
 │   │   │   │   │   │   │   │   ├── quote v1.0.45 default,proc-macro (*)
 │   │   │   │   │   │   │   │   ├── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
@@ -334,12 +343,12 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   │   │   │   │   │   │   ├── serde_core v1.0.228 result,std
 │   │   │   │   │   │   │   │   │   │   └── serde_derive v1.0.228 (proc-macro) default (*)
 │   │   │   │   │   │   │   │   │   ├── winnow v0.7.15 alloc,default,std
-│   │   │   │   │   │   │   │   │   └── zvariant v5.10.0 default,enumflags2
+│   │   │   │   │   │   │   │   │   └── zvariant v5.9.2 default,enumflags2
 │   │   │   │   │   │   │   │   │       ├── endi v1.1.1 default,std
 │   │   │   │   │   │   │   │   │       ├── enumflags2 v0.7.12 serde (*)
 │   │   │   │   │   │   │   │   │       ├── serde v1.0.228 default,derive,serde_derive,std (*)
 │   │   │   │   │   │   │   │   │       ├── winnow v0.7.15 alloc,default,std
-│   │   │   │   │   │   │   │   │       ├── zvariant_derive v5.10.0 (proc-macro) default
+│   │   │   │   │   │   │   │   │       ├── zvariant_derive v5.9.2 (proc-macro) default
 │   │   │   │   │   │   │   │   │       │   ├── proc-macro-crate v3.5.0  (*)
 │   │   │   │   │   │   │   │   │       │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
 │   │   │   │   │   │   │   │   │       │   ├── quote v1.0.45 default,proc-macro (*)
@@ -351,10 +360,10 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   │   │   │   │   │       │       ├── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   │   │   │   │   │   │   │   │       │       └── winnow v0.7.15 alloc,default,std
 │   │   │   │   │   │   │   │   │       └── zvariant_utils v3.3.0 default (*)
-│   │   │   │   │   │   │   │   ├── zvariant v5.10.0 default,enumflags2 (*)
+│   │   │   │   │   │   │   │   ├── zvariant v5.9.2 default,enumflags2 (*)
 │   │   │   │   │   │   │   │   └── zvariant_utils v3.3.0 default (*)
 │   │   │   │   │   │   │   ├── zbus_names v4.3.1  (*)
-│   │   │   │   │   │   │   └── zvariant v5.10.0 default,enumflags2 (*)
+│   │   │   │   │   │   │   └── zvariant v5.9.2 default,enumflags2 (*)
 │   │   │   │   │   │   ├── zbus-lockstep v0.5.2 
 │   │   │   │   │   │   │   ├── zbus_xml v5.1.0 
 │   │   │   │   │   │   │   │   ├── quick-xml v0.38.4 default,overlapped-lists,serde,serialize
@@ -362,40 +371,40 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   │   │   │   │   │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   │   │   │   │   │   │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   │   │   │   │   │   │   ├── zbus_names v4.3.1  (*)
-│   │   │   │   │   │   │   │   └── zvariant v5.10.0 default,enumflags2 (*)
-│   │   │   │   │   │   │   └── zvariant v5.10.0 default,enumflags2 (*)
+│   │   │   │   │   │   │   │   └── zvariant v5.9.2 default,enumflags2 (*)
+│   │   │   │   │   │   │   └── zvariant v5.9.2 default,enumflags2 (*)
 │   │   │   │   │   │   ├── zbus-lockstep-macros v0.5.2 (proc-macro) 
 │   │   │   │   │   │   │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
 │   │   │   │   │   │   │   ├── quote v1.0.45 default,proc-macro (*)
 │   │   │   │   │   │   │   ├── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   │   │   │   │   │   │   ├── zbus-lockstep v0.5.2  (*)
 │   │   │   │   │   │   │   ├── zbus_xml v5.1.0  (*)
-│   │   │   │   │   │   │   └── zvariant v5.10.0 default,enumflags2 (*)
+│   │   │   │   │   │   │   └── zvariant v5.9.2 default,enumflags2 (*)
 │   │   │   │   │   │   ├── zbus_names v4.3.1  (*)
-│   │   │   │   │   │   └── zvariant v5.10.0 default,enumflags2 (*)
+│   │   │   │   │   │   └── zvariant v5.9.2 default,enumflags2 (*)
 │   │   │   │   │   ├── phf v0.13.1 default,macros,phf_macros,std
 │   │   │   │   │   │   ├── phf_macros v0.13.1 (proc-macro) 
 │   │   │   │   │   │   │   ├── phf_generator v0.13.1 
 │   │   │   │   │   │   │   │   ├── fastrand v2.4.1 
 │   │   │   │   │   │   │   │   └── phf_shared v0.13.1 
-│   │   │   │   │   │   │   │       └── siphasher v1.0.2 default,std
+│   │   │   │   │   │   │   │       └── siphasher v1.0.3 default,std
 │   │   │   │   │   │   │   ├── phf_shared v0.13.1  (*)
 │   │   │   │   │   │   │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
 │   │   │   │   │   │   │   ├── quote v1.0.45 default,proc-macro (*)
 │   │   │   │   │   │   │   └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   │   │   │   │   │   └── phf_shared v0.13.1 std
-│   │   │   │   │   │       └── siphasher v1.0.2 default,std
+│   │   │   │   │   │       └── siphasher v1.0.3 default,std
 │   │   │   │   │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
-│   │   │   │   │   └── zvariant v5.10.0 default,enumflags2 (*)
+│   │   │   │   │   └── zvariant v5.9.2 default,enumflags2 (*)
 │   │   │   │   ├── async-channel v2.5.0 default,std (*)
-│   │   │   │   ├── async-executor v1.14.0  (*)
+│   │   │   │   ├── async-executor v1.14.0 static (*)
 │   │   │   │   ├── async-task v4.7.1 default,std
 │   │   │   │   ├── atspi v0.29.0 proxies
 │   │   │   │   │   ├── atspi-common v0.13.0 default,wrappers,zbus (*)
 │   │   │   │   │   └── atspi-proxies v0.13.0 default,wrappers
 │   │   │   │   │       ├── atspi-common v0.13.0 default,wrappers,zbus (*)
 │   │   │   │   │       ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
-│   │   │   │   │       └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│   │   │   │   │       └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │   │   │   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
 │   │   │   │   ├── futures-util v0.3.32 alloc,async-await,async-await-macro,default,futures-macro,slab,std
 │   │   │   │   │   ├── futures-core v0.3.32 alloc,default,std
@@ -407,7 +416,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   │   ├── pin-project-lite v0.2.17 
 │   │   │   │   │   └── slab v0.4.12 default,std
 │   │   │   │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
-│   │   │   │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│   │   │   │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │   │   │   ├── raw-window-handle v0.6.2 alloc,std
 │   │   │   └── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb
 │   │   │       ├── ahash v0.8.12 default,getrandom,no-rng,runtime-rng,serde,std (*)
@@ -428,9 +437,9 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │       │           └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   │   │       ├── cursor-icon v1.2.0 alloc,default,std
 │   │   │       ├── dpi v0.1.2 default,std
-│   │   │       ├── libc v0.2.185 default,std
+│   │   │       ├── libc v0.2.186 default,std
 │   │   │       ├── memmap2 v0.9.10 
-│   │   │       │   └── libc v0.2.185 default,std
+│   │   │       │   └── libc v0.2.186 default,std
 │   │   │       ├── percent-encoding v2.3.2 alloc,default,std
 │   │   │       ├── raw-window-handle v0.6.2 alloc,std
 │   │   │       ├── rustix v0.38.44 alloc,default,event,fs,libc-extra-traits,pipe,process,shm,std,system,thread,use-libc-auxv (*)
@@ -457,11 +466,11 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │       │   │       ├── wayland-backend v0.3.15 client_system,dlopen (*)
 │   │   │       │   │       └── wayland-scanner v0.31.10 (proc-macro) 
 │   │   │       │   │           ├── proc-macro2 v1.0.106 default,proc-macro (*)
-│   │   │       │   │           ├── quick-xml v0.39.2 default
+│   │   │       │   │           ├── quick-xml v0.39.4 default
 │   │   │       │   │           │   └── memchr v2.8.0 alloc,default,std
 │   │   │       │   │           └── quote v1.0.45 default,proc-macro (*)
 │   │   │       │   ├── cursor-icon v1.2.0 alloc,default,std
-│   │   │       │   ├── libc v0.2.185 default,std
+│   │   │       │   ├── libc v0.2.186 default,std
 │   │   │       │   ├── log v0.4.29 std
 │   │   │       │   ├── memmap2 v0.9.10  (*)
 │   │   │       │   ├── rustix v0.38.44 alloc,default,event,fs,libc-extra-traits,pipe,process,shm,std,system,thread,use-libc-auxv (*)
@@ -501,13 +510,13 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │       │   ├── wayland-protocols v0.32.12 client,staging,unstable,wayland-client (*)
 │   │   │       │   └── wayland-scanner v0.31.10 (proc-macro)  (*)
 │   │   │       ├── x11-dl v2.21.0 
-│   │   │       │   ├── libc v0.2.185 default,std
+│   │   │       │   ├── libc v0.2.186 default,std
 │   │   │       │   └── once_cell v1.21.4 alloc,default,race,std
 │   │   │       ├── x11rb v0.13.2 allow-unsafe-code,as-raw-xcb-connection,dl-libxcb,libc,libloading,once_cell,randr,render,resource_manager,shape,xfixes,xinput,xkb
 │   │   │       │   ├── as-raw-xcb-connection v1.0.1 alloc,default
 │   │   │       │   ├── gethostname v1.1.0 
 │   │   │       │   │   └── rustix v1.1.4 alloc,default,event,fs,net,pipe,process,shm,std,system,time (*)
-│   │   │       │   ├── libc v0.2.185 default,std
+│   │   │       │   ├── libc v0.2.186 default,std
 │   │   │       │   ├── libloading v0.8.9  (*)
 │   │   │       │   ├── once_cell v1.21.4 alloc,default,race,std
 │   │   │       │   ├── rustix v1.1.4 alloc,default,event,fs,net,pipe,process,shm,std,system,time (*)
@@ -519,10 +528,10 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │           ├── once_cell v1.21.4 alloc,default,race,std
 │   │   │           └── xkeysym v0.2.1 
 │   │   ├── arboard v3.6.1 core-graphics,image,image-data,windows-sys
-│   │   │   ├── image v0.25.10 png
+│   │   │   ├── image v0.25.9 png
 │   │   │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
 │   │   │   │   ├── byteorder-lite v0.1.0 default,std
-│   │   │   │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths
+│   │   │   │   ├── moxcms v0.7.11 avx,default,neon,sse
 │   │   │   │   │   ├── num-traits v0.2.19 default,i128,libm,std (*)
 │   │   │   │   │   └── pxfm v0.1.29 
 │   │   │   │   ├── num-traits v0.2.19 default,i128,libm,std (*)
@@ -543,13 +552,13 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   ├── percent-encoding v2.3.2 alloc,default,std
 │   │   │   └── x11rb v0.13.2 allow-unsafe-code,as-raw-xcb-connection,dl-libxcb,libc,libloading,once_cell,randr,render,resource_manager,shape,xfixes,xinput,xkb (*)
 │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
-│   │   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   │   ├── log v0.4.29 std
-│   │   ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│   │   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │   │   ├── raw-window-handle v0.6.2 alloc,std
 │   │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   ├── smithay-clipboard v0.7.3 default,dlopen
-│   │   │   ├── libc v0.2.185 default,std
+│   │   │   ├── libc v0.2.186 default,std
 │   │   │   ├── smithay-client-toolkit v0.20.0 calloop,calloop-wayland-source
 │   │   │   │   ├── bitflags v2.11.1 serde,serde_core,std (*)
 │   │   │   │   ├── calloop v0.14.4 
@@ -564,7 +573,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   │   ├── wayland-backend v0.3.15 client_system,dlopen (*)
 │   │   │   │   │   └── wayland-client v0.31.14  (*)
 │   │   │   │   ├── cursor-icon v1.2.0 alloc,default,std
-│   │   │   │   ├── libc v0.2.185 default,std
+│   │   │   │   ├── libc v0.2.186 default,std
 │   │   │   │   ├── log v0.4.29 std
 │   │   │   │   ├── memmap2 v0.9.10  (*)
 │   │   │   │   ├── rustix v1.1.4 alloc,default,event,fs,net,pipe,process,shm,std,system,time (*)
@@ -598,8 +607,8 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │       │   └── percent-encoding v2.3.2 alloc,default,std
 │   │   │       ├── idna v1.1.0 alloc,compiled_data,std
 │   │   │       │   ├── idna_adapter v1.2.1 compiled_data
-│   │   │       │   │   ├── icu_normalizer v2.2.0 compiled_data
-│   │   │       │   │   │   ├── icu_collections v2.2.0 
+│   │   │       │   │   ├── icu_normalizer v2.1.1 compiled_data
+│   │   │       │   │   │   ├── icu_collections v2.1.1 
 │   │   │       │   │   │   │   ├── displaydoc v0.2.5 (proc-macro) 
 │   │   │       │   │   │   │   │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
 │   │   │       │   │   │   │   │   ├── quote v1.0.45 default,proc-macro (*)
@@ -627,14 +636,13 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │       │   │   │   │   │           ├── proc-macro2 v1.0.106 default,proc-macro (*)
 │   │   │       │   │   │   │   │           ├── quote v1.0.45 default,proc-macro (*)
 │   │   │       │   │   │   │   │           └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
-│   │   │       │   │   │   │   ├── utf8_iter v1.0.4 
 │   │   │       │   │   │   │   ├── yoke v0.8.2 derive,zerofrom (*)
 │   │   │       │   │   │   │   ├── zerofrom v0.1.7 derive (*)
 │   │   │       │   │   │   │   └── zerovec v0.11.6 derive,yoke (*)
-│   │   │       │   │   │   ├── icu_normalizer_data v2.2.0 
-│   │   │       │   │   │   ├── icu_provider v2.2.0 baked
+│   │   │       │   │   │   ├── icu_normalizer_data v2.1.1 
+│   │   │       │   │   │   ├── icu_provider v2.1.1 baked
 │   │   │       │   │   │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
-│   │   │       │   │   │   │   ├── icu_locale_core v2.2.0 zerovec
+│   │   │       │   │   │   │   ├── icu_locale_core v2.1.1 zerovec
 │   │   │       │   │   │   │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
 │   │   │       │   │   │   │   │   ├── litemap v0.8.2 
 │   │   │       │   │   │   │   │   ├── tinystr v0.8.3 zerovec
@@ -652,24 +660,24 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │       │   │   │   │   └── zerovec v0.11.6 derive,yoke (*)
 │   │   │       │   │   │   ├── smallvec v1.15.1 const_generics,const_new,serde,union (*)
 │   │   │       │   │   │   └── zerovec v0.11.6 derive,yoke (*)
-│   │   │       │   │   └── icu_properties v2.2.0 compiled_data
-│   │   │       │   │       ├── icu_collections v2.2.0  (*)
-│   │   │       │   │       ├── icu_locale_core v2.2.0 zerovec (*)
-│   │   │       │   │       ├── icu_properties_data v2.2.0 
-│   │   │       │   │       ├── icu_provider v2.2.0 baked (*)
+│   │   │       │   │   └── icu_properties v2.1.2 compiled_data
+│   │   │       │   │       ├── icu_collections v2.1.1  (*)
+│   │   │       │   │       ├── icu_locale_core v2.1.1 zerovec (*)
+│   │   │       │   │       ├── icu_properties_data v2.1.2 
+│   │   │       │   │       ├── icu_provider v2.1.1 baked (*)
 │   │   │       │   │       ├── zerotrie v0.2.4 yoke,zerofrom (*)
 │   │   │       │   │       └── zerovec v0.11.6 derive,yoke (*)
 │   │   │       │   ├── smallvec v1.15.1 const_generics,const_new,serde,union (*)
 │   │   │       │   └── utf8_iter v1.0.4 
 │   │   │       └── percent-encoding v2.3.2 alloc,default,std
 │   │   └── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb (*)
-│   ├── egui_glow v0.34.1 default,wayland
+│   ├── egui_glow v0.34.2 default,wayland
 │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
-│   │   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   │   ├── glow v0.17.0 
 │   │   ├── log v0.4.29 std
 │   │   ├── memoffset v0.9.1 default
-│   │   └── profiling v1.0.17 profile-with-puffin,puffin (*)
+│   │   └── profiling v1.0.18 profile-with-puffin,puffin (*)
 │   ├── glow v0.17.0 
 │   ├── glutin v0.32.3 egl,glutin_egl_sys,glutin_wgl_sys,libloading,wayland,wayland-sys,wgl,windows-sys
 │   │   ├── bitflags v2.11.1 serde,serde_core,std (*)
@@ -682,20 +690,20 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   ├── glutin v0.32.3 egl,glutin_egl_sys,glutin_wgl_sys,libloading,wayland,wayland-sys,wgl,windows-sys (*)
 │   │   ├── raw-window-handle v0.6.2 alloc,std
 │   │   └── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb (*)
-│   ├── home v0.5.12 
-│   ├── image v0.25.10 png (*)
+│   ├── home v0.5.11 
+│   ├── image v0.25.9 png (*)
 │   ├── log v0.4.29 std
 │   ├── parking_lot v0.12.5 default (*)
-│   ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │   ├── raw-window-handle v0.6.2 alloc,std
 │   ├── ron v0.12.1 default,integer128,std (*)
 │   ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   ├── static_assertions v1.1.0 
 │   ├── web-time v1.1.0 
 │   └── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb (*)
-├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
-├── egui_glow v0.34.1 default,wayland (*)
+├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+├── egui_glow v0.34.2 default,wayland (*)
 ├── env_logger v0.11.10 auto-color,color,default,humantime,regex
 │   ├── anstream v1.0.0 auto,wincon
 │   │   ├── anstyle v1.0.14 default,std
@@ -717,7 +725,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │       │   ├── memchr v2.8.0 alloc,default,std
 │   │       │   └── regex-syntax v0.8.10 std
 │   │       └── regex-syntax v0.8.10 std
-│   ├── jiff v0.2.23 alloc,std
+│   ├── jiff v0.2.24 alloc,std
 │   └── log v0.4.29 std
 ├── glow v0.17.0 
 ├── hecs v0.11.0 column-serialize,default,hecs-macros,macros,row-serialize,serde,std (*)
@@ -731,23 +739,13 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   └── rustversion v1.0.22 (proc-macro) 
 ├── once_cell v1.21.4 alloc,default,race,std
-├── profiling v1.0.17 profile-with-puffin,puffin (*)
-├── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde
-│   ├── anyhow v1.0.102 default,std
-│   ├── bincode v1.3.3 
-│   │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
-│   ├── byteorder v1.5.0 default,std
-│   ├── cfg-if v1.0.4 
-│   ├── itertools v0.14.0 default,use_alloc,use_std
-│   │   └── either v1.15.0 std,use_std
-│   ├── lz4_flex v0.13.0 
-│   ├── parking_lot v0.12.5 default (*)
-│   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
+├── profiling v1.0.18 profile-with-puffin,puffin (*)
+├── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde (*)
 ├── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) 
-│   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-│   ├── egui_extras v0.34.1 serde
+│   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   ├── egui_extras v0.34.2 serde
 │   │   ├── ahash v0.8.12 default,getrandom,no-rng,runtime-rng,serde,std (*)
-│   │   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   │   ├── enum-map v2.7.3 serde
 │   │   │   ├── enum-map-derive v0.17.0 (proc-macro) 
 │   │   │   │   ├── proc-macro2 v1.0.106 default,proc-macro (*)
@@ -755,11 +753,11 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │   │   └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   │   │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   │   ├── log v0.4.29 std
-│   │   ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│   │   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │   │   └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 │   ├── indexmap v2.14.0 default,serde,std
 │   │   ├── equivalent v1.0.2 
-│   │   ├── hashbrown v0.17.0 
+│   │   ├── hashbrown v0.17.1 
 │   │   └── serde_core v1.0.228 alloc,rc,result,std
 │   ├── log v0.4.29 std
 │   ├── log-once v0.4.1 
@@ -788,7 +786,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       ├── quote v1.0.45 default,proc-macro (*)
 │       └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 ├── thiserror v2.0.18 default,std (*)
-├── three-d v0.19.0 (https://github.com/asny/three-d?rev=b6b0963bc0cee707671e877c42040cb8c4147991#b6b0963b) 
+├── three-d v0.19.0 
 │   ├── cgmath v0.18.0  (*)
 │   ├── glow v0.17.0 
 │   ├── open-enum v0.5.2 
@@ -797,14 +795,14 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │       ├── quote v1.0.45 default,proc-macro (*)
 │   │       └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   ├── thiserror v2.0.18 default,std (*)
-│   └── three-d-asset v0.10.0 (https://github.com/asny/three-d-asset?rev=8f18012480a9ed6f78e9d26d0ee260310a9ddeb7#8f180124) 
+│   └── three-d-asset v0.10.0 
 │       ├── cgmath v0.18.0  (*)
 │       ├── half v2.7.1 alloc,default,num-traits,std,zerocopy
 │       │   ├── cfg-if v1.0.4 
 │       │   ├── num-traits v0.2.19 default,i128,libm,std (*)
 │       │   └── zerocopy v0.8.48 derive,simd,zerocopy-derive (*)
 │       └── thiserror v2.0.18 default,std (*)
-├── three-d-asset v0.10.0 (https://github.com/asny/three-d-asset?rev=8f18012480a9ed6f78e9d26d0ee260310a9ddeb7#8f180124)  (*)
+├── three-d-asset v0.10.0  (*)
 └── video v0.1.0 (/home/marsh/gh/sunangle/video) 
     ├── anyhow v1.0.102 default,std
     ├── num-integer v0.1.46 default,i128,std (*)
@@ -826,9 +824,13 @@ world-model v0.1.0 (/home/marsh/gh/sunangle/world-model)
 
 exit code: 0
 
-==================================================================================================== 'cargo' 'tree' '--offline' '-e' 'features' '-f' '{p} {f}'
-
--------------------------------
+++=================================================================================================|
+++=================================================================================================|
+||
+||  'cargo' 'tree' '--offline' '-e' 'features' '-f' '{p} {f}'
+||
+++=================================================================================================|
+++=================================================================================================|
 
 coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems) 
 ├── anyhow feature "default"
@@ -990,7 +992,7 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 │               │   ├── hecs feature "default" (*)
 │               │   ├── hecs feature "macros" (*)
 │               │   ├── atomic_refcell feature "default"
-│               │   │   └── atomic_refcell v0.1.13 default
+│               │   │   └── atomic_refcell v0.1.14 default
 │               │   ├── smallvec feature "default"
 │               │   │   └── smallvec v1.15.1 const_generics,const_new,serde,union
 │               │   │       └── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
@@ -1026,9 +1028,9 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 │       │   │   ├── console feature "std"
 │       │   │   │   ├── console v0.16.3 alloc,std
 │       │   │   │   │   └── libc feature "default"
-│       │   │   │   │       ├── libc v0.2.185 default,std
+│       │   │   │   │       ├── libc v0.2.186 default,std
 │       │   │   │   │       └── libc feature "std"
-│       │   │   │   │           └── libc v0.2.185 default,std
+│       │   │   │   │           └── libc v0.2.186 default,std
 │       │   │   │   └── console feature "alloc"
 │       │   │   │       └── console v0.16.3 alloc,std (*)
 │       │   │   ├── globset feature "default"
@@ -1136,7 +1138,7 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 │       │   │   │   │                       │   │       └── generic-array feature "default"
 │       │   │   │   │                       │   │           └── generic-array v0.14.7 more_lengths
 │       │   │   │   │                       │   │               └── typenum feature "default"
-│       │   │   │   │                       │   │                   └── typenum v1.19.0 
+│       │   │   │   │                       │   │                   └── typenum v1.20.0 
 │       │   │   │   │                       │   │               [build-dependencies]
 │       │   │   │   │                       │   │               └── version_check feature "default"
 │       │   │   │   │                       │   │                   └── version_check v0.9.5 
@@ -1185,7 +1187,7 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 │       │   │   ├── tempfile feature "default"
 │       │   │   │   ├── tempfile v3.27.0 default,getrandom
 │       │   │   │   │   ├── getrandom v0.4.2 
-│       │   │   │   │   │   ├── libc v0.2.185 default,std
+│       │   │   │   │   │   ├── libc v0.2.186 default,std
 │       │   │   │   │   │   └── cfg-if feature "default" (*)
 │       │   │   │   │   ├── once_cell feature "std" (*)
 │       │   │   │   │   ├── fastrand feature "default"
@@ -1293,6 +1295,100 @@ coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)
 ecs-namespace v0.1.0 (/home/marsh/gh/sunangle/ecs-namespace)  (*)
 
 sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+├── async-global-executor v3.1.0 
+│   ├── async-channel feature "default"
+│   │   ├── async-channel v2.5.0 default,std
+│   │   │   ├── concurrent-queue v2.5.0 default,std
+│   │   │   │   └── crossbeam-utils v0.8.21 
+│   │   │   ├── event-listener-strategy v0.5.4 default,std
+│   │   │   │   ├── event-listener v5.4.1 default,parking,std
+│   │   │   │   │   ├── concurrent-queue v2.5.0 default,std (*)
+│   │   │   │   │   ├── parking feature "default"
+│   │   │   │   │   │   └── parking v2.2.1 
+│   │   │   │   │   └── pin-project-lite feature "default"
+│   │   │   │   │       └── pin-project-lite v0.2.17 
+│   │   │   │   └── pin-project-lite feature "default" (*)
+│   │   │   ├── futures-core v0.3.32 alloc,default,std
+│   │   │   └── pin-project-lite feature "default" (*)
+│   │   └── async-channel feature "std"
+│   │       ├── async-channel v2.5.0 default,std (*)
+│   │       ├── concurrent-queue feature "std"
+│   │       │   └── concurrent-queue v2.5.0 default,std (*)
+│   │       └── event-listener-strategy feature "std"
+│   │           ├── event-listener-strategy v0.5.4 default,std (*)
+│   │           └── event-listener feature "std"
+│   │               ├── event-listener v5.4.1 default,parking,std (*)
+│   │               ├── concurrent-queue feature "std" (*)
+│   │               └── event-listener feature "parking"
+│   │                   └── event-listener v5.4.1 default,parking,std (*)
+│   ├── async-executor feature "default"
+│   │   └── async-executor v1.14.0 static
+│   │       ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std
+│   │       │   ├── fastrand v2.4.1 alloc,default,std
+│   │       │   ├── futures-core v0.3.32 alloc,default,std
+│   │       │   ├── parking feature "default" (*)
+│   │       │   ├── pin-project-lite feature "default" (*)
+│   │       │   └── futures-io feature "default"
+│   │       │       ├── futures-io v0.3.32 default,std
+│   │       │       └── futures-io feature "std"
+│   │       │           └── futures-io v0.3.32 default,std
+│   │       ├── fastrand feature "default" (*)
+│   │       ├── concurrent-queue feature "default"
+│   │       │   ├── concurrent-queue v2.5.0 default,std (*)
+│   │       │   └── concurrent-queue feature "std" (*)
+│   │       ├── pin-project-lite feature "default" (*)
+│   │       ├── async-task feature "default"
+│   │       │   ├── async-task v4.7.1 default,std
+│   │       │   └── async-task feature "std"
+│   │       │       └── async-task v4.7.1 default,std
+│   │       └── slab feature "default"
+│   │           ├── slab v0.4.12 default,std
+│   │           └── slab feature "std"
+│   │               └── slab v0.4.12 default,std
+│   ├── async-executor feature "static"
+│   │   └── async-executor v1.14.0 static (*)
+│   ├── futures-lite feature "default"
+│   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│   │   ├── futures-lite feature "race"
+│   │   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│   │   │   └── futures-lite feature "fastrand"
+│   │   │       └── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│   │   └── futures-lite feature "std"
+│   │       ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│   │       ├── fastrand feature "std" (*)
+│   │       ├── futures-lite feature "alloc"
+│   │       │   └── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│   │       ├── futures-lite feature "fastrand" (*)
+│   │       ├── futures-lite feature "futures-io"
+│   │       │   └── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│   │       └── futures-lite feature "parking"
+│   │           └── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│   ├── async-lock feature "default"
+│   │   ├── async-lock v3.4.2 default,std
+│   │   │   ├── event-listener v5.4.1 default,parking,std (*)
+│   │   │   ├── event-listener-strategy v0.5.4 default,std (*)
+│   │   │   └── pin-project-lite feature "default" (*)
+│   │   └── async-lock feature "std"
+│   │       ├── async-lock v3.4.2 default,std (*)
+│   │       ├── event-listener-strategy feature "std" (*)
+│   │       └── event-listener feature "std" (*)
+│   └── blocking feature "default"
+│       └── blocking v1.6.2 
+│           ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│           ├── async-channel feature "default" (*)
+│           ├── async-task feature "default" (*)
+│           ├── futures-io feature "std" (*)
+│           └── piper feature "default"
+│               ├── piper v0.2.5 default,futures-io,std
+│               │   ├── fastrand v2.4.1 alloc,default,std
+│               │   ├── futures-io feature "default" (*)
+│               │   └── atomic-waker feature "default"
+│               │       └── atomic-waker v1.1.2 
+│               └── piper feature "std"
+│                   ├── piper v0.2.5 default,futures-io,std (*)
+│                   ├── fastrand feature "std" (*)
+│                   └── piper feature "futures-io"
+│                       └── piper v0.2.5 default,futures-io,std (*)
 ├── num_enum v0.7.6 
 │   ├── num_enum_derive v0.7.6 (proc-macro) 
 │   │   ├── proc-macro2 feature "default" (*)
@@ -1303,7 +1399,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   └── syn feature "parsing" (*)
 │   └── rustversion feature "default"
 │       └── rustversion v1.0.22 (proc-macro) 
-├── three-d v0.19.0 (https://github.com/asny/three-d?rev=b6b0963bc0cee707671e877c42040cb8c4147991#b6b0963b) 
+├── three-d v0.19.0 
 │   ├── cgmath feature "default" (*)
 │   ├── thiserror feature "default" (*)
 │   ├── glow feature "default"
@@ -1318,7 +1414,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │               └── syn feature "full"
 │   │                   └── syn v2.0.117 clone-impls,default,derive,extra-traits,fold,full,parsing,printing,proc-macro,visit,visit-mut (*)
 │   └── three-d-asset feature "default"
-│       └── three-d-asset v0.10.0 (https://github.com/asny/three-d-asset?rev=8f18012480a9ed6f78e9d26d0ee260310a9ddeb7#8f180124) 
+│       └── three-d-asset v0.10.0 
 │           ├── cgmath feature "default" (*)
 │           ├── thiserror feature "default" (*)
 │           ├── half feature "default"
@@ -1414,9 +1510,9 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   └── phf v0.11.3 
 │   │       └── phf_shared v0.11.3 default,std
 │   │           └── siphasher feature "default"
-│   │               ├── siphasher v1.0.2 default,std
+│   │               ├── siphasher v1.0.3 default,std
 │   │               └── siphasher feature "std"
-│   │                   └── siphasher v1.0.2 default,std
+│   │                   └── siphasher v1.0.3 default,std
 │   │   [build-dependencies]
 │   │   └── chrono-tz-build feature "default"
 │   │       └── chrono-tz-build v0.2.1 
@@ -1430,7 +1526,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │           │       └── phf_generator v0.11.3 
 │   │           │           ├── phf_shared v0.11.3 default,std (*)
 │   │           │           └── rand feature "small_rng"
-│   │           │               └── rand v0.8.5 small_rng
+│   │           │               └── rand v0.8.6 small_rng
 │   │           │                   └── rand_core feature "default"
 │   │           │                       └── rand_core v0.6.4 
 │   │           └── parse-zoneinfo feature "default"
@@ -1471,13 +1567,16 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   └── chrono-tz feature "std"
 │       └── chrono-tz v0.8.6 default,std (*)
 ├── eframe feature "__screenshot"
-│   └── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland
-│       ├── egui_glow v0.34.1 default,wayland
-│       │   ├── profiling v1.0.17 profile-with-puffin,puffin
+│   └── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland
+│       ├── egui_glow v0.34.2 default,wayland
+│       │   ├── profiling v1.0.18 profile-with-puffin,puffin
 │       │   │   └── puffin feature "default"
-│       │   │       └── puffin v0.19.1 default
+│       │   │       └── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde
+│       │   │           ├── lz4_flex v0.13.1 
 │       │   │           ├── anyhow feature "default" (*)
-│       │   │           ├── once_cell feature "default" (*)
+│       │   │           ├── serde feature "default" (*)
+│       │   │           ├── serde feature "derive" (*)
+│       │   │           ├── serde feature "rc" (*)
 │       │   │           ├── cfg-if feature "default" (*)
 │       │   │           ├── parking_lot feature "default"
 │       │   │           │   └── parking_lot v0.12.5 default
@@ -1491,17 +1590,20 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │           │               ├── smallvec feature "default" (*)
 │       │   │           │               ├── libc feature "default" (*)
 │       │   │           │               └── cfg-if feature "default" (*)
+│       │   │           ├── bincode feature "default"
+│       │   │           │   └── bincode v1.3.3 
+│       │   │           │       └── serde feature "default" (*)
 │       │   │           ├── byteorder feature "default"
 │       │   │           │   ├── byteorder v1.5.0 default,std
 │       │   │           │   └── byteorder feature "std"
 │       │   │           │       └── byteorder v1.5.0 default,std
 │       │   │           └── itertools feature "default"
-│       │   │               ├── itertools v0.10.5 default,use_alloc,use_std
+│       │   │               ├── itertools v0.14.0 default,use_alloc,use_std
 │       │   │               │   └── either v1.15.0 std,use_std
 │       │   │               └── itertools feature "use_std"
-│       │   │                   ├── itertools v0.10.5 default,use_alloc,use_std (*)
+│       │   │                   ├── itertools v0.14.0 default,use_alloc,use_std (*)
 │       │   │                   ├── itertools feature "use_alloc"
-│       │   │                   │   └── itertools v0.10.5 default,use_alloc,use_std (*)
+│       │   │                   │   └── itertools v0.14.0 default,use_alloc,use_std (*)
 │       │   │                   └── either feature "use_std"
 │       │   │                       ├── either v1.15.0 std,use_std
 │       │   │                       └── either feature "std"
@@ -1510,8 +1612,8 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   ├── log feature "std"
 │       │   │   └── log v0.4.29 std
 │       │   ├── egui feature "bytemuck"
-│       │   │   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde
-│       │   │   │   ├── emath v0.34.1 bytemuck,serde
+│       │   │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde
+│       │   │   │   ├── emath v0.34.2 bytemuck,serde
 │       │   │   │   │   ├── serde feature "default" (*)
 │       │   │   │   │   ├── serde feature "derive" (*)
 │       │   │   │   │   ├── bytemuck feature "default"
@@ -1525,15 +1627,15 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │       ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
 │       │   │   │   │       └── bytemuck feature "bytemuck_derive"
 │       │   │   │   │           └── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
-│       │   │   │   ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde
-│       │   │   │   │   ├── ecolor v0.34.1 bytemuck,serde
-│       │   │   │   │   │   ├── emath v0.34.1 bytemuck,serde (*)
+│       │   │   │   ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde
+│       │   │   │   │   ├── ecolor v0.34.2 bytemuck,serde
+│       │   │   │   │   │   ├── emath v0.34.2 bytemuck,serde (*)
 │       │   │   │   │   │   ├── serde feature "default" (*)
 │       │   │   │   │   │   ├── serde feature "derive" (*)
 │       │   │   │   │   │   ├── bytemuck feature "default" (*)
 │       │   │   │   │   │   └── bytemuck feature "derive" (*)
-│       │   │   │   │   ├── emath v0.34.1 bytemuck,serde (*)
-│       │   │   │   │   ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│       │   │   │   │   ├── emath v0.34.2 bytemuck,serde (*)
+│       │   │   │   │   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │       │   │   │   │   ├── serde feature "default" (*)
 │       │   │   │   │   ├── serde feature "derive" (*)
 │       │   │   │   │   ├── serde feature "rc" (*)
@@ -1547,7 +1649,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │       ├── cfg-if feature "default" (*)
 │       │   │   │   │   │       ├── getrandom feature "default"
 │       │   │   │   │   │       │   └── getrandom v0.3.4 
-│       │   │   │   │   │       │       ├── libc v0.2.185 default,std
+│       │   │   │   │   │       │       ├── libc v0.2.186 default,std
 │       │   │   │   │   │       │       └── cfg-if feature "default" (*)
 │       │   │   │   │   │       └── zerocopy feature "simd" (*)
 │       │   │   │   │   │       [build-dependencies]
@@ -1557,7 +1659,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   ├── bytemuck feature "default" (*)
 │       │   │   │   │   ├── bytemuck feature "derive" (*)
 │       │   │   │   │   ├── epaint_default_fonts feature "default"
-│       │   │   │   │   │   └── epaint_default_fonts v0.34.1 
+│       │   │   │   │   │   └── epaint_default_fonts v0.34.2 
 │       │   │   │   │   ├── font-types feature "std"
 │       │   │   │   │   │   └── font-types v0.11.3 bytemuck,serde,std
 │       │   │   │   │   │       ├── serde feature "default" (*)
@@ -1602,7 +1704,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │       │   └── peniko feature "bytemuck"
 │       │   │   │   │   │       │       ├── peniko v0.6.0 bytemuck,std
 │       │   │   │   │   │       │       │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
-│       │   │   │   │   │       │       │   ├── color v0.3.2 bytemuck,std
+│       │   │   │   │   │       │       │   ├── color v0.3.3 bytemuck,std
 │       │   │   │   │   │       │       │   │   └── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
 │       │   │   │   │   │       │       │   ├── kurbo v0.13.0 std
 │       │   │   │   │   │       │       │   │   ├── arrayvec v0.7.6 
@@ -1610,7 +1712,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │       │       │   ├── linebender_resource_handle v0.1.1 std
 │       │   │   │   │   │       │       │   └── smallvec feature "default" (*)
 │       │   │   │   │   │       │       └── color feature "bytemuck"
-│       │   │   │   │   │       │           └── color v0.3.2 bytemuck,std (*)
+│       │   │   │   │   │       │           └── color v0.3.3 bytemuck,std (*)
 │       │   │   │   │   │       ├── hashbrown feature "default-hasher" (*)
 │       │   │   │   │   │       ├── bytemuck feature "default" (*)
 │       │   │   │   │   │       └── bytemuck feature "derive" (*)
@@ -1623,14 +1725,14 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │       └── peniko feature "std"
 │       │   │   │   │   │           ├── peniko v0.6.0 bytemuck,std (*)
 │       │   │   │   │   │           ├── color feature "std"
-│       │   │   │   │   │           │   └── color v0.3.2 bytemuck,std (*)
+│       │   │   │   │   │           │   └── color v0.3.3 bytemuck,std (*)
 │       │   │   │   │   │           ├── kurbo feature "std"
 │       │   │   │   │   │           │   └── kurbo v0.13.0 std (*)
 │       │   │   │   │   │           └── linebender_resource_handle feature "std"
 │       │   │   │   │   │               └── linebender_resource_handle v0.1.1 std
 │       │   │   │   │   └── vello_cpu feature "u8_pipeline"
 │       │   │   │   │       └── vello_cpu v0.0.6 f32_pipeline,std,u8_pipeline (*)
-│       │   │   │   ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│       │   │   │   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │       │   │   │   ├── unicode-segmentation feature "default" (*)
 │       │   │   │   ├── serde feature "default" (*)
 │       │   │   │   ├── serde feature "derive" (*)
@@ -1656,18 +1758,18 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │               └── syn feature "default" (*)
 │       │   │   │   └── nohash-hasher feature "default" (*)
 │       │   │   └── epaint feature "bytemuck"
-│       │   │       ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│       │   │       ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 │       │   │       ├── emath feature "bytemuck"
-│       │   │       │   └── emath v0.34.1 bytemuck,serde (*)
+│       │   │       │   └── emath v0.34.2 bytemuck,serde (*)
 │       │   │       └── ecolor feature "bytemuck"
-│       │   │           └── ecolor v0.34.1 bytemuck,serde (*)
+│       │   │           └── ecolor v0.34.2 bytemuck,serde (*)
 │       │   ├── bytemuck feature "default" (*)
 │       │   ├── glow feature "default" (*)
 │       │   └── memoffset feature "default"
 │       │       └── memoffset v0.9.1 default
 │       │           [build-dependencies]
 │       │           └── autocfg feature "default" (*)
-│       ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│       ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │       ├── serde feature "default" (*)
 │       ├── serde feature "derive" (*)
 │       ├── log feature "default" (*)
@@ -1684,17 +1786,16 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       ├── egui feature "bytemuck" (*)
 │       ├── parking_lot feature "default" (*)
 │       ├── egui-winit feature "clipboard"
-│       │   ├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser
-│       │   │   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-│       │   │   ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│       │   ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser
+│       │   │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│       │   │   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │       │   │   ├── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb
 │       │   │   │   ├── bytemuck v1.25.0 bytemuck_derive,derive,extern_crate_alloc,min_const_generics (*)
 │       │   │   │   ├── tracing v0.1.44 attributes,default,log,std,tracing-attributes
 │       │   │   │   │   ├── tracing-core v0.1.36 once_cell,std
 │       │   │   │   │   │   └── once_cell feature "default" (*)
 │       │   │   │   │   ├── log feature "default" (*)
-│       │   │   │   │   ├── pin-project-lite feature "default"
-│       │   │   │   │   │   └── pin-project-lite v0.2.17 
+│       │   │   │   │   ├── pin-project-lite feature "default" (*)
 │       │   │   │   │   └── tracing-attributes feature "default"
 │       │   │   │   │       └── tracing-attributes v0.1.31 (proc-macro) 
 │       │   │   │   │           ├── proc-macro2 feature "default" (*)
@@ -1726,10 +1827,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   └── calloop v0.13.0 
 │       │   │   │   │       ├── log feature "default" (*)
 │       │   │   │   │       ├── bitflags feature "default" (*)
-│       │   │   │   │       ├── slab feature "default"
-│       │   │   │   │       │   ├── slab v0.4.12 default,std
-│       │   │   │   │       │   └── slab feature "std"
-│       │   │   │   │       │       └── slab v0.4.12 default,std
+│       │   │   │   │       ├── slab feature "default" (*)
 │       │   │   │   │       ├── polling feature "default"
 │       │   │   │   │       │   └── polling v3.11.0 
 │       │   │   │   │       │       ├── cfg-if feature "default" (*)
@@ -1874,7 +1972,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │                   └── pkg-config v0.3.33 
 │       │   │   │   │   │   │       │       [build-dependencies]
 │       │   │   │   │   │   │       │       └── cc feature "default"
-│       │   │   │   │   │   │       │           └── cc v1.2.60 
+│       │   │   │   │   │   │       │           └── cc v1.2.62 
 │       │   │   │   │   │   │       │               ├── find-msvc-tools feature "default"
 │       │   │   │   │   │   │       │               │   └── find-msvc-tools v0.1.9 
 │       │   │   │   │   │   │       │               └── shlex feature "default"
@@ -1892,7 +1990,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │                       ├── proc-macro2 feature "default" (*)
 │       │   │   │   │   │   │                       ├── quote feature "default" (*)
 │       │   │   │   │   │   │                       └── quick-xml feature "default"
-│       │   │   │   │   │   │                           └── quick-xml v0.39.2 default
+│       │   │   │   │   │   │                           └── quick-xml v0.39.4 default
 │       │   │   │   │   │   │                               └── memchr feature "default" (*)
 │       │   │   │   │   │   ├── wayland-backend feature "default" (*)
 │       │   │   │   │   │   ├── wayland-client feature "default" (*)
@@ -2054,13 +2152,17 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   ├── bytemuck feature "default" (*)
 │       │   │   ├── accesskit_winit feature "default"
 │       │   │   │   ├── accesskit_winit v0.32.2 accesskit_unix,async-io,default,rwh_06
-│       │   │   │   │   ├── accesskit_unix v0.21.0 async-io
+│       │   │   │   │   ├── accesskit_unix v0.21.1 async-io
 │       │   │   │   │   │   ├── serde feature "default" (*)
+│       │   │   │   │   │   ├── async-channel feature "default" (*)
+│       │   │   │   │   │   ├── async-executor feature "default" (*)
+│       │   │   │   │   │   ├── async-task feature "default" (*)
+│       │   │   │   │   │   ├── futures-lite feature "default" (*)
 │       │   │   │   │   │   ├── accesskit feature "default" (*)
 │       │   │   │   │   │   ├── accesskit_atspi_common feature "default"
-│       │   │   │   │   │   │   └── accesskit_atspi_common v0.18.0 
+│       │   │   │   │   │   │   └── accesskit_atspi_common v0.18.1 
 │       │   │   │   │   │   │       ├── atspi-common v0.13.0 default,wrappers,zbus
-│       │   │   │   │   │   │       │   ├── zvariant v5.10.0 default,enumflags2
+│       │   │   │   │   │   │       │   ├── zvariant v5.9.2 default,enumflags2
 │       │   │   │   │   │   │       │   │   ├── enumflags2 feature "default" (*)
 │       │   │   │   │   │   │       │   │   ├── enumflags2 feature "serde"
 │       │   │   │   │   │   │       │   │   │   └── enumflags2 v0.7.12 serde (*)
@@ -2088,7 +2190,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   └── endi feature "std"
 │       │   │   │   │   │   │       │   │   │       └── endi v1.1.1 default,std
 │       │   │   │   │   │   │       │   │   ├── zvariant_derive feature "default"
-│       │   │   │   │   │   │       │   │   │   └── zvariant_derive v5.10.0 (proc-macro) default
+│       │   │   │   │   │   │       │   │   │   └── zvariant_derive v5.9.2 (proc-macro) default
 │       │   │   │   │   │   │       │   │   │       ├── proc-macro2 feature "default" (*)
 │       │   │   │   │   │   │       │   │   │       ├── quote feature "default" (*)
 │       │   │   │   │   │   │       │   │   │       ├── syn feature "default" (*)
@@ -2101,7 +2203,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │       │               ├── indexmap feature "default"
 │       │   │   │   │   │   │       │   │   │       │               │   ├── indexmap v2.14.0 default,std
 │       │   │   │   │   │   │       │   │   │       │               │   │   ├── equivalent v1.0.2 
-│       │   │   │   │   │   │       │   │   │       │               │   │   └── hashbrown v0.17.0 
+│       │   │   │   │   │   │       │   │   │       │               │   │   └── hashbrown v0.17.1 
 │       │   │   │   │   │   │       │   │   │       │               │   └── indexmap feature "std"
 │       │   │   │   │   │   │       │   │   │       │               │       └── indexmap v2.14.0 default,std (*)
 │       │   │   │   │   │   │       │   │   │       │               ├── indexmap feature "std" (*)
@@ -2113,24 +2215,24 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │       │               │           └── toml_datetime v1.1.1+spec-1.1.0 alloc,default,std
 │       │   │   │   │   │   │       │   │   │       │               ├── toml_parser feature "default"
 │       │   │   │   │   │   │       │   │   │       │               │   ├── toml_parser v1.1.2+spec-1.1.0 alloc,default,std
-│       │   │   │   │   │   │       │   │   │       │               │   │   └── winnow v1.0.1 alloc,ascii,binary,default,parser,std
+│       │   │   │   │   │   │       │   │   │       │               │   │   └── winnow v1.0.2 alloc,ascii,binary,default,parser,std
 │       │   │   │   │   │   │       │   │   │       │               │   └── toml_parser feature "std"
 │       │   │   │   │   │   │       │   │   │       │               │       ├── toml_parser v1.1.2+spec-1.1.0 alloc,default,std (*)
 │       │   │   │   │   │   │       │   │   │       │               │       └── toml_parser feature "alloc"
 │       │   │   │   │   │   │       │   │   │       │               │           └── toml_parser v1.1.2+spec-1.1.0 alloc,default,std (*)
 │       │   │   │   │   │   │       │   │   │       │               └── winnow feature "default"
-│       │   │   │   │   │   │       │   │   │       │                   ├── winnow v1.0.1 alloc,ascii,binary,default,parser,std
+│       │   │   │   │   │   │       │   │   │       │                   ├── winnow v1.0.2 alloc,ascii,binary,default,parser,std
 │       │   │   │   │   │   │       │   │   │       │                   ├── winnow feature "ascii"
-│       │   │   │   │   │   │       │   │   │       │                   │   ├── winnow v1.0.1 alloc,ascii,binary,default,parser,std
+│       │   │   │   │   │   │       │   │   │       │                   │   ├── winnow v1.0.2 alloc,ascii,binary,default,parser,std
 │       │   │   │   │   │   │       │   │   │       │                   │   └── winnow feature "parser"
-│       │   │   │   │   │   │       │   │   │       │                   │       └── winnow v1.0.1 alloc,ascii,binary,default,parser,std
+│       │   │   │   │   │   │       │   │   │       │                   │       └── winnow v1.0.2 alloc,ascii,binary,default,parser,std
 │       │   │   │   │   │   │       │   │   │       │                   ├── winnow feature "binary"
-│       │   │   │   │   │   │       │   │   │       │                   │   ├── winnow v1.0.1 alloc,ascii,binary,default,parser,std
+│       │   │   │   │   │   │       │   │   │       │                   │   ├── winnow v1.0.2 alloc,ascii,binary,default,parser,std
 │       │   │   │   │   │   │       │   │   │       │                   │   └── winnow feature "parser" (*)
 │       │   │   │   │   │   │       │   │   │       │                   └── winnow feature "std"
-│       │   │   │   │   │   │       │   │   │       │                       ├── winnow v1.0.1 alloc,ascii,binary,default,parser,std
+│       │   │   │   │   │   │       │   │   │       │                       ├── winnow v1.0.2 alloc,ascii,binary,default,parser,std
 │       │   │   │   │   │   │       │   │   │       │                       └── winnow feature "alloc"
-│       │   │   │   │   │   │       │   │   │       │                           └── winnow v1.0.1 alloc,ascii,binary,default,parser,std
+│       │   │   │   │   │   │       │   │   │       │                           └── winnow v1.0.2 alloc,ascii,binary,default,parser,std
 │       │   │   │   │   │   │       │   │   │       └── zvariant_utils feature "default"
 │       │   │   │   │   │   │       │   │   │           └── zvariant_utils v3.3.0 default
 │       │   │   │   │   │   │       │   │   │               ├── proc-macro2 feature "default" (*)
@@ -2147,8 +2249,8 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   ├── static_assertions feature "default"
 │       │   │   │   │   │   │       │   │   └── static_assertions v1.1.0 
 │       │   │   │   │   │   │       │   ├── zbus feature "async-io"
-│       │   │   │   │   │   │       │   │   ├── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking
-│       │   │   │   │   │   │       │   │   │   ├── libc v0.2.185 default,std
+│       │   │   │   │   │   │       │   │   ├── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking
+│       │   │   │   │   │   │       │   │   │   ├── libc v0.2.186 default,std
 │       │   │   │   │   │   │       │   │   │   ├── serde feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── serde feature "derive" (*)
 │       │   │   │   │   │   │       │   │   │   ├── rustix feature "net" (*)
@@ -2156,6 +2258,20 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   ├── rustix feature "std" (*)
 │       │   │   │   │   │   │       │   │   │   ├── enumflags2 feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── enumflags2 feature "serde" (*)
+│       │   │   │   │   │   │       │   │   │   ├── event-listener feature "default"
+│       │   │   │   │   │   │       │   │   │   │   ├── event-listener v5.4.1 default,parking,std (*)
+│       │   │   │   │   │   │       │   │   │   │   └── event-listener feature "std" (*)
+│       │   │   │   │   │   │       │   │   │   ├── futures-core feature "default"
+│       │   │   │   │   │   │       │   │   │   │   ├── futures-core v0.3.32 alloc,default,std
+│       │   │   │   │   │   │       │   │   │   │   └── futures-core feature "std"
+│       │   │   │   │   │   │       │   │   │   │       ├── futures-core v0.3.32 alloc,default,std
+│       │   │   │   │   │   │       │   │   │   │       └── futures-core feature "alloc"
+│       │   │   │   │   │   │       │   │   │   │           └── futures-core v0.3.32 alloc,default,std
+│       │   │   │   │   │   │       │   │   │   ├── async-executor feature "default" (*)
+│       │   │   │   │   │   │       │   │   │   ├── async-task feature "default" (*)
+│       │   │   │   │   │   │       │   │   │   ├── futures-lite feature "std" (*)
+│       │   │   │   │   │   │       │   │   │   ├── async-lock feature "default" (*)
+│       │   │   │   │   │   │       │   │   │   ├── blocking feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── uuid feature "default"
 │       │   │   │   │   │   │       │   │   │   │   ├── uuid v1.23.1 default,serde,std (*)
 │       │   │   │   │   │   │       │   │   │   │   └── uuid feature "std"
@@ -2164,68 +2280,12 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   │   └── uuid v1.23.1 default,serde,std (*)
 │       │   │   │   │   │   │       │   │   │   ├── async-broadcast feature "default"
 │       │   │   │   │   │   │       │   │   │   │   └── async-broadcast v0.7.2 
-│       │   │   │   │   │   │       │   │   │   │       ├── event-listener feature "default"
-│       │   │   │   │   │   │       │   │   │   │       │   ├── event-listener v5.4.1 default,parking,std
-│       │   │   │   │   │   │       │   │   │   │       │   │   ├── concurrent-queue v2.5.0 default,std
-│       │   │   │   │   │   │       │   │   │   │       │   │   │   └── crossbeam-utils v0.8.21 
-│       │   │   │   │   │   │       │   │   │   │       │   │   ├── parking feature "default"
-│       │   │   │   │   │   │       │   │   │   │       │   │   │   └── parking v2.2.1 
-│       │   │   │   │   │   │       │   │   │   │       │   │   └── pin-project-lite feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       │   └── event-listener feature "std"
-│       │   │   │   │   │   │       │   │   │   │       │       ├── event-listener v5.4.1 default,parking,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │       ├── event-listener feature "parking"
-│       │   │   │   │   │   │       │   │   │   │       │       │   └── event-listener v5.4.1 default,parking,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │       └── concurrent-queue feature "std"
-│       │   │   │   │   │   │       │   │   │   │       │           └── concurrent-queue v2.5.0 default,std (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── pin-project-lite feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── event-listener-strategy feature "default"
-│       │   │   │   │   │   │       │   │   │   │       │   ├── event-listener-strategy v0.5.4 default,std
-│       │   │   │   │   │   │       │   │   │   │       │   │   ├── event-listener v5.4.1 default,parking,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │   │   └── pin-project-lite feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       │   └── event-listener-strategy feature "std"
-│       │   │   │   │   │   │       │   │   │   │       │       ├── event-listener-strategy v0.5.4 default,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │       └── event-listener feature "std" (*)
-│       │   │   │   │   │   │       │   │   │   │       └── futures-core feature "default"
-│       │   │   │   │   │   │       │   │   │   │           ├── futures-core v0.3.32 alloc,default,std
-│       │   │   │   │   │   │       │   │   │   │           └── futures-core feature "std"
-│       │   │   │   │   │   │       │   │   │   │               ├── futures-core v0.3.32 alloc,default,std
-│       │   │   │   │   │   │       │   │   │   │               └── futures-core feature "alloc"
-│       │   │   │   │   │   │       │   │   │   │                   └── futures-core v0.3.32 alloc,default,std
-│       │   │   │   │   │   │       │   │   │   ├── event-listener feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   ├── futures-core feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   ├── async-executor feature "default"
-│       │   │   │   │   │   │       │   │   │   │   └── async-executor v1.14.0 
-│       │   │   │   │   │   │       │   │   │   │       ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std
-│       │   │   │   │   │   │       │   │   │   │       │   ├── fastrand v2.4.1 alloc,default,std
-│       │   │   │   │   │   │       │   │   │   │       │   ├── futures-core v0.3.32 alloc,default,std
-│       │   │   │   │   │   │       │   │   │   │       │   ├── parking feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       │   ├── pin-project-lite feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       │   └── futures-io feature "default"
-│       │   │   │   │   │   │       │   │   │   │       │       ├── futures-io v0.3.32 default,std
-│       │   │   │   │   │   │       │   │   │   │       │       └── futures-io feature "std"
-│       │   │   │   │   │   │       │   │   │   │       │           └── futures-io v0.3.32 default,std
-│       │   │   │   │   │   │       │   │   │   │       ├── fastrand feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── concurrent-queue feature "default"
-│       │   │   │   │   │   │       │   │   │   │       │   ├── concurrent-queue v2.5.0 default,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │   └── concurrent-queue feature "std" (*)
+│       │   │   │   │   │   │       │   │   │   │       │   ├── event-listener-strategy v0.5.4 default,std (*)
+│       │   │   │   │   │   │       │   │   │   │       │   └── event-listener-strategy feature "std" (*)
+│       │   │   │   │   │   │       │   │   │   │       ├── event-listener feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── pin-project-lite feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── async-task feature "default"
-│       │   │   │   │   │   │       │   │   │   │       │   ├── async-task v4.7.1 default,std
-│       │   │   │   │   │   │       │   │   │   │       │   └── async-task feature "std"
-│       │   │   │   │   │   │       │   │   │   │       │       └── async-task v4.7.1 default,std
-│       │   │   │   │   │   │       │   │   │   │       └── slab feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   ├── async-task feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   ├── futures-lite feature "std"
-│       │   │   │   │   │   │       │   │   │   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
-│       │   │   │   │   │   │       │   │   │   │   ├── fastrand feature "std" (*)
-│       │   │   │   │   │   │       │   │   │   │   ├── futures-lite feature "alloc"
-│       │   │   │   │   │   │       │   │   │   │   │   └── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
-│       │   │   │   │   │   │       │   │   │   │   ├── futures-lite feature "fastrand"
-│       │   │   │   │   │   │       │   │   │   │   │   └── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
-│       │   │   │   │   │   │       │   │   │   │   ├── futures-lite feature "futures-io"
-│       │   │   │   │   │   │       │   │   │   │   │   └── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
-│       │   │   │   │   │   │       │   │   │   │   └── futures-lite feature "parking"
-│       │   │   │   │   │   │       │   │   │   │       └── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
+│       │   │   │   │   │   │       │   │   │   │       └── futures-core feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── async-io feature "default"
 │       │   │   │   │   │   │       │   │   │   │   └── async-io v2.6.0 
 │       │   │   │   │   │   │       │   │   │   │       ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
@@ -2240,41 +2300,18 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   │       └── polling feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       [build-dependencies]
 │       │   │   │   │   │   │       │   │   │   │       └── autocfg feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   ├── async-lock feature "default"
-│       │   │   │   │   │   │       │   │   │   │   ├── async-lock v3.4.2 default,std
-│       │   │   │   │   │   │       │   │   │   │   │   ├── event-listener v5.4.1 default,parking,std (*)
-│       │   │   │   │   │   │       │   │   │   │   │   ├── event-listener-strategy v0.5.4 default,std (*)
-│       │   │   │   │   │   │       │   │   │   │   │   └── pin-project-lite feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │   └── async-lock feature "std"
-│       │   │   │   │   │   │       │   │   │   │       ├── async-lock v3.4.2 default,std (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── event-listener feature "std" (*)
-│       │   │   │   │   │   │       │   │   │   │       └── event-listener-strategy feature "std" (*)
 │       │   │   │   │   │   │       │   │   │   ├── async-process feature "default"
 │       │   │   │   │   │   │       │   │   │   │   └── async-process v2.5.0 
 │       │   │   │   │   │   │       │   │   │   │       ├── cfg-if feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── rustix feature "fs" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── rustix feature "process" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── rustix feature "std" (*)
+│       │   │   │   │   │   │       │   │   │   │       ├── async-channel feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── event-listener feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── async-task feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── futures-lite feature "default"
-│       │   │   │   │   │   │       │   │   │   │       │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │   ├── futures-lite feature "race"
-│       │   │   │   │   │   │       │   │   │   │       │   │   ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │   │   └── futures-lite feature "fastrand" (*)
-│       │   │   │   │   │   │       │   │   │   │       │   └── futures-lite feature "std" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── async-io feature "default" (*)
+│       │   │   │   │   │   │       │   │   │   │       ├── futures-lite feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── async-lock feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── async-channel feature "default"
-│       │   │   │   │   │   │       │   │   │   │       │   ├── async-channel v2.5.0 default,std
-│       │   │   │   │   │   │       │   │   │   │       │   │   ├── concurrent-queue v2.5.0 default,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │   │   ├── event-listener-strategy v0.5.4 default,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │   │   ├── futures-core v0.3.32 alloc,default,std
-│       │   │   │   │   │   │       │   │   │   │       │   │   └── pin-project-lite feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       │   └── async-channel feature "std"
-│       │   │   │   │   │   │       │   │   │   │       │       ├── async-channel v2.5.0 default,std (*)
-│       │   │   │   │   │   │       │   │   │   │       │       ├── concurrent-queue feature "std" (*)
-│       │   │   │   │   │   │       │   │   │   │       │       └── event-listener-strategy feature "std" (*)
+│       │   │   │   │   │   │       │   │   │   │       ├── async-io feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       └── async-signal feature "default"
 │       │   │   │   │   │   │       │   │   │   │           └── async-signal v0.2.14 
 │       │   │   │   │   │   │       │   │   │   │               ├── cfg-if feature "default" (*)
@@ -2288,20 +2325,10 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   │                       ├── libc feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │                       └── errno feature "default"
 │       │   │   │   │   │   │       │   │   │   │                           ├── errno v0.3.14 default,std
-│       │   │   │   │   │   │       │   │   │   │                           │   └── libc v0.2.185 default,std
+│       │   │   │   │   │   │       │   │   │   │                           │   └── libc v0.2.186 default,std
 │       │   │   │   │   │   │       │   │   │   │                           └── errno feature "std"
 │       │   │   │   │   │   │       │   │   │   │                               ├── errno v0.3.14 default,std (*)
 │       │   │   │   │   │   │       │   │   │   │                               └── libc feature "std" (*)
-│       │   │   │   │   │   │       │   │   │   ├── async-recursion feature "default"
-│       │   │   │   │   │   │       │   │   │   │   └── async-recursion v1.1.1 (proc-macro) 
-│       │   │   │   │   │   │       │   │   │   │       ├── proc-macro2 v1.0.106 default,proc-macro (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── quote v1.0.45 default,proc-macro (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── syn feature "clone-impls" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── syn feature "full" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── syn feature "parsing" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── syn feature "printing" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── syn feature "proc-macro" (*)
-│       │   │   │   │   │   │       │   │   │   │       └── syn feature "visit-mut" (*)
 │       │   │   │   │   │   │       │   │   │   ├── async-trait feature "default"
 │       │   │   │   │   │   │       │   │   │   │   └── async-trait v0.1.89 (proc-macro) 
 │       │   │   │   │   │   │       │   │   │   │       ├── proc-macro2 feature "default" (*)
@@ -2312,23 +2339,6 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   │       ├── syn feature "printing" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── syn feature "proc-macro" (*)
 │       │   │   │   │   │   │       │   │   │   │       └── syn feature "visit-mut" (*)
-│       │   │   │   │   │   │       │   │   │   ├── blocking feature "default"
-│       │   │   │   │   │   │       │   │   │   │   └── blocking v1.6.2 
-│       │   │   │   │   │   │       │   │   │   │       ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── async-task feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── futures-io feature "std" (*)
-│       │   │   │   │   │   │       │   │   │   │       ├── async-channel feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │       └── piper feature "default"
-│       │   │   │   │   │   │       │   │   │   │           ├── piper v0.2.5 default,futures-io,std
-│       │   │   │   │   │   │       │   │   │   │           │   ├── fastrand v2.4.1 alloc,default,std
-│       │   │   │   │   │   │       │   │   │   │           │   ├── futures-io feature "default" (*)
-│       │   │   │   │   │   │       │   │   │   │           │   └── atomic-waker feature "default"
-│       │   │   │   │   │   │       │   │   │   │           │       └── atomic-waker v1.1.2 
-│       │   │   │   │   │   │       │   │   │   │           └── piper feature "std"
-│       │   │   │   │   │   │       │   │   │   │               ├── piper v0.2.5 default,futures-io,std (*)
-│       │   │   │   │   │   │       │   │   │   │               ├── fastrand feature "std" (*)
-│       │   │   │   │   │   │       │   │   │   │               └── piper feature "futures-io"
-│       │   │   │   │   │   │       │   │   │   │                   └── piper v0.2.5 default,futures-io,std (*)
 │       │   │   │   │   │   │       │   │   │   ├── hex feature "default"
 │       │   │   │   │   │   │       │   │   │   │   ├── hex v0.4.3 alloc,default,std
 │       │   │   │   │   │   │       │   │   │   │   └── hex feature "std"
@@ -2358,7 +2368,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   │               └── tracing-core v0.1.36 once_cell,std (*)
 │       │   │   │   │   │   │       │   │   │   ├── winnow feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── zbus_macros feature "default"
-│       │   │   │   │   │   │       │   │   │   │   └── zbus_macros v5.14.0 (proc-macro) default
+│       │   │   │   │   │   │       │   │   │   │   └── zbus_macros v5.13.2 (proc-macro) default
 │       │   │   │   │   │   │       │   │   │   │       ├── proc-macro2 feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── quote feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── syn feature "default" (*)
@@ -2373,26 +2383,26 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │   │   │   │       │       ├── serde feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       │       ├── serde feature "derive" (*)
 │       │   │   │   │   │   │       │   │   │   │       │       ├── zvariant feature "default"
-│       │   │   │   │   │   │       │   │   │   │       │       │   └── zvariant v5.10.0 default,enumflags2 (*)
+│       │   │   │   │   │   │       │   │   │   │       │       │   └── zvariant v5.9.2 default,enumflags2 (*)
 │       │   │   │   │   │   │       │   │   │   │       │       └── zvariant feature "enumflags2"
-│       │   │   │   │   │   │       │   │   │   │       │           └── zvariant v5.10.0 default,enumflags2 (*)
+│       │   │   │   │   │   │       │   │   │   │       │           └── zvariant v5.9.2 default,enumflags2 (*)
 │       │   │   │   │   │   │       │   │   │   │       ├── zvariant feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   │       └── zvariant_utils feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── zbus_names feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   ├── zvariant feature "default" (*)
 │       │   │   │   │   │   │       │   │   │   └── zvariant feature "enumflags2" (*)
 │       │   │   │   │   │   │       │   │   ├── zbus feature "async-executor"
-│       │   │   │   │   │   │       │   │   │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│       │   │   │   │   │   │       │   │   │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │       │   │   │   │   │   │       │   │   ├── zbus feature "async-fs"
-│       │   │   │   │   │   │       │   │   │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│       │   │   │   │   │   │       │   │   │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │       │   │   │   │   │   │       │   │   ├── zbus feature "async-lock"
-│       │   │   │   │   │   │       │   │   │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│       │   │   │   │   │   │       │   │   │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │       │   │   │   │   │   │       │   │   ├── zbus feature "async-process"
-│       │   │   │   │   │   │       │   │   │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│       │   │   │   │   │   │       │   │   │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │       │   │   │   │   │   │       │   │   ├── zbus feature "async-task"
-│       │   │   │   │   │   │       │   │   │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│       │   │   │   │   │   │       │   │   │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │       │   │   │   │   │   │       │   │   └── zbus feature "blocking"
-│       │   │   │   │   │   │       │   │       └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│       │   │   │   │   │   │       │   │       └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │       │   │   │   │   │   │       │   ├── zbus_names feature "default" (*)
 │       │   │   │   │   │   │       │   ├── zbus-lockstep feature "default"
 │       │   │   │   │   │   │       │   │   └── zbus-lockstep v0.5.2 
@@ -2421,11 +2431,11 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │       │           ├── zvariant feature "default" (*)
 │       │   │   │   │   │   │       │           ├── zbus-lockstep feature "default" (*)
 │       │   │   │   │   │   │       │           └── zbus_xml feature "default" (*)
-│       │   │   │   │   │   │       ├── zvariant v5.10.0 default,enumflags2 (*)
+│       │   │   │   │   │   │       ├── zvariant v5.9.2 default,enumflags2 (*)
 │       │   │   │   │   │   │       ├── serde feature "default" (*)
 │       │   │   │   │   │   │       ├── accesskit feature "default" (*)
 │       │   │   │   │   │   │       ├── accesskit_consumer feature "default"
-│       │   │   │   │   │   │       │   └── accesskit_consumer v0.35.0 
+│       │   │   │   │   │   │       │   └── accesskit_consumer v0.36.0 
 │       │   │   │   │   │   │       │       ├── hashbrown feature "default-hasher" (*)
 │       │   │   │   │   │   │       │       └── accesskit feature "default" (*)
 │       │   │   │   │   │   │       ├── phf feature "default"
@@ -2453,10 +2463,6 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   │   │           └── phf feature "phf_macros"
 │       │   │   │   │   │   │               └── phf v0.13.1 default,macros,phf_macros,std (*)
 │       │   │   │   │   │   ├── zbus feature "async-io" (*)
-│       │   │   │   │   │   ├── async-executor feature "default" (*)
-│       │   │   │   │   │   ├── async-task feature "default" (*)
-│       │   │   │   │   │   ├── futures-lite feature "default" (*)
-│       │   │   │   │   │   ├── async-channel feature "default" (*)
 │       │   │   │   │   │   ├── atspi feature "proxies"
 │       │   │   │   │   │   │   └── atspi v0.29.0 proxies
 │       │   │   │   │   │   │       ├── atspi-common v0.13.0 default,wrappers,zbus (*)
@@ -2515,7 +2521,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   ├── accesskit_winit v0.32.2 accesskit_unix,async-io,default,rwh_06 (*)
 │       │   │   │   │   ├── accesskit_winit feature "accesskit_unix" (*)
 │       │   │   │   │   └── accesskit_unix feature "async-io"
-│       │   │   │   │       └── accesskit_unix v0.21.0 async-io (*)
+│       │   │   │   │       └── accesskit_unix v0.21.1 async-io (*)
 │       │   │   │   ├── accesskit_winit feature "rwh_06"
 │       │   │   │   │   ├── accesskit_winit v0.32.2 accesskit_unix,async-io,default,rwh_06 (*)
 │       │   │   │   │   └── winit feature "rwh_06"
@@ -2557,7 +2563,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │   ├── x11rb feature "default"
 │       │   │   │   │   │   └── x11rb v0.13.2 allow-unsafe-code,as-raw-xcb-connection,dl-libxcb,libc,libloading,once_cell,randr,render,resource_manager,shape,xfixes,xinput,xkb (*)
 │       │   │   │   │   └── image feature "png"
-│       │   │   │   │       └── image v0.25.10 png
+│       │   │   │   │       └── image v0.25.9 png
 │       │   │   │   │           ├── num-traits feature "default" (*)
 │       │   │   │   │           ├── bytemuck feature "default" (*)
 │       │   │   │   │           ├── bytemuck feature "extern_crate_alloc"
@@ -2567,45 +2573,16 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   │   │           │   └── byteorder-lite feature "std"
 │       │   │   │   │           │       └── byteorder-lite v0.1.0 default,std
 │       │   │   │   │           ├── moxcms feature "default"
-│       │   │   │   │           │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths
+│       │   │   │   │           │   ├── moxcms v0.7.11 avx,default,neon,sse
 │       │   │   │   │           │   │   ├── num-traits feature "default" (*)
 │       │   │   │   │           │   │   └── pxfm feature "default"
 │       │   │   │   │           │   │       └── pxfm v0.1.29 
-│       │   │   │   │           │   ├── moxcms feature "avx_luts"
-│       │   │   │   │           │   │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   │   ├── moxcms feature "avx"
-│       │   │   │   │           │   │   │   └── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   │   └── moxcms feature "lut"
-│       │   │   │   │           │   │       └── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   ├── moxcms feature "avx_shaper_fixed_point_paths"
-│       │   │   │   │           │   │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   │   └── moxcms feature "avx" (*)
-│       │   │   │   │           │   ├── moxcms feature "avx_shaper_paths"
-│       │   │   │   │           │   │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   │   └── moxcms feature "avx" (*)
-│       │   │   │   │           │   ├── moxcms feature "lut" (*)
-│       │   │   │   │           │   ├── moxcms feature "neon_luts"
-│       │   │   │   │           │   │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   │   ├── moxcms feature "lut" (*)
-│       │   │   │   │           │   │   └── moxcms feature "neon"
-│       │   │   │   │           │   │       └── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   ├── moxcms feature "neon_shaper_fixed_point_paths"
-│       │   │   │   │           │   │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   │   └── moxcms feature "neon" (*)
-│       │   │   │   │           │   ├── moxcms feature "neon_shaper_paths"
-│       │   │   │   │           │   │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   │   └── moxcms feature "neon" (*)
-│       │   │   │   │           │   ├── moxcms feature "sse_luts"
-│       │   │   │   │           │   │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   │   ├── moxcms feature "lut" (*)
-│       │   │   │   │           │   │   └── moxcms feature "sse"
-│       │   │   │   │           │   │       └── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   ├── moxcms feature "sse_shaper_fixed_point_paths"
-│       │   │   │   │           │   │   ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │   │   └── moxcms feature "sse" (*)
-│       │   │   │   │           │   └── moxcms feature "sse_shaper_paths"
-│       │   │   │   │           │       ├── moxcms v0.8.1 avx,avx_luts,avx_shaper_fixed_point_paths,avx_shaper_paths,default,lut,neon,neon_luts,neon_shaper_fixed_point_paths,neon_shaper_paths,sse,sse_luts,sse_shaper_fixed_point_paths,sse_shaper_paths (*)
-│       │   │   │   │           │       └── moxcms feature "sse" (*)
+│       │   │   │   │           │   ├── moxcms feature "avx"
+│       │   │   │   │           │   │   └── moxcms v0.7.11 avx,default,neon,sse (*)
+│       │   │   │   │           │   ├── moxcms feature "neon"
+│       │   │   │   │           │   │   └── moxcms v0.7.11 avx,default,neon,sse (*)
+│       │   │   │   │           │   └── moxcms feature "sse"
+│       │   │   │   │           │       └── moxcms v0.7.11 avx,default,neon,sse (*)
 │       │   │   │   │           └── png feature "default"
 │       │   │   │   │               └── png v0.18.1 
 │       │   │   │   │                   ├── bitflags feature "default" (*)
@@ -2749,13 +2726,12 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │               │   │       ├── smallvec feature "default" (*)
 │       │   │               │   │       ├── idna_adapter feature "default"
 │       │   │               │   │       │   └── idna_adapter v1.2.1 compiled_data
-│       │   │               │   │       │       ├── icu_normalizer v2.2.0 compiled_data
-│       │   │               │   │       │       │   ├── icu_collections v2.2.0 
+│       │   │               │   │       │       ├── icu_normalizer v2.1.1 compiled_data
+│       │   │               │   │       │       │   ├── icu_collections v2.1.1 
 │       │   │               │   │       │       │   │   ├── displaydoc v0.2.5 (proc-macro) 
 │       │   │               │   │       │       │   │   │   ├── proc-macro2 feature "default" (*)
 │       │   │               │   │       │       │   │   │   ├── quote feature "default" (*)
 │       │   │               │   │       │       │   │   │   └── syn feature "default" (*)
-│       │   │               │   │       │       │   │   ├── utf8_iter v1.0.4 
 │       │   │               │   │       │       │   │   ├── potential_utf feature "zerovec"
 │       │   │               │   │       │       │   │   │   └── potential_utf v0.1.5 zerovec
 │       │   │               │   │       │       │   │   │       └── zerovec v0.11.6 derive,yoke
@@ -2806,10 +2782,10 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │               │   │       │       │   │   │   └── zerofrom feature "derive"
 │       │   │               │   │       │       │   │   │       └── zerofrom v0.1.7 derive (*)
 │       │   │               │   │       │       │   │   └── zerofrom feature "derive" (*)
-│       │   │               │   │       │       │   ├── icu_normalizer_data v2.2.0 
-│       │   │               │   │       │       │   ├── icu_provider v2.2.0 baked
+│       │   │               │   │       │       │   ├── icu_normalizer_data v2.1.1 
+│       │   │               │   │       │       │   ├── icu_provider v2.1.1 baked
 │       │   │               │   │       │       │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
-│       │   │               │   │       │       │   │   ├── icu_locale_core v2.2.0 zerovec
+│       │   │               │   │       │       │   │   ├── icu_locale_core v2.1.1 zerovec
 │       │   │               │   │       │       │   │   │   ├── displaydoc v0.2.5 (proc-macro)  (*)
 │       │   │               │   │       │       │   │   │   ├── litemap v0.8.2 
 │       │   │               │   │       │       │   │   │   ├── tinystr v0.8.3 zerovec
@@ -2827,14 +2803,14 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │               │   │       │       │   │   └── zerofrom feature "derive" (*)
 │       │   │               │   │       │       │   ├── smallvec v1.15.1 const_generics,const_new,serde,union (*)
 │       │   │               │   │       │       │   └── zerovec v0.11.6 derive,yoke (*)
-│       │   │               │   │       │       └── icu_properties v2.2.0 compiled_data
-│       │   │               │   │       │           ├── icu_collections v2.2.0  (*)
-│       │   │               │   │       │           ├── icu_properties_data v2.2.0 
-│       │   │               │   │       │           ├── icu_provider v2.2.0 baked (*)
+│       │   │               │   │       │       └── icu_properties v2.1.2 compiled_data
+│       │   │               │   │       │           ├── icu_collections v2.1.1  (*)
+│       │   │               │   │       │           ├── icu_properties_data v2.1.2 
+│       │   │               │   │       │           ├── icu_provider v2.1.1 baked (*)
 │       │   │               │   │       │           ├── zerovec feature "derive" (*)
 │       │   │               │   │       │           ├── zerovec feature "yoke" (*)
 │       │   │               │   │       │           ├── icu_locale_core feature "zerovec"
-│       │   │               │   │       │           │   ├── icu_locale_core v2.2.0 zerovec (*)
+│       │   │               │   │       │           │   ├── icu_locale_core v2.1.1 zerovec (*)
 │       │   │               │   │       │           │   └── tinystr feature "zerovec"
 │       │   │               │   │       │           │       └── tinystr v0.8.3 zerovec (*)
 │       │   │               │   │       │           ├── zerotrie feature "yoke"
@@ -2848,11 +2824,11 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │               │       └── idna_adapter feature "compiled_data"
 │       │   │               │           ├── idna_adapter v1.2.1 compiled_data (*)
 │       │   │               │           ├── icu_normalizer feature "compiled_data"
-│       │   │               │           │   ├── icu_normalizer v2.2.0 compiled_data (*)
+│       │   │               │           │   ├── icu_normalizer v2.1.1 compiled_data (*)
 │       │   │               │           │   └── icu_provider feature "baked"
-│       │   │               │           │       └── icu_provider v2.2.0 baked (*)
+│       │   │               │           │       └── icu_provider v2.1.1 baked (*)
 │       │   │               │           └── icu_properties feature "compiled_data"
-│       │   │               │               ├── icu_properties v2.2.0 compiled_data (*)
+│       │   │               │               ├── icu_properties v2.1.2 compiled_data (*)
 │       │   │               │               └── icu_provider feature "baked" (*)
 │       │   │               ├── percent-encoding feature "std" (*)
 │       │   │               ├── form_urlencoded feature "std"
@@ -2863,16 +2839,16 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │                   ├── idna v1.1.0 alloc,compiled_data,std (*)
 │       │   │                   └── idna feature "alloc" (*)
 │       │   ├── egui-winit feature "arboard"
-│       │   │   └── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│       │   │   └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │       │   ├── egui-winit feature "bytemuck"
-│       │   │   ├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│       │   │   ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │       │   │   └── egui feature "bytemuck" (*)
 │       │   └── egui-winit feature "smithay-clipboard"
-│       │       └── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│       │       └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │       ├── egui-winit feature "links"
-│       │   ├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│       │   ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │       │   └── egui-winit feature "webbrowser"
-│       │       └── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│       │       └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │       ├── static_assertions feature "default" (*)
 │       ├── raw-window-handle feature "default" (*)
 │       ├── winit feature "rwh_06" (*)
@@ -2925,62 +2901,62 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   ├── glutin-winit v0.5.0 egl,wayland,wgl (*)
 │       │   └── glutin feature "wgl" (*)
 │       └── home feature "default"
-│           └── home v0.5.12 
+│           └── home v0.5.11 
 ├── eframe feature "accesskit"
-│   ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   └── egui-winit feature "accesskit"
-│       └── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│       └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 ├── eframe feature "default_fonts"
-│   ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   └── egui feature "default_fonts"
-│       ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│       ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │       └── epaint feature "default_fonts"
-│           ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│           ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 │           └── epaint feature "epaint_default_fonts"
-│               └── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│               └── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 ├── eframe feature "glow"
-│   └── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   └── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 ├── eframe feature "persistence"
-│   ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   ├── eframe feature "ron"
-│   │   └── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   │   └── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   ├── eframe feature "serde"
-│   │   └── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   │   └── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   ├── egui feature "persistence"
-│   │   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   │   ├── egui feature "ron"
-│   │   │   └── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   │   │   └── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   │   ├── egui feature "serde"
-│   │   │   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   │   │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   │   │   ├── accesskit feature "serde"
 │   │   │   │   ├── accesskit v0.24.0 enumn,serde (*)
 │   │   │   │   ├── accesskit feature "enumn"
 │   │   │   │   │   └── accesskit v0.24.0 enumn,serde (*)
 │   │   │   │   └── uuid feature "serde" (*)
 │   │   │   └── epaint feature "serde"
-│   │   │       ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│   │   │       ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 │   │   │       ├── smallvec feature "serde"
 │   │   │       │   └── smallvec v1.15.1 const_generics,const_new,serde,union (*)
 │   │   │       ├── ahash feature "serde"
 │   │   │       │   └── ahash v0.8.12 default,getrandom,no-rng,runtime-rng,serde,std (*)
 │   │   │       ├── emath feature "serde"
-│   │   │       │   └── emath v0.34.1 bytemuck,serde (*)
+│   │   │       │   └── emath v0.34.2 bytemuck,serde (*)
 │   │   │       ├── ecolor feature "serde"
-│   │   │       │   └── ecolor v0.34.1 bytemuck,serde (*)
+│   │   │       │   └── ecolor v0.34.2 bytemuck,serde (*)
 │   │   │       └── font-types feature "serde"
 │   │   │           └── font-types v0.11.3 bytemuck,serde,std (*)
 │   │   └── epaint feature "serde" (*)
 │   └── egui-winit feature "serde"
-│       ├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│       ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │       └── egui feature "serde" (*)
 ├── eframe feature "wayland"
-│   ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   ├── egui-winit feature "wayland"
-│   │   ├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│   │   ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │   │   ├── egui-winit feature "bytemuck" (*)
 │   │   └── winit feature "wayland" (*)
 │   ├── egui_glow feature "wayland"
-│   │   └── egui_glow v0.34.1 default,wayland (*)
+│   │   └── egui_glow v0.34.2 default,wayland (*)
 │   ├── glutin feature "wayland"
 │   │   ├── glutin v0.32.3 egl,glutin_egl_sys,glutin_wgl_sys,libloading,wayland,wayland-sys,wgl,windows-sys (*)
 │   │   ├── glutin feature "egl" (*)
@@ -2991,15 +2967,16 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       ├── winit feature "wayland" (*)
 │       └── glutin feature "wayland" (*)
 ├── egui feature "default"
-│   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   └── egui feature "default_fonts" (*)
 ├── profiling feature "profile-with-puffin"
-│   ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │   └── profiling feature "puffin"
-│       └── profiling v1.0.17 profile-with-puffin,puffin (*)
+│       └── profiling v1.0.18 profile-with-puffin,puffin (*)
+├── puffin feature "default" (*)
 ├── egui-winit feature "wayland" (*)
 ├── egui_glow feature "default"
-│   └── egui_glow v0.34.1 default,wayland (*)
+│   └── egui_glow v0.34.2 default,wayland (*)
 ├── glow feature "default" (*)
 ├── env_logger feature "default"
 │   ├── env_logger v0.11.10 auto-color,color,default,humantime,regex
@@ -3063,9 +3040,9 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │   │   │           └── is_terminal_polyfill v1.70.2 default
 │   │   ├── anstyle feature "default" (*)
 │   │   └── jiff feature "std"
-│   │       ├── jiff v0.2.23 alloc,std
+│   │       ├── jiff v0.2.24 alloc,std
 │   │       └── jiff feature "alloc"
-│   │           └── jiff v0.2.23 alloc,std
+│   │           └── jiff v0.2.24 alloc,std
 │   ├── env_logger feature "auto-color"
 │   │   ├── env_logger v0.11.10 auto-color,color,default,humantime,regex (*)
 │   │   ├── env_logger feature "anstream"
@@ -3080,33 +3057,11 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       ├── env_logger v0.11.10 auto-color,color,default,humantime,regex (*)
 │       └── env_filter feature "regex"
 │           └── env_filter v1.0.1 regex (*)
-├── puffin feature "default"
-│   └── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde
-│       ├── lz4_flex v0.13.0 
-│       ├── anyhow feature "default" (*)
-│       ├── serde feature "default" (*)
-│       ├── serde feature "derive" (*)
-│       ├── serde feature "rc" (*)
-│       ├── cfg-if feature "default" (*)
-│       ├── parking_lot feature "default" (*)
-│       ├── byteorder feature "default" (*)
-│       ├── bincode feature "default"
-│       │   └── bincode v1.3.3 
-│       │       └── serde feature "default" (*)
-│       └── itertools feature "default"
-│           ├── itertools v0.14.0 default,use_alloc,use_std
-│           │   └── either v1.15.0 std,use_std
-│           └── itertools feature "use_std"
-│               ├── itertools v0.14.0 default,use_alloc,use_std (*)
-│               ├── either feature "use_std" (*)
-│               └── itertools feature "use_alloc"
-│                   └── itertools v0.14.0 default,use_alloc,use_std (*)
 ├── puffin_egui feature "default"
 │   └── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) 
-│       ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│       ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │       ├── log feature "default" (*)
 │       ├── parking_lot feature "default" (*)
-│       ├── web-time feature "default" (*)
 │       ├── puffin feature "default" (*)
 │       ├── puffin feature "packing"
 │       │   ├── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde (*)
@@ -3114,10 +3069,11 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       │   │   └── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde (*)
 │       │   └── puffin feature "serde"
 │       │       └── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde (*)
+│       ├── web-time feature "default" (*)
 │       ├── egui_extras feature "serde"
-│       │   ├── egui_extras v0.34.1 serde
-│       │   │   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-│       │   │   ├── profiling v1.0.17 profile-with-puffin,puffin (*)
+│       │   ├── egui_extras v0.34.2 serde
+│       │   │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│       │   │   ├── profiling v1.0.18 profile-with-puffin,puffin (*)
 │       │   │   ├── serde feature "default" (*)
 │       │   │   ├── serde feature "derive" (*)
 │       │   │   ├── log feature "default" (*)
@@ -3141,7 +3097,7 @@ sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle)
 │       ├── indexmap feature "default"
 │       │   ├── indexmap v2.14.0 default,serde,std
 │       │   │   ├── equivalent v1.0.2 
-│       │   │   ├── hashbrown v0.17.0 
+│       │   │   ├── hashbrown v0.17.1 
 │       │   │   └── serde_core v1.0.228 alloc,rc,result,std
 │       │   └── indexmap feature "std"
 │       │       └── indexmap v2.14.0 default,serde,std (*)
@@ -3248,23 +3204,27 @@ world-model v0.1.0 (/home/marsh/gh/sunangle/world-model)
 
 exit code: 0
 
-==================================================================================================== 'cargo' 'tree' '--offline' '-e' 'normal' '-f' '{p} {f}' '--duplicates'
-
--------------------------------
+++=================================================================================================|
+++=================================================================================================|
+||
+||  'cargo' 'tree' '--offline' '-e' 'normal' '-f' '{p} {f}' '--duplicates'
+||
+++=================================================================================================|
+++=================================================================================================|
 
 calloop v0.13.0 
 ├── calloop-wayland-source v0.3.0 
 │   └── smithay-client-toolkit v0.19.2 calloop,calloop-wayland-source
 │       └── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb
 │           ├── accesskit_winit v0.32.2 accesskit_unix,async-io,default,rwh_06
-│           │   └── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser
-│           │       ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland
+│           │   └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser
+│           │       ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland
 │           │       │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
 │           │       └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-│           ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
-│           ├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│           ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│           ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │           └── glutin-winit v0.5.0 egl,wayland,wgl
-│               └── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│               └── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 ├── smithay-client-toolkit v0.19.2 calloop,calloop-wayland-source (*)
 └── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb (*)
 
@@ -3272,7 +3232,7 @@ calloop v0.14.4
 ├── calloop-wayland-source v0.4.1 
 │   └── smithay-client-toolkit v0.20.0 calloop,calloop-wayland-source
 │       └── smithay-clipboard v0.7.3 default,dlopen
-│           └── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│           └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 └── smithay-client-toolkit v0.20.0 calloop,calloop-wayland-source (*)
 
 calloop-wayland-source v0.3.0  (*)
@@ -3283,41 +3243,45 @@ fastrand v2.4.1
 └── phf_generator v0.13.1 
     └── phf_macros v0.13.1 (proc-macro) 
         └── phf v0.13.1 default,macros,phf_macros,std
-            └── accesskit_atspi_common v0.18.0 
-                └── accesskit_unix v0.21.0 async-io
+            └── accesskit_atspi_common v0.18.1 
+                └── accesskit_unix v0.21.1 async-io
                     └── accesskit_winit v0.32.2 accesskit_unix,async-io,default,rwh_06 (*)
 
 fastrand v2.4.1 alloc,default,std
-├── async-executor v1.14.0 
-│   ├── accesskit_unix v0.21.0 async-io (*)
-│   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking
-│       ├── accesskit_unix v0.21.0 async-io (*)
+├── async-executor v1.14.0 static
+│   ├── accesskit_unix v0.21.1 async-io (*)
+│   ├── async-global-executor v3.1.0 
+│   │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking
+│       ├── accesskit_unix v0.21.1 async-io (*)
 │       ├── atspi-common v0.13.0 default,wrappers,zbus
-│       │   ├── accesskit_atspi_common v0.18.0  (*)
+│       │   ├── accesskit_atspi_common v0.18.1  (*)
 │       │   ├── atspi v0.29.0 proxies
-│       │   │   └── accesskit_unix v0.21.0 async-io (*)
+│       │   │   └── accesskit_unix v0.21.1 async-io (*)
 │       │   └── atspi-proxies v0.13.0 default,wrappers
 │       │       └── atspi v0.29.0 proxies (*)
 │       └── atspi-proxies v0.13.0 default,wrappers (*)
 ├── futures-lite v2.6.1 alloc,default,fastrand,futures-io,parking,race,std
-│   ├── accesskit_unix v0.21.0 async-io (*)
-│   ├── async-executor v1.14.0  (*)
+│   ├── accesskit_unix v0.21.1 async-io (*)
+│   ├── async-executor v1.14.0 static (*)
+│   ├── async-global-executor v3.1.0  (*)
 │   ├── async-io v2.6.0 
 │   │   ├── async-process v2.5.0 
-│   │   │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│   │   │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │   │   ├── async-signal v0.2.14 
 │   │   │   └── async-process v2.5.0  (*)
-│   │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│   │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 │   ├── async-process v2.5.0  (*)
 │   ├── blocking v1.6.2 
-│   │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
-│   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│   │   ├── async-global-executor v3.1.0  (*)
+│   │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 └── piper v0.2.5 default,futures-io,std
     └── blocking v1.6.2  (*)
 
 hashbrown v0.16.1 default-hasher,inline-more,raw-entry
-├── accesskit_consumer v0.35.0 
-│   └── accesskit_atspi_common v0.18.0  (*)
+├── accesskit_consumer v0.36.0 
+│   └── accesskit_atspi_common v0.18.1  (*)
 ├── hecs v0.11.0 column-serialize,default,hecs-macros,macros,row-serialize,serde,std
 │   ├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems) 
 │   │   ├── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
@@ -3334,21 +3298,21 @@ hashbrown v0.16.1 default-hasher,inline-more,raw-entry
 │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
 ├── vello_common v0.0.6 std
 │   └── vello_cpu v0.0.6 f32_pipeline,std,u8_pipeline
-│       └── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde
-│           └── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde
-│               ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
-│               ├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
-│               ├── egui_extras v0.34.1 serde
+│       └── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde
+│           └── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde
+│               ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│               ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│               ├── egui_extras v0.34.2 serde
 │               │   └── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) 
 │               │       └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-│               ├── egui_glow v0.34.1 default,wayland
-│               │   ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│               ├── egui_glow v0.34.2 default,wayland
+│               │   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │               │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
 │               ├── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533)  (*)
 │               └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
 └── vello_cpu v0.0.6 f32_pipeline,std,u8_pipeline (*)
 
-hashbrown v0.17.0 
+hashbrown v0.17.1 
 ├── indexmap v2.14.0 default,serde,std
 │   ├── petgraph v0.6.5 serde,serde-1,serde_derive
 │   │   └── world-model v0.1.0 (/home/marsh/gh/sunangle/world-model) 
@@ -3356,23 +3320,23 @@ hashbrown v0.17.0
 └── indexmap v2.14.0 default,std
     └── toml_edit v0.25.11+spec-1.1.0 parse
         └── proc-macro-crate v3.5.0 
-            ├── zbus_macros v5.14.0 (proc-macro) default
-            │   └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
-            └── zvariant_derive v5.10.0 (proc-macro) default
-                └── zvariant v5.10.0 default,enumflags2
-                    ├── accesskit_atspi_common v0.18.0  (*)
+            ├── zbus_macros v5.13.2 (proc-macro) default
+            │   └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+            └── zvariant_derive v5.9.2 (proc-macro) default
+                └── zvariant v5.9.2 default,enumflags2
+                    ├── accesskit_atspi_common v0.18.1  (*)
                     ├── atspi-common v0.13.0 default,wrappers,zbus (*)
-                    ├── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+                    ├── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
                     ├── zbus-lockstep v0.5.2 
                     │   ├── atspi-common v0.13.0 default,wrappers,zbus (*)
                     │   └── zbus-lockstep-macros v0.5.2 (proc-macro) 
                     │       └── atspi-common v0.13.0 default,wrappers,zbus (*)
                     ├── zbus-lockstep-macros v0.5.2 (proc-macro)  (*)
-                    ├── zbus_macros v5.14.0 (proc-macro) default (*)
+                    ├── zbus_macros v5.13.2 (proc-macro) default (*)
                     ├── zbus_names v4.3.1 
                     │   ├── atspi-common v0.13.0 default,wrappers,zbus (*)
-                    │   ├── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
-                    │   ├── zbus_macros v5.14.0 (proc-macro) default (*)
+                    │   ├── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+                    │   ├── zbus_macros v5.13.2 (proc-macro) default (*)
                     │   └── zbus_xml v5.1.0 
                     │       ├── zbus-lockstep v0.5.2  (*)
                     │       └── zbus-lockstep-macros v0.5.2 (proc-macro)  (*)
@@ -3381,22 +3345,6 @@ hashbrown v0.17.0
 indexmap v2.14.0 default,serde,std (*)
 
 indexmap v2.14.0 default,std (*)
-
-itertools v0.10.5 default,use_alloc,use_std
-└── puffin v0.19.1 default
-    └── profiling v1.0.17 profile-with-puffin,puffin
-        ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
-        ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-        ├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
-        ├── egui_extras v0.34.1 serde (*)
-        ├── egui_glow v0.34.1 default,wayland (*)
-        ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
-        └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-
-itertools v0.14.0 default,use_alloc,use_std
-└── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde
-    ├── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533)  (*)
-    └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
 
 linux-raw-sys v0.4.15 elf,errno,general,ioctl,no_std,prctl,system
 └── rustix v0.38.44 alloc,default,event,fs,libc-extra-traits,pipe,process,shm,std,system,thread,use-libc-auxv
@@ -3415,7 +3363,7 @@ linux-raw-sys v0.12.1 auxvec,elf,errno,general,if_ether,ioctl,net,netlink,no_std
     ├── gethostname v1.1.0 
     │   └── x11rb v0.13.2 allow-unsafe-code,as-raw-xcb-connection,dl-libxcb,libc,libloading,once_cell,randr,render,resource_manager,shape,xfixes,xinput,xkb
     │       ├── arboard v3.6.1 core-graphics,image,image-data,windows-sys
-    │       │   └── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+    │       │   └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
     │       └── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb (*)
     ├── polling v3.11.0 
     │   ├── async-io v2.6.0  (*)
@@ -3466,7 +3414,7 @@ linux-raw-sys v0.12.1 auxvec,elf,errno,general,if_ether,ioctl,net,netlink,no_std
     ├── wayland-client v0.31.14  (*)
     ├── wayland-cursor v0.31.14  (*)
     ├── x11rb v0.13.2 allow-unsafe-code,as-raw-xcb-connection,dl-libxcb,libc,libloading,once_cell,randr,render,resource_manager,shape,xfixes,xinput,xkb (*)
-    └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+    └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 
 phf v0.11.3 
 └── chrono-tz v0.8.6 default,std
@@ -3484,14 +3432,10 @@ phf_shared v0.13.1
 phf_shared v0.13.1 std
 └── phf v0.13.1 default,macros,phf_macros,std (*)
 
-puffin v0.19.1 default (*)
-
-puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde (*)
-
 quick-xml v0.38.4 default,overlapped-lists,serde,serialize
 └── zbus_xml v5.1.0  (*)
 
-quick-xml v0.39.2 default
+quick-xml v0.39.4 default
 └── wayland-scanner v0.31.10 (proc-macro) 
     ├── smithay-client-toolkit v0.19.2 calloop,calloop-wayland-source (*)
     ├── smithay-client-toolkit v0.20.0 calloop,calloop-wayland-source (*)
@@ -3508,49 +3452,59 @@ rustix v1.1.4 alloc,default,event,fs,net,pipe,process,shm,std,system,time (*)
 
 serde v1.0.228 alloc,default,derive,rc,serde_derive,std
 ├── accesskit v0.24.0 enumn,serde
-│   ├── accesskit_atspi_common v0.18.0  (*)
-│   ├── accesskit_consumer v0.35.0  (*)
-│   ├── accesskit_unix v0.21.0 async-io (*)
+│   ├── accesskit_atspi_common v0.18.1  (*)
+│   ├── accesskit_consumer v0.36.0  (*)
+│   ├── accesskit_unix v0.21.1 async-io (*)
 │   ├── accesskit_winit v0.32.2 accesskit_unix,async-io,default,rwh_06 (*)
-│   └── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-├── accesskit_atspi_common v0.18.0  (*)
-├── accesskit_unix v0.21.0 async-io (*)
+│   └── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+├── accesskit_atspi_common v0.18.1  (*)
+├── accesskit_unix v0.21.1 async-io (*)
 ├── ahash v0.8.12 default,getrandom,no-rng,runtime-rng,serde,std
-│   ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
-│   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-│   ├── egui_extras v0.34.1 serde (*)
-│   ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   ├── egui_extras v0.34.2 serde (*)
+│   ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 │   └── winit v0.30.13 ahash,bytemuck,memmap2,percent-encoding,rwh_06,sctk,wayland,wayland-backend,wayland-client,wayland-protocols,wayland-protocols-plasma,x11,x11-dl,x11rb (*)
 ├── atspi-common v0.13.0 default,wrappers,zbus (*)
 ├── atspi-proxies v0.13.0 default,wrappers (*)
 ├── bincode v1.3.3 
-│   └── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde (*)
+│   └── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde
+│       ├── profiling v1.0.18 profile-with-puffin,puffin
+│       │   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│       │   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│       │   ├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│       │   ├── egui_extras v0.34.2 serde (*)
+│       │   ├── egui_glow v0.34.2 default,wayland (*)
+│       │   ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│       │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
+│       ├── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533)  (*)
+│       └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
 ├── chrono v0.4.44 alloc,clock,default,iana-time-zone,js-sys,now,oldtime,serde,std,wasm-bindgen,wasmbind,winapi,windows-link
 │   ├── chrono-tz v0.8.6 default,std (*)
 │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-├── ecolor v0.34.1 bytemuck,serde
-│   └── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
-├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
-├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-├── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
-├── egui_extras v0.34.1 serde (*)
-├── emath v0.34.1 bytemuck,serde
-│   ├── ecolor v0.34.1 bytemuck,serde (*)
-│   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-│   └── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+├── ecolor v0.34.2 bytemuck,serde
+│   └── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+├── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+├── egui_extras v0.34.2 serde (*)
+├── emath v0.34.2 bytemuck,serde
+│   ├── ecolor v0.34.2 bytemuck,serde (*)
+│   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   └── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 ├── enum-map v2.7.3 serde
-│   └── egui_extras v0.34.1 serde (*)
+│   └── egui_extras v0.34.2 serde (*)
 ├── enumflags2 v0.7.12 serde
 │   ├── atspi-common v0.13.0 default,wrappers,zbus (*)
 │   ├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
-│   ├── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
-│   └── zvariant v5.10.0 default,enumflags2 (*)
-├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│   ├── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+│   └── zvariant v5.9.2 default,enumflags2 (*)
+├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 ├── font-types v0.11.3 bytemuck,serde,std
-│   ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│   ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 │   └── read-fonts v0.37.0 std
 │       └── skrifa v0.40.0 autohint_shaping,std
-│           └── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│           └── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 ├── hecs v0.11.0 column-serialize,default,hecs-macros,macros,row-serialize,serde,std (*)
 ├── num-rational v0.4.2 num-bigint,serde,std
 │   ├── coordinate-systems v0.1.0 (/home/marsh/gh/sunangle/coordinate-systems)  (*)
@@ -3560,20 +3514,20 @@ serde v1.0.228 alloc,default,derive,rc,serde_derive,std
 ├── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde (*)
 ├── quick-xml v0.38.4 default,overlapped-lists,serde,serialize (*)
 ├── ron v0.12.1 default,integer128,std
-│   ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
-│   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
 ├── smallvec v1.15.1 const_generics,const_new,serde,union
-│   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
-│   ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
+│   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 │   ├── hecs-hierarchy v0.13.0 (https://github.com/marshray/hecs-hierarchy.git?rev=27cff704e91a2e8c514f3a04be3a482df0e94efa#27cff704)  (*)
 │   ├── hecs-schedule v0.8.0 (https://github.com/marshray/hecs-schedule.git?rev=6a69a7a65fe46cdc0f3545d6e7680376b2ac32f0#6a69a7a6)  (*)
-│   ├── icu_normalizer v2.2.0 compiled_data
+│   ├── icu_normalizer v2.1.1 compiled_data
 │   │   └── idna_adapter v1.2.1 compiled_data
 │   │       └── idna v1.1.0 alloc,compiled_data,std
 │   │           └── url v2.5.8 std
 │   │               └── webbrowser v1.2.1 
-│   │                   └── egui-winit v0.34.1 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
+│   │                   └── egui-winit v0.34.2 accesskit,arboard,bytemuck,clipboard,links,serde,smithay-clipboard,wayland,webbrowser (*)
 │   ├── idna v1.1.0 alloc,compiled_data,std (*)
 │   ├── kurbo v0.13.0 std
 │   │   └── peniko v0.6.0 bytemuck,std
@@ -3581,9 +3535,8 @@ serde v1.0.228 alloc,default,derive,rc,serde_derive,std
 │   ├── parking_lot_core v0.9.12 
 │   │   └── parking_lot v0.12.5 default
 │   │       ├── arboard v3.6.1 core-graphics,image,image-data,windows-sys (*)
-│   │       ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
-│   │       ├── epaint v0.34.1 bytemuck,default_fonts,epaint_default_fonts,serde (*)
-│   │       ├── puffin v0.19.1 default (*)
+│   │       ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   │       ├── epaint v0.34.2 bytemuck,default_fonts,epaint_default_fonts,serde (*)
 │   │       ├── puffin v0.20.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533) default,lz4,packing,serde (*)
 │   │       └── puffin_egui v0.30.0 (https://github.com/EmbarkStudios/puffin?rev=7e08a533f9debfb7d051547263d2ab84c666314f#7e08a533)  (*)
 │   ├── peniko v0.6.0 bytemuck,std (*)
@@ -3592,29 +3545,29 @@ serde v1.0.228 alloc,default,derive,rc,serde_derive,std
 ├── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
 ├── video v0.1.0 (/home/marsh/gh/sunangle/video)  (*)
 ├── world-model v0.1.0 (/home/marsh/gh/sunangle/world-model) 
-├── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+├── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 └── zbus_xml v5.1.0  (*)
 
 serde v1.0.228 default,derive,serde_derive,std
 ├── zbus_names v4.3.1  (*)
-├── zvariant v5.10.0 default,enumflags2 (*)
+├── zvariant v5.9.2 default,enumflags2 (*)
 └── zvariant_utils v3.3.0 default
-    ├── zbus_macros v5.14.0 (proc-macro) default (*)
-    ├── zvariant v5.10.0 default,enumflags2 (*)
-    └── zvariant_derive v5.10.0 (proc-macro) default (*)
+    ├── zbus_macros v5.13.2 (proc-macro) default (*)
+    ├── zvariant v5.9.2 default,enumflags2 (*)
+    └── zvariant_derive v5.9.2 (proc-macro) default (*)
 
 serde_core v1.0.228 alloc,rc,result,std
 ├── bitflags v2.11.1 serde,serde_core,std
 │   ├── calloop v0.13.0  (*)
 │   ├── calloop v0.14.4  (*)
-│   ├── egui v0.34.1 bytemuck,default,default_fonts,persistence,ron,serde (*)
+│   ├── egui v0.34.2 bytemuck,default,default_fonts,persistence,ron,serde (*)
 │   ├── glutin v0.32.3 egl,glutin_egl_sys,glutin_wgl_sys,libloading,wayland,wayland-sys,wgl,windows-sys
-│   │   ├── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   │   ├── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   │   └── glutin-winit v0.5.0 egl,wayland,wgl (*)
 │   ├── png v0.18.1 
-│   │   └── image v0.25.10 png
+│   │   └── image v0.25.9 png
 │   │       ├── arboard v3.6.1 core-graphics,image,image-data,windows-sys (*)
-│   │       └── eframe v0.34.1 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
+│   │       └── eframe v0.34.2 __screenshot,accesskit,default_fonts,glow,persistence,ron,serde,wayland (*)
 │   ├── ron v0.12.1 default,integer128,std (*)
 │   ├── rustix v0.38.44 alloc,default,event,fs,libc-extra-traits,pipe,process,shm,std,system,thread,use-libc-auxv (*)
 │   ├── rustix v1.1.4 alloc,default,event,fs,net,pipe,process,shm,std,system,time (*)
@@ -3634,7 +3587,7 @@ serde_core v1.0.228 alloc,rc,result,std
 ├── serde v1.0.228 alloc,default,derive,rc,serde_derive,std (*)
 └── uuid v1.23.1 default,serde,std
     ├── accesskit v0.24.0 enumn,serde (*)
-    └── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+    └── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 
 serde_core v1.0.228 result,std
 └── serde v1.0.228 default,derive,serde_derive,std (*)
@@ -3651,11 +3604,11 @@ thiserror v2.0.18 default,std
 ├── hecs-schedule v0.8.0 (https://github.com/marshray/hecs-schedule.git?rev=6a69a7a65fe46cdc0f3545d6e7680376b2ac32f0#6a69a7a6)  (*)
 ├── smithay-client-toolkit v0.20.0 calloop,calloop-wayland-source (*)
 ├── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-├── three-d v0.19.0 (https://github.com/asny/three-d?rev=b6b0963bc0cee707671e877c42040cb8c4147991#b6b0963b) 
+├── three-d v0.19.0 
 │   └── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-└── three-d-asset v0.10.0 (https://github.com/asny/three-d-asset?rev=8f18012480a9ed6f78e9d26d0ee260310a9ddeb7#8f180124) 
+└── three-d-asset v0.10.0 
     ├── sunangle v0.1.0 (/home/marsh/gh/sunangle/sunangle) 
-    └── three-d v0.19.0 (https://github.com/asny/three-d?rev=b6b0963bc0cee707671e877c42040cb8c4147991#b6b0963b)  (*)
+    └── three-d v0.19.0  (*)
 
 thiserror-impl v1.0.69 (proc-macro) 
 └── thiserror v1.0.69  (*)
@@ -3664,12 +3617,12 @@ thiserror-impl v2.0.18 (proc-macro)
 └── thiserror v2.0.18 default,std (*)
 
 winnow v0.7.15 alloc,default,std
-├── zbus v5.14.0 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
+├── zbus v5.13.2 async-executor,async-fs,async-io,async-lock,async-process,async-task,blocking (*)
 ├── zbus_names v4.3.1  (*)
-├── zvariant v5.10.0 default,enumflags2 (*)
+├── zvariant v5.9.2 default,enumflags2 (*)
 └── zvariant_utils v3.3.0 default (*)
 
-winnow v1.0.1 alloc,ascii,binary,default,parser,std
+winnow v1.0.2 alloc,ascii,binary,default,parser,std
 ├── toml_edit v0.25.11+spec-1.1.0 parse (*)
 └── toml_parser v1.1.2+spec-1.1.0 alloc,default,std
     └── toml_edit v0.25.11+spec-1.1.0 parse (*)
