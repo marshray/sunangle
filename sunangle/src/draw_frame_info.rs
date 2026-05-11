@@ -22,7 +22,7 @@
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
-use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{Context, Result, anyhow, bail, ensure};
 //? use derive_more::Display;
 //? use log::{debug, error, info, trace, warn};
 use num_enum::{IntoPrimitive, TryFromPrimitive};
@@ -139,10 +139,8 @@ impl DrawFrameInfo {
     }
 
     /// Indicates that the ui update function is being started.
-    pub fn start_ui_update(
-            &mut self
-            //? , frame_nr: u64
-        ) -> Result<()> {
+    pub fn start_ui_update(&mut self, //? , frame_nr: u64
+    ) -> Result<()> {
         let tai = if !self.is_state(DrawFrameState::Initial) {
             *self = DrawFrameInfo::new();
             self.v_state_entry_times[0]

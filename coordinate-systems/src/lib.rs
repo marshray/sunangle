@@ -65,7 +65,7 @@ pub use crate::units::{Unit, UnitDef};
 
 pub mod geom;
 pub use crate::geom::{
-    ecs_add_oblatespheroid, OblateSpheroid, OblateSpheroidDef, OblateSpheroidRef,
+    OblateSpheroid, OblateSpheroidDef, OblateSpheroidRef, ecs_add_oblatespheroid,
 };
 //pub use crate::geom::{Ellipsoid3Sphere, Ellipsoid3Oblate, Ellipsoid3Triaxial};
 

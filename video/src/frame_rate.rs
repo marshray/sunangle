@@ -21,7 +21,7 @@
 //? use std::ops::RangeInclusive;
 //? use std::sync::Arc;
 
-use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{Context, Result, anyhow, bail, ensure};
 //? use log::{debug, error, info, trace, warn};
 use num_integer::Integer;
 use num_rational::Ratio;
@@ -103,7 +103,7 @@ pub static COMMMON_FRAMERATES: Lazy<Vec<&FrameRate>> = Lazy::new(|| vec![
 #[allow(non_snake_case)]
 mod t {
     use super::*;
-    use anyhow::{anyhow, bail, ensure, Context, Result};
+    use anyhow::{Context, Result, anyhow, bail, ensure};
     use insta::assert_ron_snapshot;
 
     #[test]

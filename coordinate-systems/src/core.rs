@@ -22,7 +22,7 @@
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
-use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{Context, Result, anyhow, bail, ensure};
 use cgmath::Zero;
 use derive_more::{Deref, DerefMut, Display, From, Into};
 use hecs::{Bundle, Entity, World};
@@ -36,8 +36,8 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use ecs_namespace::NamespaceTag;
 use crate::*;
+use ecs_namespace::NamespaceTag;
 
 //=================================================================================================|
 

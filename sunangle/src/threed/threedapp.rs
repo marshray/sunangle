@@ -20,22 +20,22 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::{Arc, RwLock};
 
-use anyhow::{anyhow, bail, Context as AnyhowContext, ensure, Result};
+use anyhow::{Context as AnyhowContext, Result, anyhow, bail, ensure};
 use log::{debug, error, info, trace, warn};
 //? use serde::{Deserialize, Serialize};
 
 use eframe::{egui_glow, glow};
 use egui::epaint;
 
+use three_d::context::Context as ThreedContextContext;
+use three_d::core::Context as ThreedCoreContext;
 use three_d::material::ColorMaterial;
 use three_d::renderer::{Camera, Gm, Mesh};
 use three_d::{
-    degrees, radians, vec3, ClearState, CpuMaterial, CpuMesh, Deg, Geometry, CpuTexture,
-    InstancedMesh, Mat4, Object, PhysicalMaterial, Positions, RenderTarget, ScissorBox, Srgba,
-    Viewport, Texture2DRef
+    ClearState, CpuMaterial, CpuMesh, CpuTexture, Deg, Geometry, InstancedMesh, Mat4, Object,
+    PhysicalMaterial, Positions, RenderTarget, ScissorBox, Srgba, Texture2DRef, Viewport, degrees,
+    radians, vec3,
 };
-use three_d::core::Context as ThreedCoreContext;
-use three_d::context::Context as ThreedContextContext;
 use three_d_asset::{Matrix4, PbrMaterial, io::RawAssets};
 
 use crate::tai::DateTimeTai;
@@ -51,10 +51,12 @@ impl ThreeDAppPreloaded {
     pub async fn new() -> anyhow::Result<Arc<Self>> {
         let mut loaded_assets = three_d_asset::io::load_async(&[
             "/workspaces/haikus-for-codespaces/sunangle/www/assets/world_map.jpg",
-        ]).await
+        ])
+        .await
         .context("ThreeDAppPreloaded new")?;
 
-        let mut world_map_cpu_texture: CpuTexture = loaded_assets.deserialize("world_map")
+        let mut world_map_cpu_texture: CpuTexture = loaded_assets
+            .deserialize("world_map")
             .context("deserialize world_map")?;
         world_map_cpu_texture.data.to_linear_srgb();
 
@@ -165,18 +167,18 @@ impl ThreeDApp {
             ThreedCoreContext::from_gl_context(arc_glow_context.clone()).unwrap()
         });
     }
-    
+
     fn threed_core_context(&self) -> anyhow::Result<&ThreedCoreContext> {
-        self.opt_threed_core_context.as_ref().ok_or_else(|| {
-            anyhow!("make_basic_triangle_model needs threed_core_context")
-        })
+        self.opt_threed_core_context
+            .as_ref()
+            .ok_or_else(|| anyhow!("make_basic_triangle_model needs threed_core_context"))
     }
-    
+
     fn cpu_texture(&self) -> &CpuTexture {
         &self.arc_threedapp_preloaded.world_map_cpu_texture
     }
-    
-    fn make_models(&mut self) {        
+
+    fn make_models(&mut self) {
         if self.opt_gm_mesh_color_triangle.is_none() {
             self.opt_gm_mesh_color_triangle = self.make_basic_triangle_model().ok();
         }
@@ -214,13 +216,19 @@ impl ThreeDApp {
             ..Default::default()                  //x ????
         };
 
-        let texture = Some(Texture2DRef::from_cpu_texture(threed_core_context, self.cpu_texture()));
+        let texture = Some(Texture2DRef::from_cpu_texture(
+            threed_core_context,
+            self.cpu_texture(),
+        ));
 
         //? XXX Gm::new(Mesh::new(context, &cpu_mesh), ColorMaterial::default())
-        let gm = Gm::new(Mesh::new(threed_core_context, &cpu_mesh), ColorMaterial {
-            texture,
-            ..Default::default()
-        });
+        let gm = Gm::new(
+            Mesh::new(threed_core_context, &cpu_mesh),
+            ColorMaterial {
+                texture,
+                ..Default::default()
+            },
+        );
 
         Ok(gm)
     }
@@ -241,7 +249,7 @@ impl ThreeDApp {
             for (v_ix, pos) in ps.iter().enumerate() {
                 // 0.0 <= RGB <= 1.0
                 //swap with mesh here
-              
+
                 let r = 0.5 + pos.y;
                 let g = 0.5 + pos.y;
                 let b = 0.5 + pos.y;
@@ -396,7 +404,6 @@ impl ThreeDApp {
         let mut opaque_model = Gm::new(
             //?xxx
             Mesh::new(threed_core_context, &thin_cube), //?xxx
-
             PhysicalMaterial::new_opaque(
                 //?xxx
                 threed_core_context, //?xxx
@@ -505,7 +512,6 @@ impl ThreeDApp {
             render_target.render_partially(scissor_box, &self.camera, [&object], &[]);
         }
         // */
-
         // /*
         if let Some(object) = self.opt_gm_mesh_color_sphere_model.as_mut() {
             object.set_transformation(Mat4::from_angle_y(tri_rot_y));
@@ -513,7 +519,6 @@ impl ThreeDApp {
             render_target.render_partially(scissor_box, &self.camera, [&object], &[]);
         }
         // */
-
         // /*
         if let Some(object) = self.opt_gm_physmat_opaque_model.as_mut() {
             object.set_transformation(Mat4::from_angle_y(tri_rot_y));

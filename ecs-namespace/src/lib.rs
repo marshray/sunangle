@@ -23,7 +23,7 @@
 //? use std::sync::{Arc, RwLock};
 //? use std::time::Instant;
 
-use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{Context, Result, anyhow, bail, ensure};
 use derive_more::{Deref, DerefMut, Display, From, Into};
 //? use enumflags2::{bitflags, make_bitflags, BitFlags};
 use hecs::{Bundle, DynamicBundle, Entity, World};
@@ -106,7 +106,10 @@ impl RootNamespace {
             "World has multiple `RootNamespace`s."
         );
 
-        let opt_pr = world.query_mut::<(Entity, &RootNamespace)>().into_iter().next();
+        let opt_pr = world
+            .query_mut::<(Entity, &RootNamespace)>()
+            .into_iter()
+            .next();
         let e = if let Some(pr) = opt_pr {
             pr.0
         } else {
@@ -263,7 +266,9 @@ pub enum NamespaceIterItem {
     Leave,
 }
 
-pub fn ecs_ns_iter(world: &World) -> impl std::iter::IntoIterator<Item = NamespaceIterItem> + use<> {
+pub fn ecs_ns_iter(
+    world: &World,
+) -> impl std::iter::IntoIterator<Item = NamespaceIterItem> + use<> {
     use NamespaceIterItem::*;
 
     let mut v_out = vec![];

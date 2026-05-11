@@ -14,7 +14,8 @@
 #![allow(clippy::new_without_default)] //? TODO for development
 #![allow(clippy::let_and_return)] //? TODO for development
 #![allow(clippy::redundant_closure)] //? TODO for development
-                                     //#![allow(clippy::too_many_arguments)]
+
+//#![allow(clippy::too_many_arguments)]
 
 //? use std::any::Any;
 use std::borrow::Cow;

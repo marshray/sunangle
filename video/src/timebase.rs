@@ -22,7 +22,7 @@
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
-use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{Context, Result, anyhow, bail, ensure};
 //? use log::{debug, error, info, trace, warn};
 //? use num_rational::Ratio;
 //? use num_traits::identities::Zero;

@@ -22,7 +22,7 @@ use std::borrow::Cow;
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
-use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{Context, Result, anyhow, bail, ensure};
 use egui::collapsing_header;
 use hecs::{Bundle, Entity, World};
 use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};

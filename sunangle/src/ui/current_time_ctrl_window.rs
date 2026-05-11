@@ -22,7 +22,7 @@ use std::borrow::Cow;
 use std::sync::{Arc, RwLock};
 //? use std::time::Instant;
 
-use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{Context, Result, anyhow, bail, ensure};
 //? use derive_more::{Deref, DerefMut, Display, From, Into};
 use hecs::{Bundle, Entity, World};
 use log::{debug, error, info, trace, warn};

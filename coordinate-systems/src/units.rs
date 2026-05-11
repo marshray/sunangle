@@ -22,9 +22,9 @@ use std::ops::{RangeBounds, RangeInclusive};
 //? use std::sync::Arc;
 //? use std::time::Instant;
 
-use anyhow::{anyhow, bail, ensure, Context, Result};
+use anyhow::{Context, Result, anyhow, bail, ensure};
 use derive_more::Display;
-use enumflags2::{bitflags, make_bitflags, BitFlags};
+use enumflags2::{BitFlags, bitflags, make_bitflags};
 use hecs::{Bundle, Entity, World};
 use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //use log::{debug, error, info, trace, warn};
@@ -36,8 +36,8 @@ use hecs_hierarchy::{Hierarchy, HierarchyMut, HierarchyQuery};
 //? use serde::{Deserialize, Serialize};
 //? use strum::{self, EnumCount, EnumDiscriminants, EnumProperty, EnumString, FromRepr};
 
-use ecs_namespace::NamespaceTag;
 use crate::*;
+use ecs_namespace::NamespaceTag;
 
 #[derive(Debug, Display, Clone)]
 pub enum UnitDef {
@@ -101,7 +101,9 @@ fn ecs_add_unit(
     #[cfg(all(debug_print, debug_assertions))]
     let _unit = unit.clone();
 
-    let e = world.attach_new::<NamespaceTag, _>(e_ns_parent, unit).unwrap();
+    let e = world
+        .attach_new::<NamespaceTag, _>(e_ns_parent, unit)
+        .unwrap();
 
     #[cfg(all(debug_print, debug_assertions))]
     eprintln!("debug: {e:?} {_unit}");

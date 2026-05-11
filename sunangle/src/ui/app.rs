@@ -18,8 +18,8 @@ use std::borrow::Cow;
 use std::rc::Rc;
 use std::sync::{Arc, RwLock};
 
-use anyhow::{anyhow, bail, ensure, Context, Result};
-use egui::{epaint, Align, Frame, Hyperlink, Layout, Ui};
+use anyhow::{Context, Result, anyhow, bail, ensure};
+use egui::{Align, Frame, Hyperlink, Layout, Ui, epaint};
 use hecs::World;
 use log::{debug, error, info, trace, warn};
 use serde::{self, Deserialize, Serialize};
@@ -28,9 +28,9 @@ use chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime, SecondsFormat, Tim
 
 use crate::draw_frame_info::DrawFrameInfo;
 use crate::tai::DateTimeTai;
+use crate::threed::threedapp::ThreeDAppPreloaded;
 use crate::ui;
 use crate::ui::showable::ShowableEguiWindow;
-use crate::threed::threedapp::ThreeDAppPreloaded;
 use crate::view_state::{AnimationState, ViewState};
 use crate::world_state::{TimeState, WorldState};
 
@@ -70,7 +70,6 @@ pub struct SunangleApp {
 
     #[serde(skip)]
     opt_arc_threedapp_preloaded: Option<Arc<ThreeDAppPreloaded>>,
-
     //next_frame_number: u64,
     //#[serde(skip)]
 
@@ -162,9 +161,7 @@ impl SunangleApp {
                         warn!("Loading SunagleApp: decode err: {e}");
                         None
                     }
-                    Ok(_) => {
-                        Some(self_)
-                    }
+                    Ok(_) => Some(self_),
                 }
             }
         }
@@ -175,9 +172,8 @@ impl SunangleApp {
             return Ok(());
         }
 
-        let arc_threedapp_preloaded = async_global_executor::block_on(async {
-            ThreeDAppPreloaded::new().await
-        })?;
+        let arc_threedapp_preloaded =
+            async_global_executor::block_on(async { ThreeDAppPreloaded::new().await })?;
 
         self.opt_arc_threedapp_preloaded = Some(arc_threedapp_preloaded);
 
@@ -197,7 +193,6 @@ impl SunangleApp {
 impl eframe::App for SunangleApp {
     /// "Called each time the UI needs repainting, which may be many times per second."
     fn ui(&mut self, ui: &mut eframe::egui::Ui, eframe_frame: &mut eframe::Frame) {
-
         if let Err(e) = self.draw_frame_info.start_ui_update(
             //? ctx.frame_nr()
         ) {
@@ -230,7 +225,11 @@ impl eframe::App for SunangleApp {
 }
 
 impl SunangleApp {
-    fn update_impl(&mut self, ui: &mut eframe::egui::Ui, eframe_frame: &mut eframe::Frame) -> Result<()> {
+    fn update_impl(
+        &mut self,
+        ui: &mut eframe::egui::Ui,
+        eframe_frame: &mut eframe::Frame,
+    ) -> Result<()> {
         let ctx = self.ctx().clone();
 
         self.top_panel(ui);
@@ -350,12 +349,14 @@ impl SunangleApp {
     fn central_panel_set_up_paint_callback(&mut self, ui: &mut Ui) {
         let arcrwl_animation_state = self.arcrwl_animation_state.clone();
         let arcrwl_world_state = self.arcrwl_world_state.clone();
-        let arc_threedapp_preloaded: Arc<ThreeDAppPreloaded> = self.opt_arc_threedapp_preloaded.as_ref().unwrap().clone();
+        let arc_threedapp_preloaded: Arc<ThreeDAppPreloaded> =
+            self.opt_arc_threedapp_preloaded.as_ref().unwrap().clone();
 
         let egui_glow_callbackfn = egui_glow::CallbackFn::new(
             move |paint_callback_info: epaint::PaintCallbackInfo,
                   egui_glow_painter: &egui_glow::Painter| {
-                let arc_threedapp_preloaded: Arc<ThreeDAppPreloaded> = arc_threedapp_preloaded.clone();
+                let arc_threedapp_preloaded: Arc<ThreeDAppPreloaded> =
+                    arc_threedapp_preloaded.clone();
                 let glow_context = egui_glow_painter.gl();
                 let arcrwl_animation_state = arcrwl_animation_state.clone();
                 let arcrwl_world_state = arcrwl_world_state.clone();
@@ -375,7 +376,7 @@ impl SunangleApp {
                             arcrwl_animation_state,
                             arcrwl_world_state,
                         )
-                    }
+                    },
                 );
 
                 //self.draw_frame_info.finish_paint();
@@ -406,7 +407,8 @@ impl SunangleApp {
             const MIN_FRAMEDURATION: f64 = 1.0 / MAX_FRAMERATE;
             //? TODO: we should take into account how long the current frame took to draw and subtract that
             // from MAX_FRAMERATE.
-            self.ctx().request_repaint_after(std::time::Duration::from_secs_f64(MIN_FRAMEDURATION));
+            self.ctx()
+                .request_repaint_after(std::time::Duration::from_secs_f64(MIN_FRAMEDURATION));
         }
     }
 
