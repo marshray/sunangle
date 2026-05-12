@@ -117,6 +117,16 @@ impl Default for SunangleApp {
 impl SunangleApp {
     const MAX_ANIMATION_TIME: f32 = 0.250;
 
+    /// Creates the `eframe::AppCreator`.
+    #[cfg(not(any(target_arch = "wasm32")))]
+    pub fn native_app_creator_creator() -> eframe::AppCreator<'static> {
+        Box::new(|cc| {
+            // SunangleApp::native_app_creator2(cc)
+            let app = SunangleApp::new(cc);
+            Ok(Box::new(app))
+        })
+    }
+
     /// Called once before the first frame.
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         let ctx = cc.egui_ctx.clone();
@@ -137,20 +147,6 @@ impl SunangleApp {
 
         self_
     }
-
-    fn ctx(&self) -> &egui::Context {
-        // `unwrap()` is Ok because we always have a context handle.
-        #[allow(clippy::unwrap_used)]
-        self.opt_ctx.as_ref().unwrap()
-    }
-
-    /*
-    fn clone_egui_context_handle(&self) -> egui::Context {
-        // `unwrap()` is Ok because we always have a context handle.
-        #[allow(clippy::unwrap_used)]
-        self.opt_ctx.as_ref().unwrap().clone()
-    }
-    // */
 
     fn load_from_storage(cc: &eframe::CreationContext<'_>) -> Option<Self> {
         let Some(storage) = cc.storage else {
@@ -175,41 +171,39 @@ impl SunangleApp {
         }
     }
 
-    pub async fn load_assets(&mut self) -> Result<()> {
-        if self.opt_arc_threedapp_preloaded.is_some() {
-            return Ok(());
-        }
-
-        let arc_threedapp_preloaded = ThreeDAppPreloaded::new().await?;
-        self.opt_arc_threedapp_preloaded = Some(arc_threedapp_preloaded);
-
-        Ok(())
+    #[inline]
+    fn ctx(&self) -> &egui::Context {
+        // `unwrap()` is Ok because we always have a context handle.
+        #[allow(clippy::unwrap_used)]
+        self.opt_ctx.as_ref().unwrap()
     }
 
-    /*
-    fn load_assets(&mut self) -> Result<()> {
-        if self.opt_arc_threedapp_preloaded.is_some() {
-            return Ok(());
+    #[cfg(not(any(target_arch = "wasm32")))]
+    pub fn load_assets_sync(&mut self) {
+        async_global_executor::block_on(self.load_assets_async())
+    }
+
+    pub async fn load_assets_async(&mut self) {
+        let mut errs = vec![];
+
+        if let Err(e) = self.threedapp_preloaded().await {
+            errs.push(e);
         }
 
-        #[cfg(any(target_arch = "wasm32"))]
-        let arc_threedapp_preloaded = {
-            let task = web_task::spawn_local(async {
-                ThreeDAppPreloaded::new().await
-            });
+        //... more loading possible
 
-            futures_lite::future::block_on(task)?
-        };
+        for e in errs {
+            log_error_chain("Sunangle: load_assets()", &e);
+        }
+    }
 
-        #[cfg(not(any(target_arch = "wasm32")))]
-        let arc_threedapp_preloaded =
-            async_global_executor::block_on(async { ThreeDAppPreloaded::new().await })?;
-
-        self.opt_arc_threedapp_preloaded = Some(arc_threedapp_preloaded);
-
+    async fn threedapp_preloaded(&mut self) -> Result<()> {
+        if self.opt_arc_threedapp_preloaded.is_none() {
+            self.opt_arc_threedapp_preloaded = Some(ThreeDAppPreloaded::new().await?);
+            info!("Sunangle: threedapp_preloaded");
+        }
         Ok(())
     }
-    // */
 
     fn to_string(&self, pretty: bool) -> String {
         if pretty {
@@ -222,10 +216,6 @@ impl SunangleApp {
 }
 
 impl eframe::App for SunangleApp {
-    fn as_any_mut(&mut self) -> Option<&mut dyn std::any::Any> {
-        Some(&mut *self)
-    }
-
     /// "Called each time the UI needs repainting, which may be many times per second."
     fn ui(&mut self, ui: &mut eframe::egui::Ui, eframe_frame: &mut eframe::Frame) {
         if let Err(e) = self.draw_frame_info.start_ui_update(
@@ -243,6 +233,11 @@ impl eframe::App for SunangleApp {
         if let Err(e) = self.draw_frame_info.finish_ui_update() {
             error!("eframe::App::update error finish_ui_update {e}");
         }
+    }
+
+    #[cfg(target_arch = "wasm32")]
+    fn as_any_mut(&mut self) -> Option<&mut dyn std::any::Any> {
+        Some(&mut *self)
     }
 
     /// "Called occasionally, and before shutdown, to persist state."

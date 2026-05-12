@@ -17,7 +17,8 @@
 //? use use std::fmt::Display;
 //? use std::ops::RangeInclusive;
 
-//? use anyhow::{anyhow, bail, Context, Result};
+use anyhow::{Context, Error, Result, anyhow, bail, ensure};
+use log::{debug, error, info, log_enabled, trace, warn};
 //? use serde::{Deserialize, Serialize};
 
 use sunangle::SunangleApp;
@@ -27,12 +28,36 @@ use sunangle::log_error_chain;
 
 // When compiling natively:
 #[cfg(not(any(target_arch = "wasm32")))]
-fn main() -> eframe::Result<()> {
-    use egui::ViewportBuilder;
-
+fn main() -> std::process::ExitCode {
     env_logger::init(); // Log to stderr (if you run with `RUST_LOG=debug`).
 
     log::info!("logging initialized.");
+
+    let ec = if let Err(e) = main2() {
+        log_error_chain("main():", &e);
+        std::process::ExitCode::FAILURE
+    } else {
+        std::process::ExitCode::SUCCESS
+    };
+
+    debug!("exit code: {ec:?}");
+
+    ec
+}
+
+#[cfg(not(any(target_arch = "wasm32")))]
+fn main2() -> Result<()> {
+    async_global_executor::block_on(main3()).map_err(|e| anyhow!("{e}"))?;
+
+    debug!("Uneventful main3.");
+
+    Ok(())
+}
+
+#[cfg(not(any(target_arch = "wasm32")))]
+async fn main3() -> eframe::Result<()> {
+    use eframe::CreationContext;
+    use egui::ViewportBuilder;
 
     let window_builder_hook =
         Box::new(|mut viewport_builder: ViewportBuilder| -> ViewportBuilder {
@@ -50,24 +75,9 @@ fn main() -> eframe::Result<()> {
         ..Default::default()
     };
 
-    eframe::run_native(
-        "sunangle",
-        native_options,
-        Box::new(|cc| Ok(Box::new(SunangleApp::new(cc)))),
-    )?;
+    let app_creator = SunangleApp::native_app_creator_creator();
 
-    /* TODO
-    let mut sunangle_app = web_runner.app_mut::<SunangleApp>().unwrap();
-
-    let load_assets_result = sunangle_app.load_assets().await;
-    if let Err(e) = load_assets_result {
-        log_error_chain("Sunangle: load_assets()", &e);
-    }
-    // */
-
-    log::info!("Uneventful exit.");
-
-    Ok(())
+    eframe::run_native("sunangle", native_options, app_creator)
 }
 
 // When compiling to web using trunk:
@@ -123,9 +133,6 @@ fn main() {
 
         let mut sunangle_app = web_runner.app_mut::<SunangleApp>().unwrap();
 
-        let load_assets_result = sunangle_app.load_assets().await;
-        if let Err(e) = load_assets_result {
-            log_error_chain("Sunangle: load_assets()", &e);
-        }
+        sunangle_app.load_assets_async().await
     });
 }

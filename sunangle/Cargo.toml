@@ -3,7 +3,7 @@ name = "sunangle"
 version = "0.1.0"
 authors = [
     "Marsh Ray <marshray@live.com>",
-    "GenericCoding <124840475+GenericCoding@users.noreply.github.com>" 
+    "GenericCoding <124840475+GenericCoding@users.noreply.github.com>"
     # With thanks to Emil Ernerfeldt for eframe and eframe_template!
 ]
 edition.workspace = true
@@ -113,14 +113,13 @@ profiling = { workspace = true, features = ["profile-with-puffin"] }
 
 #------------------------------------------ Futures, async
 
-# async-global-executor.workspace = true
+async-global-executor.workspace = true
 
 #============================== dependencies (wasm32 web app) ======================================
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 
 wasm-bindgen = "0.2.118"
-
 
 web-sys = "0.3.95"
 # features = [ "HtmlCanvasElement", "WebGl2RenderingContext", "Window"]
