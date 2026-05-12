@@ -80,7 +80,7 @@ async fn main3() -> eframe::Result<()> {
     eframe::run_native("sunangle", native_options, app_creator)
 }
 
-// When compiling to web using trunk:
+// Build target for web
 #[cfg(target_arch = "wasm32")]
 fn main() {
     use eframe::wasm_bindgen::JsCast as _;
@@ -120,7 +120,7 @@ fn main() {
                 }
                 Err(e) => {
                     loading_text.set_inner_html(
-                        "<p>SunangleApp crashed. The web browser's developer console [F12] may have details.</p>",
+                        "<p>SunangleApp crashed. The browser's developer console [F12] may have details.</p>",
                     );
                 }
             }
