@@ -63,7 +63,8 @@ strum.workspace = true
 
 #------------------------------------------ Futures, async
 
-async-global-executor.workspace = true
+# async-task # from web-task
+# futures-lite = "2.6.1"
 
 #------------------------------------------ Time
 
@@ -110,16 +111,26 @@ puffin_egui.workspace = true
 #puffin_http.workspace = true
 profiling = { workspace = true, features = ["profile-with-puffin"] }
 
+#------------------------------------------ Futures, async
+
+# async-global-executor.workspace = true
+
 #============================== dependencies (wasm32 web app) ======================================
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 
 wasm-bindgen = "0.2.118"
 
-wasm-bindgen-futures = "0.4.68"
 
 web-sys = "0.3.95"
 # features = [ "HtmlCanvasElement", "WebGl2RenderingContext", "Window"]
+
+#------------------------------------------ Futures, async
+
+# async-task.workspace = true
+# futures-lite.workspace = true
+# web-task.workspace = true
+wasm-bindgen-futures.workspace = true
 
 #================================== dev-dependencies ===============================================
 

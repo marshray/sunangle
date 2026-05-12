@@ -24,4 +24,16 @@ mod ui;
 mod view_state;
 mod world_state;
 
+use std::fmt::Write;
+
 pub use ui::app::SunangleApp;
+
+pub fn log_error_chain<S: std::fmt::Display>(prefix: S, e: &anyhow::Error) {
+    let mut str = String::new();
+    let _ = str.write_fmt(format_args!("{prefix}: {e:#}"));
+    e.chain().skip(1).for_each(|e| {
+        //log::error!("...caused by: {e}")
+        let _ = str.write_fmt(format_args!("\n...caused by: {e}"));
+    });
+    log::error!("{str}");
+}

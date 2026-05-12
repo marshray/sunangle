@@ -101,8 +101,8 @@ mod t {
     fn month_ops() {
         let mo = Month(7);
         assert_eq!(mo.month_as_one_based_u8(), 7);
-        assert_eq!(mo.month_as_one_based_u8(), mo.into());
-        assert_eq!(mo.month_as_one_based_u8() as i8, mo.into());
+        assert_eq!(mo.month_as_one_based_u8(), Into::<u8>::into(mo));
+        assert_eq!(mo.month_as_one_based_u8() as i8, Into::<i8>::into(mo));
         let month_from_trait = mo.month();
         assert_eq!(month_from_trait.0, 7);
     }

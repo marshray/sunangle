@@ -49,11 +49,9 @@ pub struct ThreeDAppPreloaded {
 
 impl ThreeDAppPreloaded {
     pub async fn new() -> anyhow::Result<Arc<Self>> {
-        let mut loaded_assets = three_d_asset::io::load_async(&[
-            "/workspaces/haikus-for-codespaces/sunangle/www/assets/world_map.jpg",
-        ])
-        .await
-        .context("ThreeDAppPreloaded new")?;
+        let mut loaded_assets = three_d_asset::io::load_async(&["/world_map.jpeg"])
+            .await
+            .context("ThreeDAppPreloaded::new()")?;
 
         let mut world_map_cpu_texture: CpuTexture = loaded_assets
             .deserialize("world_map")

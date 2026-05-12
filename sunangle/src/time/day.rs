@@ -86,8 +86,8 @@ mod tests {
     fn test_day_ops() {
         let day = Day(15);
         assert_eq!(day.day_as_one_based_u8(), 15);
-        assert_eq!(day.day_as_one_based_u8(), day.into());
-        assert_eq!(day.day_as_one_based_u8() as i8, day.into());
+        assert_eq!(day.day_as_one_based_u8(), Into::<u8>::into(day));
+        assert_eq!(day.day_as_one_based_u8() as i8, Into::<i8>::into(day));
         let day_from_trait = day.day();
         assert_eq!(day_from_trait.0, 15);
     }

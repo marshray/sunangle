@@ -21,6 +21,7 @@
 //? use serde::{Deserialize, Serialize};
 
 use sunangle::SunangleApp;
+use sunangle::log_error_chain;
 
 //#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")] // hide console window on Windows in release
 
@@ -55,6 +56,15 @@ fn main() -> eframe::Result<()> {
         Box::new(|cc| Ok(Box::new(SunangleApp::new(cc)))),
     )?;
 
+    /* TODO
+    let mut sunangle_app = web_runner.app_mut::<SunangleApp>().unwrap();
+
+    let load_assets_result = sunangle_app.load_assets().await;
+    if let Err(e) = load_assets_result {
+        log_error_chain("Sunangle: load_assets()", &e);
+    }
+    // */
+
     log::info!("Uneventful exit.");
 
     Ok(())
@@ -82,7 +92,9 @@ fn main() {
             .dyn_into::<web_sys::HtmlCanvasElement>()
             .expect("'sunangle_canvas_id' was not a HtmlCanvasElement");
 
-        let start_result = eframe::WebRunner::new()
+        let mut web_runner = eframe::WebRunner::new();
+
+        let start_result = web_runner
             .start(
                 canvas,
                 web_options,
@@ -92,7 +104,7 @@ fn main() {
 
         // Remove the loading text and spinner:
         if let Some(loading_text) = document.get_element_by_id("loading_text") {
-            match start_result {
+            match &start_result {
                 Ok(_) => {
                     loading_text.remove();
                 }
@@ -100,9 +112,20 @@ fn main() {
                     loading_text.set_inner_html(
                         "<p>SunangleApp crashed. The web browser's developer console [F12] may have details.</p>",
                     );
-                    panic!("Failed to start eframe: {e:?}");
                 }
             }
+        }
+
+        if let Err(e) = start_result {
+            log::error!("Failed to start eframe: {e:?}");
+            panic!("Failed to start eframe: {e:?}");
+        }
+
+        let mut sunangle_app = web_runner.app_mut::<SunangleApp>().unwrap();
+
+        let load_assets_result = sunangle_app.load_assets().await;
+        if let Err(e) = load_assets_result {
+            log_error_chain("Sunangle: load_assets()", &e);
         }
     });
 }

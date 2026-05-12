@@ -22,11 +22,13 @@ use anyhow::{Context, Result, anyhow, bail, ensure};
 use egui::{Align, Frame, Hyperlink, Layout, Ui, epaint};
 use hecs::World;
 use log::{debug, error, info, trace, warn};
+//? use ratelimit::Ratelimiter;
 use serde::{self, Deserialize, Serialize};
 
 use chrono::{DateTime, FixedOffset, NaiveDate, NaiveDateTime, SecondsFormat, TimeZone, Utc};
 
 use crate::draw_frame_info::DrawFrameInfo;
+use crate::log_error_chain;
 use crate::tai::DateTimeTai;
 use crate::threed::threedapp::ThreeDAppPreloaded;
 use crate::ui;
@@ -75,10 +77,21 @@ pub struct SunangleApp {
 
     //? TODO: world_state::TimeState
     //tai: DateTimeTai,
+
+    //#[serde(skip)]
+    //ratelimiter_logmsg: Ratelimiter,   no WASM support
 }
 
 impl Default for SunangleApp {
     fn default() -> Self {
+        /*
+        let ratelimiter_logmsg = Ratelimiter::builder(20)
+        .max_tokens(100)
+        .initial_available(100)
+        .build()
+        .unwrap();
+        // */
+
         Self {
             world: World::new(),
             draw_frame_info: DrawFrameInfo::new(),
@@ -96,6 +109,7 @@ impl Default for SunangleApp {
             //next_frame_number: 0,
 
             //tai: TimeState::default_tai(),
+            //ratelimiter_logmsg,
         }
     }
 }
@@ -151,27 +165,43 @@ impl SunangleApp {
 
         match ron::from_str::<Self>(&str_self) {
             Err(e) => {
-                warn!("Loading SunagleApp: decode err: {e}");
+                error!("Loading SunagleApp: decode err: {e}");
                 None
             }
             Ok(mut self_) => {
                 debug!("Loaded SunagleApp:\n{}", self_.to_string(true));
-                match self_.load_assets() {
-                    Err(e) => {
-                        warn!("Loading SunagleApp: decode err: {e}");
-                        None
-                    }
-                    Ok(_) => Some(self_),
-                }
+                Some(self_)
             }
         }
     }
 
+    pub async fn load_assets(&mut self) -> Result<()> {
+        if self.opt_arc_threedapp_preloaded.is_some() {
+            return Ok(());
+        }
+
+        let arc_threedapp_preloaded = ThreeDAppPreloaded::new().await?;
+        self.opt_arc_threedapp_preloaded = Some(arc_threedapp_preloaded);
+
+        Ok(())
+    }
+
+    /*
     fn load_assets(&mut self) -> Result<()> {
         if self.opt_arc_threedapp_preloaded.is_some() {
             return Ok(());
         }
 
+        #[cfg(any(target_arch = "wasm32"))]
+        let arc_threedapp_preloaded = {
+            let task = web_task::spawn_local(async {
+                ThreeDAppPreloaded::new().await
+            });
+
+            futures_lite::future::block_on(task)?
+        };
+
+        #[cfg(not(any(target_arch = "wasm32")))]
         let arc_threedapp_preloaded =
             async_global_executor::block_on(async { ThreeDAppPreloaded::new().await })?;
 
@@ -179,6 +209,7 @@ impl SunangleApp {
 
         Ok(())
     }
+    // */
 
     fn to_string(&self, pretty: bool) -> String {
         if pretty {
@@ -191,6 +222,10 @@ impl SunangleApp {
 }
 
 impl eframe::App for SunangleApp {
+    fn as_any_mut(&mut self) -> Option<&mut dyn std::any::Any> {
+        Some(&mut *self)
+    }
+
     /// "Called each time the UI needs repainting, which may be many times per second."
     fn ui(&mut self, ui: &mut eframe::egui::Ui, eframe_frame: &mut eframe::Frame) {
         if let Err(e) = self.draw_frame_info.start_ui_update(
@@ -264,6 +299,7 @@ impl SunangleApp {
                 .get_or_insert_with(|| ui::EcsExploreWindow::new())
                 .show(&ctx, &mut self.world);
 
+            #[cfg(not(any(target_arch = "wasm32")))]
             puffin_egui::profiler_window(&ctx); //??
         }
 
@@ -347,10 +383,18 @@ impl SunangleApp {
 
     // Request a callback to paint the central panel using `threedapp`.
     fn central_panel_set_up_paint_callback(&mut self, ui: &mut Ui) {
+        let Some(arc_threedapp_preloaded) = self.opt_arc_threedapp_preloaded.as_ref() else {
+            log::warn!(
+                "Sunangle: central_panel_set_up_paint_callback needs arc_threedapp_preloaded"
+            );
+            return;
+        };
+        log::debug!("Sunangle: central_panel_set_up_paint_callback has arc_threedapp_preloaded");
+
+        let arc_threedapp_preloaded = arc_threedapp_preloaded.clone();
+
         let arcrwl_animation_state = self.arcrwl_animation_state.clone();
         let arcrwl_world_state = self.arcrwl_world_state.clone();
-        let arc_threedapp_preloaded: Arc<ThreeDAppPreloaded> =
-            self.opt_arc_threedapp_preloaded.as_ref().unwrap().clone();
 
         let egui_glow_callbackfn = egui_glow::CallbackFn::new(
             move |paint_callback_info: epaint::PaintCallbackInfo,

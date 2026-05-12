@@ -35,7 +35,9 @@ tree_report () {
     [ -n "$e" ] || return 20
     shift
 
-    set -- cargo tree --offline -e "$e" -f '{p} {f}' "$@"
+    set -- --offline -e "$e" -f '{p} {f}' "$@"
+    set -- --target wasm32-unknown-unknown "$@"
+    set -- cargo tree "$@"
     print_args "$@"
     ec=127
     {
